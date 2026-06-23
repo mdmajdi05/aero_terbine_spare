@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+/* ============================================================
+   AeroTurbineSpare Design Tokens
+   PRIMARY BRAND COLOR: Indigo #4F46E5 (was Orange)
+   ============================================================ */
+@theme inline {
+  --color-navy:         #0A1628;
+  --color-navy-dark:    #060F1A;
+  --color-navy-light:   #0B1A33;
+  --color-silver:       #E8EDF2;
+  --color-silver-dark:  #C0C9D5;
+
+  /* ── Brand blue (replaces orange globally) ── */
+  --color-orange:       #4F46E5;
+  --color-orange-light: #6366F1;
+  --color-brand:        #4F46E5;
+  --color-brand-light:  #6366F1;
+  --color-brand-dark:   #3730A3;
+
+  /* ── Accent blues ── */
+  --color-blue-royal:   #1D4ED8;
+  --color-blue-sky:     #38BDF8;
+
+  --color-success:      #00A651;
+  --color-bg:           #F5F7FA;
+  --color-text:         #1A1A2E;
+  --color-text-muted:   #4A4A6A;
+
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
+}
+
+:root {
+  --background: #F5F7FA;
+  --foreground: #1A1A2E;
+}
+
+html {
+  data-scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism */
+.glass {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.glass-dark {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(10, 22, 40, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Part number typography */
+.part-number {
+  font-family: var(--font-jetbrains, 'JetBrains Mono', monospace);
+  letter-spacing: 0.05em;
+}
+
+/* Stock status badges */
+.badge-in-stock  { background: #D1FAE5; color: #065F46; }
+.badge-on-order  { background: #EEF2FF; color: #3730A3; }
+.badge-obsolete  { background: #FEE2E2; color: #991B1B; }
+.badge-limited   { background: #EDE9FE; color: #5B21B6; }
+
+/* Gradient text — Indigo/Blue palette */
+.gradient-text {
+  background: linear-gradient(135deg, #4F46E5 0%, #818CF8 60%, #38BDF8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero gradient overlay */
+.hero-gradient {
+  background: linear-gradient(135deg, #0A1628 0%, #1E1B4B 50%, #312E81 100%);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #E8EDF2; }
+::-webkit-scrollbar-thumb { background: #A5B4FC; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #4F46E5; }
+
+/* Focus ring override for brand color */
+.focus-ring-brand:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.35);
+}
+
+/* Animated gradient border */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.gradient-border {
+  background: linear-gradient(270deg, #4F46E5, #6366F1, #1D4ED8, #4F46E5);
+  background-size: 400% 400%;
+  animation: gradientShift 6s ease infinite;
+}
+
+/* Pulse glow for brand accents */
+@keyframes brandPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(79, 70, 229, 0); }
+}
+.brand-pulse {
+  animation: brandPulse 2s ease-in-out infinite;
+}

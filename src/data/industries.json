@@ -1,0 +1,178 @@
+
+
+
+[
+  {
+    "id": "ind-01",
+    "name": "Aerospace & Aviation",
+    "slug": "aerospace",
+    "icon": "plane",
+    "description": "Commercial, cargo, and regional aircraft parts sourcing for OEMs and MRO facilities.",
+    "longDescription": "We supply certified aerospace components for the full spectrum of commercial aviation — from narrow-body single-aisle jets to wide-body long-haul aircraft. Our inventory covers structural, propulsion, avionics, and cabin systems across all major airframe programs.",
+    "partCount": 12500,
+    "keyParts": ["Turbine Blades", "Landing Gear", "Flight Control Actuators", "Avionics Units", "Engine Mounts"],
+    "clients": ["Boeing", "Airbus", "Bombardier", "Embraer", "Textron Aviation"]
+  },
+  {
+    "id": "ind-03",
+    "name": "Aircraft Components & Accessories",
+    "slug": "aircraft-components-accessories",
+    "icon": "plane",
+    "description": "High-grade structural components, actuation systems, and avionics accessories for fixed-wing and rotary-wing aircraft.",
+    "longDescription": "We supply FAA-certified and MIL-SPEC compliant aircraft components ranging from hydraulic actuators and landing gear parts to avionics cooling fans and structural fasteners. Our inventory supports commercial fleets (Boeing 737, 787, Airbus A320) and military variants, ensuring full traceability, conformity to OEM drawings, and compliance with AS9100 and NADCAP standards.",
+    "partCount": 15200,
+    "keyParts": [
+      "Hydraulic Actuators",
+      "Avionics Accessories",
+      "Structural Fasteners",
+      "Flight Control Cables",
+      "Landing Gear Components"
+    ],
+    "clients": [
+      "Boeing",
+      "Airbus",
+      "Delta TechOps",
+      "U.S. Army Aviation",
+      "Gulfstream Aerospace"
+    ]
+  },
+  {
+    "id": "ind-04",
+    "name": "Aircraft Launching, Landing & Ground Handling",
+    "slug": "aircraft-launching-landing-ground-handling",
+    "icon": "landing",
+    "description": "Essential ground support equipment (GSE), catapult components, arresting gear, and towbarless tractors for airfield operations.",
+    "longDescription": "Our product line covers the full spectrum of airfield ground support, including shipboard catapult launching systems, carrier-based arresting gear wires, and heavy-capacity tow tractors. We provide OEM and aftermarket parts for the M-32, A/S32A, and A/M32 series ground equipment, supporting both land-based airbases and carrier air wings with rapid-response logistics and 24/7 AOG support.",
+    "partCount": 3800,
+    "keyParts": [
+      "Towbarless Tractors",
+      "Catapult Shuttle Components",
+      "Arresting Gear Cables",
+      "Ground Power Units (GPU)",
+      "Hydraulic Mules"
+    ],
+    "clients": [
+      "U.S. Navy (NAVAIR)",
+      "U.S. Air Force",
+      "Lockheed Martin",
+      "Northrop Grumman",
+      "BAE Systems"
+    ]
+  },
+  {
+    "id": "ind-05",
+    "name": "Ship & Marine Equipment",
+    "slug": "ship-marine-equipment",
+    "icon": "anchor",
+    "description": "Naval-grade propulsion, deck machinery, and communication systems for surface vessels and submarines.",
+    "longDescription": "We are a trusted supplier of NAVSEA-certified marine equipment, offering a comprehensive range of propulsion shafting, stern tubes, deck winches, and shipboard networking systems. Our inventory supports fleet modernization programs for Arleigh Burke-class destroyers, Virginia-class submarines, and Coast Guard cutters, with stringent compliance to ABS, Lloyds Register, and MIL-STD-167 vibration standards.",
+    "partCount": 6400,
+    "keyParts": [
+      "Propulsion Shafting",
+      "Deck Winches & Capstans",
+      "Stern Tube Seals",
+      "Shipboard Cables",
+      "Navigation Radar Systems"
+    ],
+    "clients": [
+      "U.S. Navy (NAVSEA)",
+      "Huntington Ingalls",
+      "General Dynamics NASSCO",
+      "U.S. Coast Guard",
+      "Austal USA"
+    ]
+  },
+  {
+    "id": "ind-06",
+    "name": "Engines, Turbines & Components",
+    "slug": "engines-turbines-components",
+    "icon": "turbine",
+    "description": "High-performance jet turbine blades, compressor disks, and complete propulsion systems.",
+    "longDescription": "Specializing in OEM and PMA parts for gas turbine engines, including fan blades, compressor stators, combustion chambers, and turbine rotor assemblies. We support CFM56, F110, and T700 engine families with full FAA 8130-3 traceability and chemical composition certifications. Our engineering team provides reverse-engineering solutions for obsolete engine components.",
+    "partCount": 3100,
+    "keyParts": [
+      "Turbine Blades",
+      "Compressor Disks",
+      "Combustion Liners",
+      "Engine Mounts",
+      "Thrust Reversers"
+    ],
+    "clients": [
+      "GE Aviation",
+      "Pratt & Whitney",
+      "Rolls-Royce",
+      "U.S. Air Force",
+      "Delta Airlines"
+    ]
+  },
+  {
+    "id": "ind-07",
+    "name": "Engine Accessories",
+    "slug": "engine-accessories",
+    "icon": "settings",
+    "description": "Fuel pumps, starters, ignition exciters, and control systems that keep aircraft engines running safely.",
+    "longDescription": "Our inventory includes a wide range of engine-mounted and line-replaceable accessories, including fuel metering units, engine starter generators, ignition exciters, and vibration monitoring sensors. We provide rapid sourcing for both civil and military engine accessory needs, with strict adherence to OEM overhaul manuals and EASA Part 145 repair station requirements.",
+    "partCount": 4900,
+    "keyParts": [
+      "Fuel Pumps",
+      "Ignition Exciters",
+      "Starter Generators",
+      "Thermocouples",
+      "Engine Control Units (ECU)"
+    ],
+    "clients": [
+      "Honeywell",
+      "Collins Aerospace",
+      "U.S. Navy",
+      "Lufthansa Technik",
+      "StandardAero"
+    ]
+  },
+  {
+    "id": "ind-08",
+    "name": "Switches & Electrical Connectors",
+    "slug": "switches-electrical-connectors",
+    "icon": "plug",
+    "description": "Mil-qualified toggle switches, circuit breakers, and multi-pin circular connectors for harsh environments.",
+    "longDescription": "We are a leading distributor of high-reliability electrical interconnect solutions, offering a vast selection of MS (Military Standard), NAS (National Aerospace Standard), and AN (Air Force-Navy) connectors and switches. Our products are qualified for extreme temperature, vibration, and moisture conditions, supporting avionics, flight control, and power distribution systems. We maintain a $50M+ inventory of ITT Cannon, Amphenol, and TE Connectivity parts.",
+    "partCount": 17500,
+    "keyParts": [
+      "Circular Connectors (MIL-DTL-38999)",
+      "Toggle Switches",
+      "Circuit Breakers",
+      "Relay Sockets",
+      "EMI/RFI Filters"
+    ],
+    "clients": [
+      "TE Connectivity",
+      "ITT Cannon",
+      "Amphenol",
+      "Boeing",
+      "Lockheed Martin"
+    ]
+  },
+  {
+    "id": "ind-09",
+    "name": "Microcircuits, Electrical Hardware & More",
+    "slug": "microcircuits-electrical-hardware",
+    "icon": "cpu",
+    "description": "Radiation-hardened microcircuits, semiconductors, and precision hardware for aerospace & defense electronics.",
+    "longDescription": "We provide cutting-edge microelectronics and hardware, including ASIC processors, FPGA modules, surface-mount capacitors, and precision hardware like standoffs and terminals. Our sourcing network ensures access to EOL (End-of-Life) and active components, fully compliant with DLA (Defense Logistics Agency) standards and solderability requirements for mission-critical avionics, radar, and satellite systems.",
+    "partCount": 28600,
+    "keyParts": [
+      "Rad-Hard ICs",
+      "FPGA Modules",
+      "Capacitors & Resistors",
+      "Terminal Blocks",
+      "Precision Fasteners"
+    ],
+    "clients": [
+      "NASA",
+      "Raytheon Technologies",
+      "Northrop Grumman",
+      "L3Harris",
+      "DLA (Defense Logistics Agency)"
+    ]
+  }
+
+]

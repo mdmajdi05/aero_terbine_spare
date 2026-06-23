@@ -1,0 +1,68 @@
+[
+  {
+    "id": "ind-01",
+    "name": "Aerospace & Aviation",
+    "slug": "aerospace",
+    "icon": "plane",
+    "description": "Commercial, cargo, and regional aircraft parts sourcing for OEMs and MRO facilities.",
+    "longDescription": "We supply certified aerospace components for the full spectrum of commercial aviation — from narrow-body single-aisle jets to wide-body long-haul aircraft. Our inventory covers structural, propulsion, avionics, and cabin systems across all major airframe programs.",
+    "partCount": 12500,
+    "keyParts": ["Turbine Blades", "Landing Gear", "Flight Control Actuators", "Avionics Units", "Engine Mounts"],
+    "clients": ["Boeing", "Airbus", "Bombardier", "Embraer", "Textron Aviation"]
+  },
+  {
+    "id": "ind-02",
+    "name": "Military & Defense",
+    "slug": "military-defense",
+    "icon": "shield",
+    "description": "CAGE-certified parts for military aircraft, naval systems, and ground defense platforms.",
+    "longDescription": "We hold CAGE code 8ATR9 and maintain a robust inventory of NSN-cataloged military parts. Our procurement team specializes in sourcing hard-to-find, long-lead, and obsolete components for legacy military platforms including F-15, F-16, C-130, AH-64, and UH-60 fleets.",
+    "partCount": 8200,
+    "keyParts": ["NSN Consumables", "Mil-Spec Connectors", "Fire Control Components", "Armament Components", "Mil-Spec Wire"],
+    "clients": ["U.S. Air Force", "U.S. Navy", "NATO Partners", "Lockheed Martin", "Raytheon Technologies"]
+  },
+  {
+    "id": "ind-03",
+    "name": "Automotive",
+    "slug": "automotive",
+    "icon": "car",
+    "description": "High-performance bearings, seals, and precision parts for automotive OEMs and Tier 1 suppliers.",
+    "longDescription": "Our automotive division supplies precision-engineered components that meet stringent OEM quality standards. From high-performance turbocharger bearings to precision fasteners for EV drivetrains, we source parts that keep production lines moving.",
+    "partCount": 3400,
+    "keyParts": ["Turbocharger Bearings", "Precision Fasteners", "Electronic Connectors", "Fuel System Parts", "Seals & Gaskets"],
+    "clients": ["Ford", "General Motors", "Toyota", "BMW Group", "Mercedes-Benz"]
+  },
+  {
+    "id": "ind-04",
+    "name": "Medical Equipment",
+    "slug": "medical",
+    "icon": "heart",
+    "description": "Ultra-precision bearings, motors, and electronics for diagnostic, surgical, and imaging equipment.",
+    "longDescription": "Medical device manufacturers demand the highest precision and cleanliness standards. We supply ISO 13485-compliant components for MRI machines, CT scanners, surgical robots, infusion pumps, and patient monitoring systems — all with full material traceability.",
+    "partCount": 1800,
+    "keyParts": ["Miniature Bearings", "Stepper Motors", "Precision Sensors", "Medical-Grade Wire", "Connectors"],
+    "clients": ["Siemens Healthineers", "GE Healthcare", "Philips Medical", "Medtronic", "Boston Scientific"]
+  },
+  {
+    "id": "ind-05",
+    "name": "Electronics & Semiconductor",
+    "slug": "electronics",
+    "icon": "cpu",
+    "description": "Electronic components, connectors, and power systems for aerospace-grade electronics manufacturing.",
+    "longDescription": "From ruggedized military electronics to commercial avionics, we source electronic components that operate reliably in extreme environments. Our catalog includes ITAR-controlled components, COTS electronics for aerospace applications, and custom connector assemblies.",
+    "partCount": 5600,
+    "keyParts": ["FPGA Modules", "RF Connectors", "Power Supplies", "Crystal Oscillators", "Mil-Spec Capacitors"],
+    "clients": ["L3Harris", "BAE Systems Electronics", "DRS Technologies", "Curtiss-Wright", "Mercury Systems"]
+  },
+  {
+    "id": "ind-06",
+    "name": "Telecommunications",
+    "slug": "telecom",
+    "icon": "radio",
+    "description": "Ground station components, satellite parts, and communication system hardware.",
+    "longDescription": "We support satellite operators, ground station integrators, and telecommunications infrastructure providers with reliable supply of RF components, waveguides, amplifiers, and control electronics. Our team understands the long lead times in telecom procurement.",
+    "partCount": 2100,
+    "keyParts": ["Waveguide Components", "RF Amplifiers", "Satellite Connectors", "Coaxial Cable", "Antenna Elements"],
+    "clients": ["Hughes Network Systems", "ViaSat", "Intelsat", "SES", "Iridium Communications"]
+  }
+]

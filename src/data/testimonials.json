@@ -1,0 +1,57 @@
+[
+  {
+    "id": "test-01",
+    "name": "James Whitfield",
+    "title": "Director of Procurement",
+    "company": "SkyTech MRO Solutions",
+    "companyLogo": null,
+    "quote": "AeroTurbineSpare consistently delivers on their 24-hour quote promise. We've been sourcing hard-to-find CF6 turbine components through them for three years, and the quality and traceability have been impeccable. Our AOG response time dropped by 40% since switching to them.",
+    "rating": 5,
+    "country": "United States",
+    "date": "2025-04-12"
+  },
+  {
+    "id": "test-02",
+    "name": "Capt. Ahmed Al-Rashidi",
+    "title": "Technical Purchasing Manager",
+    "company": "Gulf Air MRO",
+    "companyLogo": null,
+    "quote": "We source parts for our mixed fleet from AeroTurbineSpare. Their global network ensures we always get what we need, even for legacy aircraft. The documentation quality — certs, traceability, 8130s — is always complete. Highly recommended for any serious MRO operation.",
+    "rating": 5,
+    "country": "Bahrain",
+    "date": "2025-02-28"
+  },
+  {
+    "id": "test-03",
+    "name": "Maria Santos",
+    "title": "Supply Chain Director",
+    "company": "AeroMex Technicos",
+    "companyLogo": null,
+    "quote": "The RFQ process through the website is fast and intuitive. We submit our requirements in minutes, and the team responds with competitive quotes and full technical specs the same day. The quality badge isn't just marketing — it's backed by real inspection processes.",
+    "rating": 5,
+    "country": "Mexico",
+    "date": "2025-01-15"
+  },
+  {
+    "id": "test-04",
+    "name": "Tobias Henriksen",
+    "title": "Chief Logistics Officer",
+    "company": "Nordic Aircraft Services",
+    "companyLogo": null,
+    "quote": "Sourcing certified parts for our aging fleet of regional aircraft used to take weeks. AeroTurbineSpare reduced that to days. Their access to OEM-certified and serviceable parts at competitive pricing has made them our primary vendor for hard-to-find components.",
+    "rating": 4,
+    "country": "Norway",
+    "date": "2024-11-20"
+  },
+  {
+    "id": "test-05",
+    "name": "Lt. Col. David Krasner",
+    "title": "Supply Chain Officer",
+    "company": "U.S. Aerospace Logistics Command",
+    "companyLogo": null,
+    "quote": "AeroTurbineSpare's CAGE code certification and ability to source NSN-cataloged parts through approved channels makes them a valuable partner for government procurement. Their compliance documentation has never had a discrepancy in 50+ orders.",
+    "rating": 5,
+    "country": "United States",
+    "date": "2024-09-05"
+  }
+]

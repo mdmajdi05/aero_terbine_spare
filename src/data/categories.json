@@ -1,0 +1,92 @@
+[
+  {
+    "id": "cat-01",
+    "name": "Aircraft Structural Components",
+    "fsg": "15",
+    "fsc": "1560",
+    "description": "Airframe structural parts, bulkheads, ribs, spars, and skin panels for fixed-wing aircraft.",
+    "icon": "plane",
+    "partCount": 1840
+  },
+  {
+    "id": "cat-02",
+    "name": "Aircraft Components & Accessories",
+    "fsg": "16",
+    "fsc": "1660",
+    "description": "Flight controls, landing gear components, hydraulic actuators, and airframe accessories.",
+    "icon": "settings",
+    "partCount": 2310
+  },
+  {
+    "id": "cat-03",
+    "name": "Gas Turbines & Jet Engines",
+    "fsg": "28",
+    "fsc": "2840",
+    "description": "Turbine blades, combustion chambers, compressor stages, and complete engine modules.",
+    "icon": "zap",
+    "partCount": 3150
+  },
+  {
+    "id": "cat-04",
+    "name": "Engine Accessories",
+    "fsg": "29",
+    "fsc": "2915",
+    "description": "Fuel controls, oil pumps, starters, ignition systems, and engine-mounted accessories.",
+    "icon": "tool",
+    "partCount": 1720
+  },
+  {
+    "id": "cat-05",
+    "name": "Bearings",
+    "fsg": "31",
+    "fsc": "3110",
+    "description": "Ball bearings, roller bearings, thrust bearings, and bearing assemblies for aerospace applications.",
+    "icon": "circle",
+    "partCount": 980
+  },
+  {
+    "id": "cat-06",
+    "name": "Hardware & Abrasives",
+    "fsg": "53",
+    "fsc": "5305",
+    "description": "Aerospace-grade fasteners, bolts, nuts, washers, rivets, and precision hardware.",
+    "icon": "wrench",
+    "partCount": 4200
+  },
+  {
+    "id": "cat-07",
+    "name": "Electronic Components",
+    "fsg": "59",
+    "fsc": "5962",
+    "description": "Avionics circuit boards, sensors, transistors, capacitors, and electronic sub-assemblies.",
+    "icon": "cpu",
+    "partCount": 2680
+  },
+  {
+    "id": "cat-08",
+    "name": "Wire & Power Distribution",
+    "fsg": "61",
+    "fsc": "6105",
+    "description": "Mil-spec wire, cable assemblies, harnesses, connectors, and power distribution units.",
+    "icon": "activity",
+    "partCount": 1560
+  },
+  {
+    "id": "cat-09",
+    "name": "Fire Control Equipment",
+    "fsg": "12",
+    "fsc": "1270",
+    "description": "Fire control computers, radar components, weapon system electronics, and targeting assemblies.",
+    "icon": "crosshair",
+    "partCount": 640
+  },
+  {
+    "id": "cat-10",
+    "name": "Lighting Fixtures & Lamps",
+    "fsg": "62",
+    "fsc": "6210",
+    "description": "Aircraft interior and exterior lighting, position lights, anti-collision lights, and landing lights.",
+    "icon": "sun",
+    "partCount": 520
+  }
+]
