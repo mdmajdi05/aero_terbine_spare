@@ -59,29 +59,7 @@
       "BAE Systems"
     ]
   },
-  {
-    "id": "ind-05",
-    "name": "Ship & Marine Equipment",
-    "slug": "ship-marine-equipment",
-    "icon": "anchor",
-    "description": "Naval-grade propulsion, deck machinery, and communication systems for surface vessels and submarines.",
-    "longDescription": "We are a trusted supplier of NAVSEA-certified marine equipment, offering a comprehensive range of propulsion shafting, stern tubes, deck winches, and shipboard networking systems. Our inventory supports fleet modernization programs for Arleigh Burke-class destroyers, Virginia-class submarines, and Coast Guard cutters, with stringent compliance to ABS, Lloyds Register, and MIL-STD-167 vibration standards.",
-    "partCount": 6400,
-    "keyParts": [
-      "Propulsion Shafting",
-      "Deck Winches & Capstans",
-      "Stern Tube Seals",
-      "Shipboard Cables",
-      "Navigation Radar Systems"
-    ],
-    "clients": [
-      "U.S. Navy (NAVSEA)",
-      "Huntington Ingalls",
-      "General Dynamics NASSCO",
-      "U.S. Coast Guard",
-      "Austal USA"
-    ]
-  },
+  
   {
     "id": "ind-06",
     "name": "Engines, Turbines & Components",

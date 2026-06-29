@@ -160,31 +160,31 @@ function StepProgress({ current }: { current: number }) {
       </div>
 
       {/* Desktop: full step row */}
-      <div className="hidden sm:flex items-center w-full">
+      <div className="hidden sm:flex items-center w-full overflow-x-auto pb-1">
         {STEPS.map((step, idx) => {
           const done    = current > step.id;
           const active  = current === step.id;
           const Icon    = step.icon;
           return (
-            <div key={step.id} className="flex items-center flex-1 last:flex-none">
+            <div key={step.id} className="flex items-center flex-1 last:flex-none min-w-0">
               <div className="flex flex-col items-center gap-1 flex-shrink-0">
                 <div className={cn(
-                  'w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300',
+                  'w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 flex-shrink-0',
                   done   && 'bg-navy border-navy',
                   active && 'bg-orange border-orange shadow-lg shadow-orange/30',
                   !done && !active && 'bg-white border-silver-dark',
                 )}>
                   {done ? (
-                    <CheckCircle2 className="w-5 h-5 text-white" />
+                    <CheckCircle2 className="w-4 sm:w-5 h-4 sm:h-5 text-white" />
                   ) : (
                     <Icon className={cn(
-                      'w-4 h-4',
+                      'w-3.5 sm:w-4 h-3.5 sm:h-4',
                       active ? 'text-white' : 'text-text-muted',
                     )} />
                   )}
                 </div>
                 <span className={cn(
-                  'text-xs font-medium whitespace-nowrap hidden md:block',
+                  'text-[10px] sm:text-xs font-medium whitespace-nowrap hidden md:block',
                   active ? 'text-orange' : done ? 'text-navy' : 'text-text-muted',
                 )}>
                   {step.label}
@@ -192,7 +192,7 @@ function StepProgress({ current }: { current: number }) {
               </div>
               {idx < STEPS.length - 1 && (
                 <div className={cn(
-                  'h-0.5 flex-1 mx-2 transition-all duration-300',
+                  'h-0.5 flex-1 mx-1 sm:mx-2 transition-all duration-300 min-w-2',
                   current > step.id ? 'bg-navy' : 'bg-silver-dark',
                 )} />
               )}
@@ -656,45 +656,45 @@ export default function RFQPage({
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-silver-dark bg-silver/50">
-                  <th className="text-left px-4 py-2.5 font-medium text-text-muted text-xs uppercase tracking-wider">Part Number</th>
-                  <th className="text-left px-4 py-2.5 font-medium text-text-muted text-xs uppercase tracking-wider hidden md:table-cell">NSN</th>
-                  <th className="text-left px-4 py-2.5 font-medium text-text-muted text-xs uppercase tracking-wider">Description</th>
-                  <th className="text-left px-4 py-2.5 font-medium text-text-muted text-xs uppercase tracking-wider w-24">Qty</th>
-                  <th className="text-right px-4 py-2.5 w-12"></th>
+                  <th className="text-left px-2 sm:px-4 py-2.5 font-medium text-text-muted text-xs uppercase tracking-wider">Part Number</th>
+                  <th className="text-left px-2 sm:px-4 py-2.5 font-medium text-text-muted text-xs uppercase tracking-wider hidden md:table-cell">NSN</th>
+                  <th className="text-left px-2 sm:px-4 py-2.5 font-medium text-text-muted text-xs uppercase tracking-wider hidden sm:table-cell">Description</th>
+                  <th className="text-left px-2 sm:px-4 py-2.5 font-medium text-text-muted text-xs uppercase tracking-wider w-20 sm:w-24">Qty</th>
+                  <th className="text-right px-2 sm:px-4 py-2.5 w-10 sm:w-12"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-silver">
                 {fields.map((field, idx) => (
                   <tr key={field.id} className="bg-white hover:bg-silver/30 transition-colors">
-                    <td className="px-4 py-3">
-                      <span className="font-mono text-sm font-semibold text-navy part-number">
+                    <td className="px-2 sm:px-4 py-3">
+                      <span className="font-mono text-xs sm:text-sm font-semibold text-navy part-number">
                         {watchedItems[idx]?.partNumber || '—'}
                       </span>
                       {watchedItems[idx]?.condition && (
-                        <span className="ml-2 text-xs bg-navy/10 text-navy px-1.5 py-0.5 rounded">
+                        <span className="ml-1.5 text-[10px] bg-navy/10 text-navy px-1.5 py-0.5 rounded">
                           {watchedItems[idx].condition}
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-text-muted font-mono text-xs hidden md:table-cell">
+                    <td className="px-2 sm:px-4 py-3 text-text-muted font-mono text-xs hidden md:table-cell">
                       {watchedItems[idx]?.nsn || '—'}
                     </td>
-                    <td className="px-4 py-3 text-text-muted text-xs max-w-xs truncate">
+                    <td className="px-2 sm:px-4 py-3 text-text-muted text-xs max-w-[120px] sm:max-w-xs truncate hidden sm:table-cell">
                       {watchedItems[idx]?.description || '—'}
                     </td>
-                    <td className="px-4 py-3 w-24">
+                    <td className="px-2 sm:px-4 py-3 w-20 sm:w-24">
                       <input
                         type="number"
                         min="1"
                         {...register(`items.${idx}.quantity`, { valueAsNumber: true })}
-                        className="w-20 border border-silver-dark rounded-lg px-2 py-1.5 text-sm text-center focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange"
+                        className="w-16 sm:w-20 border border-silver-dark rounded-lg px-2 py-2 text-sm text-center focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange"
                       />
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-1 sm:px-4 py-3 text-right">
                       <button
                         type="button"
                         onClick={() => remove(idx)}
-                        className="text-text-muted hover:text-red-500 transition-colors p-1 rounded"
+                        className="text-text-muted hover:text-red-500 transition-colors p-2 rounded min-h-[44px] min-w-[44px] flex items-center justify-center"
                         aria-label="Remove part"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -741,9 +741,9 @@ export default function RFQPage({
                   {watchedItems[idx]?.description}
                 </div>
               </div>
-              <div className="flex items-center gap-4 flex-shrink-0">
-                <div className="w-28">
-                  <label className="block text-xs font-medium text-text-muted mb-1">Quantity <span className="text-orange">*</span></label>
+              <div className="grid grid-cols-2 sm:flex sm:items-center gap-3 sm:gap-4 flex-shrink-0 w-full sm:w-auto">
+                <div className="w-full sm:w-24">
+                  <label className="block text-xs font-medium text-text-muted mb-1">Qty <span className="text-orange">*</span></label>
                   <input
                     type="number"
                     min="1"
@@ -754,21 +754,21 @@ export default function RFQPage({
                     <p className="text-xs text-red-500 mt-0.5">{errors.items[idx]?.quantity?.message}</p>
                   )}
                 </div>
-                <div className="w-36">
-                  <label className="block text-xs font-medium text-text-muted mb-1">Target Price (USD)</label>
+                <div className="w-full sm:w-32">
+                  <label className="block text-xs font-medium text-text-muted mb-1">Target $</label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-sm">$</span>
                     <input
                       type="number"
                       min="0"
                       step="0.01"
-                      placeholder="Optional"
+                      placeholder="Opt."
                       {...register(`items.${idx}.targetPrice`, { valueAsNumber: true, setValueAs: v => v === '' || isNaN(Number(v)) ? undefined : Number(v) })}
                       className="w-full border border-silver-dark rounded-lg pl-7 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange"
                     />
                   </div>
                 </div>
-                <div className="w-40">
+                <div className="w-full sm:w-36 col-span-2 sm:col-span-1">
                   <label className="block text-xs font-medium text-text-muted mb-1">Condition</label>
                   <select
                     {...register(`items.${idx}.condition`)}
@@ -790,7 +790,7 @@ export default function RFQPage({
         <label className="block text-sm font-medium text-text mb-3">
           Urgency Level <span className="text-orange">*</span>
         </label>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
           {URGENCY_OPTIONS.map((opt) => {
             const Icon     = opt.icon;
             const isActive = watchedUrgency === opt.value;
@@ -1042,7 +1042,7 @@ export default function RFQPage({
                   <th className="text-left py-2 font-medium text-text-muted text-xs">Part Number</th>
                   <th className="text-left py-2 font-medium text-text-muted text-xs hidden sm:table-cell">Description</th>
                   <th className="text-center py-2 font-medium text-text-muted text-xs">Qty</th>
-                  <th className="text-right py-2 font-medium text-text-muted text-xs hidden sm:table-cell">Target Price</th>
+                  <th className="text-right py-2 font-medium text-text-muted text-xs hidden sm:table-cell">Target $</th>
                   <th className="text-left py-2 font-medium text-text-muted text-xs hidden md:table-cell">Condition</th>
                 </tr>
               </thead>
@@ -1165,12 +1165,12 @@ export default function RFQPage({
               {step === 5 && renderStep5()}
 
               {/* Navigation buttons */}
-              <div className="flex items-center justify-between mt-8 pt-6 border-t border-silver">
+              <div className="flex items-center justify-between mt-8 pt-6 border-t border-silver gap-3">
                 <div>
                   {step > 1 && (
                     <Button type="button" variant="secondary" size="lg" onClick={goBack}>
                       <ChevronLeft className="w-4 h-4" />
-                      Back
+                      <span className="hidden sm:inline">Back</span>
                     </Button>
                   )}
                 </div>
@@ -1179,7 +1179,7 @@ export default function RFQPage({
                     Step {step} of {STEPS.length}
                   </span>
                   {step < STEPS.length ? (
-                    <Button type="button" variant="orange" size="lg" onClick={goNext}>
+                    <Button type="button" variant="orange" size="lg" onClick={goNext} className="min-h-[44px]">
                       Continue
                       <ChevronRight className="w-4 h-4" />
                     </Button>
@@ -1190,6 +1190,7 @@ export default function RFQPage({
                       size="lg"
                       loading={isSubmitting}
                       disabled={isSubmitting}
+                      className="min-h-[44px]"
                     >
                       {isSubmitting ? 'Submitting...' : 'Submit RFQ'}
                       {!isSubmitting && <CheckCircle2 className="w-4 h-4" />}
@@ -1201,15 +1202,15 @@ export default function RFQPage({
           </div>
 
           {/* Trust strip */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs text-text-muted">
+          <div className="mt-6 grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-2 sm:gap-4 sm:gap-8 text-xs text-text-muted">
             {[
-              '24-Hour Quote Guarantee',
-              'ISO 9001 & AS9120 Certified',
+              '24-Hour Quote',
+              'ISO 9001 & AS9120',
               '100% Inspection',
               'Full Traceability',
               'Global Shipping',
             ].map((badge) => (
-              <span key={badge} className="flex items-center gap-1.5">
+              <span key={badge} className="flex items-center gap-1.5 whitespace-nowrap">
                 <CheckCircle2 className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                 {badge}
               </span>

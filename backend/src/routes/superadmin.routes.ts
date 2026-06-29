@@ -20,11 +20,12 @@ router.delete('/audit-logs',       auth, sa,
   auditLog({ action: 'SA_PURGE_AUDIT_LOGS', resource: 'AuditLog' }) as unknown as RequestHandler,
   ctrl.purgeAuditLogs as unknown as RequestHandler,
 );
-router.get('/settings',            auth, sa, ctrl.getSettings        as unknown as RequestHandler);
-router.put('/settings',            auth, sa,
+router.get('/settings',                    auth, sa, ctrl.getSettings          as unknown as RequestHandler);
+router.put('/settings',                    auth, sa,
   auditLog({ action: 'SA_UPDATE_SETTINGS', resource: 'SystemSetting' }) as unknown as RequestHandler,
   ctrl.updateSettings as unknown as RequestHandler,
 );
+router.post('/settings/cloudinary-test',   auth, sa, ctrl.testCloudinary        as unknown as RequestHandler);
 router.post('/backup/trigger',     auth, sa,
   auditLog({ action: 'SA_TRIGGER_BACKUP', resource: 'BackupRecord' }) as unknown as RequestHandler,
   ctrl.triggerBackup as unknown as RequestHandler,

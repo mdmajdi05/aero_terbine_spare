@@ -1,43 +1,28 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from '../lib/prisma';
 import { env } from './env';
+import logger from './logger';
 
-// ── Singleton Prisma client ──────────────────────────────────
-// For Neon (serverless), use connection pooling via DATABASE_URL (PgBouncer).
-// Migrations use DIRECT_DATABASE_URL to bypass the pooler.
-//
-// To swap to a different database:
-//   1. Change DB_TYPE in .env
-//   2. Update the `provider` in prisma/schema.prisma
-//   3. Re-run `prisma migrate dev`
-//   No application code changes are needed.
+// ── Retry configuration ──────────────────────────────────────
+const MAX_CONNECT_RETRIES = 3;
+const BASE_RETRY_DELAY_MS = 1000;
 
-declare global {
-  // eslint-disable-next-line no-var
-  var __prisma: PrismaClient | undefined;
-}
-
-function createPrismaClient(): PrismaClient {
-  return new PrismaClient({
-    log: env.NODE_ENV === 'development' ? ['query', 'warn', 'error'] : ['warn', 'error'],
-    datasources: {
-      db: { url: env.DATABASE_URL },
-    },
-  });
-}
-
-// Reuse client in development to avoid exhausting connections during hot reload
-export const prisma: PrismaClient =
-  env.NODE_ENV === 'production'
-    ? createPrismaClient()
-    : (globalThis.__prisma ??= createPrismaClient());
+export { prisma } from '../lib/prisma';
 
 export async function connectDB(): Promise<void> {
-  try {
-    await prisma.$connect();
-    console.log(`✅  Database connected [${env.DB_TYPE}]`);
-  } catch (err) {
-    console.error('❌  Database connection failed:', err);
-    throw err;
+  for (let attempt = 1; attempt <= MAX_CONNECT_RETRIES; attempt++) {
+    try {
+      await prisma.$connect();
+      logger.info(`Database connected [${env.DB_TYPE}]`);
+      return;
+    } catch (err) {
+      if (attempt === MAX_CONNECT_RETRIES) {
+        logger.error(`Database connection failed after ${MAX_CONNECT_RETRIES} attempts: ${err}`);
+        throw err;
+      }
+      const delay = BASE_RETRY_DELAY_MS * Math.pow(2, attempt - 1);
+      logger.warn(`DB connect attempt ${attempt}/${MAX_CONNECT_RETRIES} failed, retrying in ${delay}ms…`);
+      await new Promise((r) => setTimeout(r, delay));
+    }
   }
 }
 

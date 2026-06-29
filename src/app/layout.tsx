@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
+import QueryProvider from '@/providers/QueryProvider';
+import ChatProvider from '@/components/chat/ChatProvider';
 import './globals.css';
 
 const inter = Inter({
@@ -53,7 +55,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} h-full`}>
       <body className="min-h-full flex flex-col antialiased">
-        {children}
+        <QueryProvider>
+          {children}
+          <ChatProvider />
+        </QueryProvider>
         <Toaster
           position="top-right"
           toastOptions={{

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Dark mode — toggled via .dark class on <html> */
+@variant dark (&:where(.dark, .dark *));
+
 /* ============================================================
    AeroTurbineSpare Design Tokens
    PRIMARY BRAND COLOR: Indigo #4F46E5 (was Orange)
@@ -34,6 +37,34 @@
 :root {
   --background: #F5F7FA;
   --foreground: #1A1A2E;
+  --bg-primary: #F5F7FA;
+  --bg-secondary: #FFFFFF;
+  --text-primary: #1A1A2E;
+  --text-muted: #4A4A6A;
+  --border-color: #E8EDF2;
+  --surface-card: #FFFFFF;
+  --surface-sidebar: #FFFFFF;
+  --scrollbar-track: #E8EDF2;
+}
+
+.dark {
+  --background: #0F172A;
+  --foreground: #F1F5F9;
+  --bg-primary: #0F172A;
+  --bg-secondary: #1E293B;
+  --text-primary: #F1F5F9;
+  --text-muted: #94A3B8;
+  --border-color: #334155;
+  --surface-card: #1E293B;
+  --surface-sidebar: #1E293B;
+  --scrollbar-track: #334155;
+
+  /* ── @theme token overrides for dark mode ── */
+  --color-text: #F1F5F9;
+  --color-text-muted: #94A3B8;
+  --color-navy: #F1F5F9;
+  --color-silver: #334155;
+  --color-silver-dark: #64748B;
 }
 
 html {
@@ -88,7 +119,7 @@ body {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #E8EDF2; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track, #E8EDF2); }
 ::-webkit-scrollbar-thumb { background: #A5B4FC; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #4F46E5; }
 
@@ -110,11 +141,238 @@ body {
   animation: gradientShift 6s ease infinite;
 }
 
-/* Pulse glow for brand accents */
+/* ── Blog / article prose styles (replaces @tailwindcss/typography) ─────── */
+.blog-content {
+  color: #0A1628;
+  line-height: 1.8;
+  font-size: 1.0625rem;
+}
+.blog-content h1,
+.blog-content h2,
+.blog-content h3,
+.blog-content h4 {
+  font-weight: 700;
+  color: #0A1628;
+  line-height: 1.3;
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+}
+.blog-content h1 { font-size: 2rem; }
+.blog-content h2 { font-size: 1.5rem; border-bottom: 1px solid #E8EDF2; padding-bottom: 0.3em; }
+.blog-content h3 { font-size: 1.25rem; }
+.blog-content h4 { font-size: 1.1rem; }
+.blog-content p  { margin-bottom: 1.25em; }
+.blog-content a  { color: #4F46E5; text-decoration: underline; text-underline-offset: 2px; }
+.blog-content a:hover { color: #4338CA; }
+.blog-content strong { font-weight: 700; color: #0A1628; }
+.blog-content em { font-style: italic; }
+.blog-content ul,
+.blog-content ol { padding-left: 1.5em; margin-bottom: 1.25em; }
+.blog-content ul { list-style-type: disc; }
+.blog-content ol { list-style-type: decimal; }
+.blog-content li { margin-bottom: 0.4em; }
+.blog-content blockquote {
+  border-left: 4px solid #E8751A;
+  margin: 1.5em 0;
+  padding: 0.75em 1.25em;
+  background: #FFF7F0;
+  color: #4A4A6A;
+  font-style: italic;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.blog-content pre {
+  background: #0A1628;
+  color: #E8EDF2;
+  padding: 1.25em;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin-bottom: 1.5em;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+.blog-content code {
+  background: #EEF2FF;
+  color: #4F46E5;
+  padding: 0.15em 0.4em;
+  border-radius: 0.25em;
+  font-size: 0.875em;
+  font-family: var(--font-mono, monospace);
+}
+.blog-content pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+.blog-content img {
+  max-width: 100%;
+  border-radius: 0.75rem;
+  margin: 1.5em auto;
+  display: block;
+}
+.blog-content img[data-align="left"] { margin-left: 0; margin-right: auto; }
+.blog-content img[data-align="center"] { margin-left: auto; margin-right: auto; }
+.blog-content img[data-align="right"] { margin-left: auto; margin-right: 0; }
+.blog-content hr {
+  border: none;
+  border-top: 1px solid #E8EDF2;
+  margin: 2em 0;
+}
+.blog-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5em;
+  font-size: 0.9rem;
+}
+.blog-content th,
+.blog-content td {
+  border: 1px solid #E8EDF2;
+  padding: 0.6em 0.9em;
+  text-align: left;
+}
+.blog-content th {
+  background: #F8FAFC;
+  font-weight: 600;
+  color: #0A1628;
+}
+
+/* ── Pulse glow for brand accents */
 @keyframes brandPulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
   50%       { box-shadow: 0 0 0 8px rgba(79, 70, 229, 0); }
 }
 .brand-pulse {
   animation: brandPulse 2s ease-in-out infinite;
+}
+
+/* ── Smooth animated gradient for chatbot border ─────────── */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.gradient-border {
+  background: linear-gradient(270deg, #4F46E5, #6366F1, #818CF8, #A78BFA, #4F46E5);
+  background-size: 400% 400%;
+  animation: gradientShift 4s ease infinite;
+}
+
+/* ── Chat widget scrollbar ───────────────────────────────── */
+.chat-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.chat-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb {
+  background: #C0C9D5;
+  border-radius: 4px;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #4F46E5;
+}
+
+/* ── Glass chat header ───────────────────────────────────── */
+.chat-header-glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── Dark mode overrides ───────────────────────────────────── */
+.dark .blog-content {
+  color: #E2E8F0;
+}
+.dark .blog-content h1,
+.dark .blog-content h2,
+.dark .blog-content h3,
+.dark .blog-content h4,
+.dark .blog-content strong,
+.dark .blog-content th {
+  color: #F1F5F9;
+}
+.dark .blog-content h2 {
+  border-bottom-color: #334155;
+}
+.dark .blog-content a {
+  color: #818CF8;
+}
+.dark .blog-content a:hover {
+  color: #A5B4FC;
+}
+.dark .blog-content blockquote {
+  background: #1E293B;
+  border-left-color: #818CF8;
+  color: #94A3B8;
+}
+.dark .blog-content pre {
+  background: #0F172A;
+}
+.dark .blog-content code {
+  background: #1E293B;
+  color: #818CF8;
+}
+.dark .blog-content th,
+.dark .blog-content td {
+  border-color: #334155;
+}
+.dark .blog-content th {
+  background: #1E293B;
+}
+.dark .blog-content hr {
+  border-top-color: #334155;
+}
+.dark .badge-in-stock {
+  background: #064E3B;
+  color: #6EE7B7;
+}
+.dark .badge-on-order {
+  background: #1E1B4B;
+  color: #A5B4FC;
+}
+.dark .badge-obsolete {
+  background: #450A0A;
+  color: #FCA5A5;
+}
+.dark .badge-limited {
+  background: #2E1065;
+  color: #C4B5FD;
+}
+.dark .gradient-text {
+  background: linear-gradient(135deg, #818CF8 0%, #A5B4FC 60%, #7DD3FC 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.dark .glass {
+  background: rgba(30, 41, 59, 0.7);
+  border-color: rgba(148, 163, 184, 0.15);
+}
+.dark .glass-dark {
+  background: rgba(15, 23, 42, 0.85);
+}
+
+/* ── react-data-grid brand theme ──────────────────────────── */
+.rdg-brand {
+  --rdg-selection-color: #4F46E5;
+  --rdg-border-color: #E8EDF2;
+  --rdg-background-color: #FFFFFF;
+  --rdg-header-background-color: #F5F7FA;
+  --rdg-row-hover-background-color: #EEF2FF;
+  --rdg-row-selected-background-color: #E0E7FF;
+  --rdg-color: #1A1A2E;
+  --rdg-header-color: #4A4A6A;
+  --rdg-focus-outline-color: #4F46E5;
+  --rdg-font-size: 13px;
+}
+
+.dark .rdg-brand {
+  --rdg-selection-color: #6366F1;
+  --rdg-border-color: #334155;
+  --rdg-background-color: #0F172A;
+  --rdg-header-background-color: #0B1A33;
+  --rdg-row-hover-background-color: #0F1F3A;
+  --rdg-row-selected-background-color: #1A2D4A;
+  --rdg-color: #E8EDF2;
+  --rdg-header-color: #94A3B8;
+  --rdg-focus-outline-color: #4F46E5;
+  --rdg-font-size: 13px;
 }

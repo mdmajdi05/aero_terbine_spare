@@ -16,21 +16,28 @@ export class PartRepository extends BaseRepository {
   async findAll(
     page: number,
     limit: number,
-    filters: { search?: string; category?: string; stockStatus?: string } = {},
+    filters: {
+      search?: string; category?: string; stockStatus?: string;
+      fsg?: string; condition?: string; cage?: string;
+    } = {},
   ): Promise<{ parts: Part[]; total: number }> {
     const conditions: Prisma.PartWhereInput[] = [];
 
     if (filters.search) {
       conditions.push({
         OR: [
-          { nsn:         { contains: filters.search, mode: 'insensitive' } },
-          { partNumber:  { contains: filters.search, mode: 'insensitive' } },
-          { description: { contains: filters.search, mode: 'insensitive' } },
-          { manufacturer:{ contains: filters.search, mode: 'insensitive' } },
+          { nsn:          { contains: filters.search, mode: 'insensitive' } },
+          { partNumber:   { contains: filters.search, mode: 'insensitive' } },
+          { description:  { contains: filters.search, mode: 'insensitive' } },
+          { manufacturer: { contains: filters.search, mode: 'insensitive' } },
+          { cage:         { contains: filters.search, mode: 'insensitive' } },
         ],
       });
     }
     if (filters.category)    conditions.push({ category:    filters.category });
+    if (filters.fsg)         conditions.push({ fsg:         filters.fsg });
+    if (filters.cage)        conditions.push({ cage:        { contains: filters.cage, mode: 'insensitive' } });
+    if (filters.condition)   conditions.push({ condition:   filters.condition as Prisma.EnumConditionFilter });
     if (filters.stockStatus) conditions.push({ stockStatus: filters.stockStatus as Prisma.EnumStockStatusFilter });
 
     const where: Prisma.PartWhereInput = conditions.length ? { AND: conditions } : {};

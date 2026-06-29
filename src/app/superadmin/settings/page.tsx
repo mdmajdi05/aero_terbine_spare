@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Save, RefreshCw, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Save, RefreshCw, CheckCircle, AlertTriangle, Eye, EyeOff } from 'lucide-react';
 import { request } from '@/lib/api-client';
 import type { SystemSettings } from '@/types';
 import { cn } from '@/lib/utils';
@@ -32,10 +32,12 @@ function SAToggle({ value, onChange, label, danger }: { value: boolean; onChange
 }
 
 export default function SystemSettingsPage() {
-  const [settings, setSettings] = useState<SystemSettings | null>(null);
-  const [loading,  setLoading]  = useState(true);
-  const [saving,   setSaving]   = useState(false);
-  const [saved,    setSaved]    = useState(false);
+  const [settings,     setSettings]     = useState<SystemSettings | null>(null);
+  const [loading,      setLoading]      = useState(true);
+  const [saving,       setSaving]       = useState(false);
+  const [saved,        setSaved]        = useState(false);
+  const [showSecret,   setShowSecret]   = useState(false);
+  const [cloudTest,    setCloudTest]    = useState<'idle' | 'testing' | 'ok' | 'fail'>('idle');
 
   useEffect(() => {
     request<{ success: boolean; data: SystemSettings }>('/superadmin/settings')
@@ -168,6 +170,100 @@ export default function SystemSettingsPage() {
             <input type="number" value={settings.dataRetentionDays} onChange={(e) => update('dataRetentionDays', parseInt(e.target.value) || 365)}
               className="w-full px-4 py-2.5 rounded-xl border border-purple-900/40 bg-[#1A1A35] text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-600/50" />
           </SAField>
+        </div>
+      </section>
+
+      {/* Cloudinary / Media Storage */}
+      <section className="bg-[#13132B] rounded-2xl border border-purple-900/30 p-6 space-y-5">
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="font-bold text-white mb-0.5">Media Storage — Cloudinary</h2>
+            <p className="text-xs text-purple-300/40">
+              All blog images are uploaded to Cloudinary and auto-optimised (WebP, quality auto).
+              Get your keys from{' '}
+              <a href="https://cloudinary.com/console" target="_blank" rel="noopener noreferrer"
+                className="text-purple-400 underline underline-offset-2 hover:text-purple-300">
+                cloudinary.com/console
+              </a>
+            </p>
+          </div>
+          {/* Test connection button */}
+          <button
+            type="button"
+            disabled={cloudTest === 'testing' || !settings.cloudinaryCloudName}
+            onClick={async () => {
+              setCloudTest('testing');
+              try {
+                const res = await request<{ success: boolean }>(
+                  '/superadmin/settings/cloudinary-test',
+                  { method: 'POST' },
+                );
+                setCloudTest(res.success ? 'ok' : 'fail');
+              } catch {
+                setCloudTest('fail');
+              }
+              setTimeout(() => setCloudTest('idle'), 4000);
+            }}
+            className={cn(
+              'px-4 py-2 rounded-xl text-xs font-semibold transition-colors flex-shrink-0 ml-4',
+              cloudTest === 'ok'      ? 'bg-emerald-700 text-white' :
+              cloudTest === 'fail'    ? 'bg-red-700 text-white' :
+              cloudTest === 'testing' ? 'bg-purple-900/40 text-purple-300' :
+                                        'bg-purple-900/40 hover:bg-purple-800/50 text-purple-300',
+            )}
+          >
+            {cloudTest === 'testing' ? 'Testing…' : cloudTest === 'ok' ? '✓ Connected' : cloudTest === 'fail' ? '✕ Failed' : 'Test Connection'}
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <SAField label="Cloud Name" hint="e.g. my-cloud-123">
+            <input
+              value={settings.cloudinaryCloudName ?? ''}
+              onChange={(e) => update('cloudinaryCloudName', e.target.value)}
+              placeholder="your_cloud_name"
+              className="w-full px-4 py-2.5 rounded-xl border border-purple-900/40 bg-[#1A1A35] text-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-purple-600/50 placeholder:text-purple-300/20"
+            />
+          </SAField>
+
+          <SAField label="API Key" hint="From Cloudinary Dashboard → API Keys">
+            <input
+              value={settings.cloudinaryApiKey ?? ''}
+              onChange={(e) => update('cloudinaryApiKey', e.target.value)}
+              placeholder="123456789012345"
+              className="w-full px-4 py-2.5 rounded-xl border border-purple-900/40 bg-[#1A1A35] text-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-purple-600/50 placeholder:text-purple-300/20"
+            />
+          </SAField>
+        </div>
+
+        <SAField label="API Secret" hint="Keep this private — never share it publicly">
+          <div className="relative">
+            <input
+              type={showSecret ? 'text' : 'password'}
+              value={settings.cloudinaryApiSecret ?? ''}
+              onChange={(e) => update('cloudinaryApiSecret', e.target.value)}
+              placeholder="••••••••••••••••••••••"
+              className="w-full px-4 py-2.5 pr-11 rounded-xl border border-purple-900/40 bg-[#1A1A35] text-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-purple-600/50 placeholder:text-purple-300/20"
+            />
+            <button
+              type="button"
+              onClick={() => setShowSecret((v) => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-purple-300/40 hover:text-purple-300 transition-colors"
+            >
+              {showSecret ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
+          </div>
+        </SAField>
+
+        {/* Status pill */}
+        <div className={cn(
+          'inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium',
+          settings.cloudinaryCloudName
+            ? 'bg-emerald-900/30 text-emerald-400 border border-emerald-800/30'
+            : 'bg-yellow-900/20 text-yellow-500 border border-yellow-800/20',
+        )}>
+          <span className={cn('w-1.5 h-1.5 rounded-full', settings.cloudinaryCloudName ? 'bg-emerald-400' : 'bg-yellow-500')} />
+          {settings.cloudinaryCloudName ? 'Cloudinary configured' : 'Not configured — blog image upload will fail'}
         </div>
       </section>
 

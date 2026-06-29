@@ -2,6 +2,8 @@
 // AeroTurbineSpare — Global TypeScript Interfaces
 // ============================================================
 
+import type { ChatConfig } from './chat';
+
 export interface ProductSpecifications {
   material?: string;
   weight?: string;
@@ -72,17 +74,50 @@ export interface Category {
   imageUrl?: string;
 }
 
+export interface NavCategory {
+  id: string;
+  name: string;
+  slug: string;
+  type: string;
+  parentId?: string;
+  industryIds?: string[];
+  manufacturer?: string;
+  description?: string;
+  icon?: string;
+  partCount?: number;
+  sortOrder?: number;
+  cardConfig?: Record<string, unknown>;
+  pageConfig?: Record<string, unknown>;
+  items?: CategoryItem[];
+}
+
 export interface Industry {
   id: string;
   name: string;
   slug: string;
-  icon: string;
-  description: string;
-  longDescription: string;
-  partCount: number;
-  imageUrl?: string;
-  keyParts: string[];
-  clients: string[];
+  icon?: string;
+  description?: string;
+  longDescription?: string;
+  partCount?: number;
+  keyParts?: string[];
+  clients?: string[];
+}
+
+export interface FsgCategory {
+  id: string;
+  name: string;
+  fsg: string;
+  fsc?: string;
+  description?: string;
+  icon?: string;
+  partCount?: number;
+}
+
+export interface NavCategoryTree {
+  fsgCategories: FsgCategory[];
+  industries: Industry[];
+  productCategories: NavCategory[];
+  partCategories: NavCategory[];
 }
 
 export interface Testimonial {
@@ -97,7 +132,7 @@ export interface Testimonial {
   date: string;
 }
 
-export type UserRole = 'SuperAdmin' | 'Admin' | 'Trader' | 'User';
+export type UserRole = 'SuperAdmin' | 'Admin' | 'ContentManager' | 'Trader' | 'User';
 
 export interface User {
   id: string;
@@ -228,6 +263,10 @@ export interface SystemSettings {
   enableAuditLogging: boolean;
   backupSchedule: 'daily' | 'weekly' | 'monthly' | 'manual';
   dataRetentionDays: number;
+  // Media / Cloudinary
+  cloudinaryCloudName: string;
+  cloudinaryApiKey: string;
+  cloudinaryApiSecret: string;
   updatedAt: string;
   updatedBy: string;
 }
@@ -247,14 +286,16 @@ export interface AdminStats {
 
 export interface SiteConfig {
   /* Logo */
-  logoHeight:   number;   // px
-  logoWidth:    number;   // px, 0 = auto
-  logoPaddingX: number;   // px
-  logoPaddingY: number;   // px
-  logoMarginX:  number;   // px
-  logoMarginY:  number;   // px
-  logoText:     string;   // display name
-  logoSubText:  string;   // subtitle under logo
+  logoHeight:    number;   // px
+  logoWidth:     number;   // px, 0 = auto
+  logoPaddingX:  number;   // px
+  logoPaddingY:  number;   // px
+  logoMarginX:   number;   // px
+  logoMarginY:   number;   // px
+  logoText:      string;   // display name
+  logoSubText:   string;   // subtitle under logo
+  logoImageUrl?: string;   // uploaded/linked logo image URL
+  logoLink?:     string;   // logo click destination
 
   /* Hero */
   heroHeading:    string;
@@ -266,6 +307,9 @@ export interface SiteConfig {
   heroCta1Href:   string;
   heroCta2Label:  string;
   heroCta2Href:   string;
+
+  /* Chat & WhatsApp */
+  chat: ChatConfig;
 
   updatedAt: string;
   updatedBy: string;
@@ -321,4 +365,43 @@ export interface SessionUser {
   avatarUrl?: string;
   isActive?: boolean;
   token: string;
+}
+
+export interface CategoryItem {
+  id: string;
+  categoryId: string;
+  title: string;
+  slug: string;
+  description?: string;
+  image?: string;
+  link?: string;
+  data?: Record<string, unknown>;
+  cardConfig?: Record<string, unknown>;
+  sortOrder: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface MegaMenuItem {
+  label: string;
+  href: string;
+  icon?: React.ElementType;
+  desc?: string;
+}
+export interface MegaMenuSection {
+  title: string;
+  items: MegaMenuItem[];
+}
+export interface MegaMenuData {
+  label: string;
+  href: string;
+  sections: MegaMenuSection[];
+  featured?: {
+    label: string;
+    desc: string;
+    href: string;
+    cta: string;
+    badge: string;
+  };
 }

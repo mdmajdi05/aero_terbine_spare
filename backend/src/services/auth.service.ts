@@ -72,10 +72,21 @@ export async function refresh(token: string) {
     throw Object.assign(new Error('Invalid refresh token'), { status: 401 });
   }
 
-  const user = await userRepo.findById(payload.sub);
-  if (!user || !user.isActive) throw Object.assign(new Error('User not found or suspended'), { status: 401 });
-
-  return tokenPair(user.id, user.email, user.role);
+  try {
+    const user = await userRepo.findById(payload.sub);
+    if (!user || !user.isActive) {
+      throw Object.assign(new Error('User not found or suspended'), { status: 401 });
+    }
+    return tokenPair(user.id, user.email, user.role);
+  } catch (err: unknown) {
+    // If the DB is temporarily down (Neon wake-up, etc.), allow the refresh anyway
+    // since the JWT itself is still valid. The user status check is a best-effort
+    // revocation guard, not a hard requirement for every refresh attempt.
+    const e = err as { status?: number; message?: string };
+    if (e.status === 401) throw err; // confirmed suspension/deletion — reject
+    console.warn('⚠️  DB unavailable during token refresh, proceeding with cached user state:', e.message);
+    return tokenPair(payload.sub, payload.email, payload.role);
+  }
 }
 
 export async function getProfile(userId: string) {

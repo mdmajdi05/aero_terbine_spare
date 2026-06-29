@@ -10,17 +10,7 @@
     "keyParts": ["Turbine Blades", "Landing Gear", "Flight Control Actuators", "Avionics Units", "Engine Mounts"],
     "clients": ["Boeing", "Airbus", "Bombardier", "Embraer", "Textron Aviation"]
   },
-  {
-    "id": "ind-02",
-    "name": "Military & Defense",
-    "slug": "military-defense",
-    "icon": "shield",
-    "description": "CAGE-certified parts for military aircraft, naval systems, and ground defense platforms.",
-    "longDescription": "We hold CAGE code 8ATR9 and maintain a robust inventory of NSN-cataloged military parts. Our procurement team specializes in sourcing hard-to-find, long-lead, and obsolete components for legacy military platforms including F-15, F-16, C-130, AH-64, and UH-60 fleets.",
-    "partCount": 8200,
-    "keyParts": ["NSN Consumables", "Mil-Spec Connectors", "Fire Control Components", "Armament Components", "Mil-Spec Wire"],
-    "clients": ["U.S. Air Force", "U.S. Navy", "NATO Partners", "Lockheed Martin", "Raytheon Technologies"]
-  },
+  
   {
     "id": "ind-03",
     "name": "Automotive",

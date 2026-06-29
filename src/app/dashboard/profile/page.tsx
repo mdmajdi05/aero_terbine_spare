@@ -14,10 +14,11 @@ import type { SessionUser } from '@/types';
 
 function RoleBadge({ role }: { role: SessionUser['role'] }) {
   const map: Record<SessionUser['role'], { cls: string; label: string }> = {
-    SuperAdmin: { cls: 'bg-violet-50 text-violet-700 border-violet-200',  label: 'SuperAdmin' },
-    Admin:      { cls: 'bg-red-50 text-red-700 border-red-200',            label: 'Admin' },
-    Trader:     { cls: 'bg-purple-50 text-purple-700 border-purple-200',   label: 'Trader' },
-    User:       { cls: 'bg-blue-50 text-blue-700 border-blue-200',         label: 'User' },
+    SuperAdmin:     { cls: 'bg-violet-50 text-violet-700 border-violet-200',  label: 'SuperAdmin' },
+    Admin:          { cls: 'bg-red-50 text-red-700 border-red-200',            label: 'Admin' },
+    ContentManager: { cls: 'bg-green-50 text-green-700 border-green-200',      label: 'ContentManager' },
+    Trader:         { cls: 'bg-purple-50 text-purple-700 border-purple-200',   label: 'Trader' },
+    User:           { cls: 'bg-blue-50 text-blue-700 border-blue-200',         label: 'User' },
   };
   const { cls, label } = map[role] || map['User'];
   return (

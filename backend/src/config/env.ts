@@ -32,6 +32,10 @@ const EnvSchema = z.object({
   UPLOAD_DIR:           z.string().default('./uploads'),
   MAX_FILE_SIZE_MB:     z.coerce.number().default(10),
 
+  CLOUDINARY_CLOUD_NAME: z.string().default(''),
+  CLOUDINARY_API_KEY:    z.string().default(''),
+  CLOUDINARY_API_SECRET: z.string().default(''),
+
   BACKUP_DIR:           z.string().default('./backups'),
   BACKUP_ENCRYPTION_KEY:z.string().default(''),
 

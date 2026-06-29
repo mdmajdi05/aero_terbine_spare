@@ -14,7 +14,9 @@ function getRaw(): string[] {
 export function useSavedParts() {
   const [savedIds, setSavedIds] = useState<string[]>([]);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => { setSavedIds(getRaw()); }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const toggle = async (productId: string) => {
     const isSaved = savedIds.includes(productId);

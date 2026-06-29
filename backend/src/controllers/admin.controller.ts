@@ -78,27 +78,57 @@ export async function listParts(req: Request, res: Response): Promise<void> {
 
 export async function importParts(req: Request, res: Response): Promise<void> {
   try {
-    const rows = req.body as Array<{ nsn: string; partNumber: string; description: string; shortDescription: string; fsg: string; fsc: string; category: string; manufacturer: string; quantityAvailable?: number; unitPrice?: number }>;
-    if (!Array.isArray(rows)) { res.status(400).json({ success: false, error: 'Body must be an array of parts' }); return; }
+    const rows = req.body as Array<Record<string, unknown>>;
+    if (!Array.isArray(rows) || rows.length === 0) {
+      res.status(400).json({ success: false, error: 'Body must be a non-empty array of parts' });
+      return;
+    }
+
+    // Validate enum values
+    const VALID_CONDITIONS  = ['New', 'Used', 'Refurbished', 'Overhauled'] as const;
+    const VALID_STOCK       = ['InStock', 'OnOrder', 'Obsolete', 'Limited'] as const;
 
     let imported = 0;
+    const errors: string[] = [];
+
     for (const row of rows) {
-      await partRepo.upsert({
-        nsn:              row.nsn,
-        cage:             row.fsc ?? '',
-        partNumber:       row.partNumber,
-        description:      row.description,
-        shortDescription: row.shortDescription,
-        fsg:              row.fsg,
-        fsc:              row.fsc,
-        category:         row.category,
-        manufacturer:     row.manufacturer,
-        quantityAvailable: row.quantityAvailable ?? 0,
-        unitPrice:         row.unitPrice ?? 0,
-      });
-      imported++;
+      try {
+        const condition  = String(row.condition || 'New');
+        const stockRaw   = String(row.stockStatus || 'InStock');
+        const nsn        = String(row.nsn || '');
+        const partNumber = String(row.partNumber || '');
+
+        if (!nsn || !partNumber) { errors.push(`Skipped row — missing nsn or partNumber`); continue; }
+        if (!VALID_CONDITIONS.includes(condition as typeof VALID_CONDITIONS[number]))
+          { errors.push(`Skipped ${partNumber} — invalid condition: ${condition}`); continue; }
+        if (!VALID_STOCK.includes(stockRaw as typeof VALID_STOCK[number]))
+          { errors.push(`Skipped ${partNumber} — invalid stockStatus: ${stockRaw}`); continue; }
+
+        await partRepo.upsert({
+          nsn,
+          cage:              String(row.cage || ''),
+          partNumber,
+          description:       String(row.description || ''),
+          shortDescription:  String(row.shortDescription || row.description || ''),
+          fsg:               String(row.fsg || ''),
+          fsc:               String(row.fsc || ''),
+          category:          String(row.category || 'General'),
+          manufacturer:      String(row.manufacturer || ''),
+          condition:         condition as typeof VALID_CONDITIONS[number],
+          stockStatus:       stockRaw as typeof VALID_STOCK[number],
+          quantityAvailable: parseInt(String(row.quantityAvailable || '0'), 10) || 0,
+          unitPrice:         parseFloat(String(row.unitPrice || '0')) || 0,
+          crossReferences:   [],
+          specifications:    {},
+          tags:              [],
+        });
+        imported++;
+      } catch (rowErr) {
+        errors.push(`Error on ${String(row.partNumber || '?')}: ${(rowErr as Error).message}`);
+      }
     }
-    res.json({ success: true, data: { imported } });
+
+    res.json({ success: true, data: { imported, errors: errors.length, errorDetails: errors } });
   } catch (err: unknown) {
     const e = err as { message: string };
     res.status(500).json({ success: false, error: e.message });
@@ -126,6 +156,55 @@ export async function exportData(req: AuthenticatedRequest, res: Response): Prom
 }
 
 
+
+export async function createAdminPart(req: AuthenticatedRequest, res: Response): Promise<void> {
+  try {
+    const data = req.body as Record<string, unknown>;
+    const part = await partRepo.create({
+      nsn:              String(data.nsn || ''),
+      cage:             String(data.cage || ''),
+      partNumber:       String(data.partNumber || ''),
+      description:      String(data.description || ''),
+      shortDescription: String(data.shortDescription || data.description || ''),
+      fsg:              String(data.fsg || ''),
+      fsc:              String(data.fsc || ''),
+      category:         String(data.category || 'General'),
+      manufacturer:     String(data.manufacturer || ''),
+      condition:        (data.condition as 'New' | 'Used' | 'Refurbished' | 'Overhauled') || 'New',
+      stockStatus:      (data.stockStatus as 'InStock' | 'OnOrder' | 'Obsolete' | 'Limited') || 'InStock',
+      quantityAvailable: Number(data.quantityAvailable) || 0,
+      unitPrice:         Number(data.unitPrice) || 0,
+      crossReferences:  [],
+      specifications:   {},
+      tags:             [],
+      submittedBy:      { connect: { id: req.user.sub } },
+    });
+    res.status(201).json({ success: true, data: part });
+  } catch (err: unknown) {
+    const e = err as { message: string };
+    res.status(500).json({ success: false, error: e.message });
+  }
+}
+
+export async function updateAdminPart(req: AuthenticatedRequest, res: Response): Promise<void> {
+  try {
+    const part = await partRepo.update(req.params.id, req.body as Record<string, unknown>);
+    res.json({ success: true, data: part });
+  } catch (err: unknown) {
+    const e = err as { message: string };
+    res.status(500).json({ success: false, error: e.message });
+  }
+}
+
+export async function deleteAdminPart(req: AuthenticatedRequest, res: Response): Promise<void> {
+  try {
+    await partRepo.delete(req.params.id);
+    res.json({ success: true, message: 'Part deleted' });
+  } catch (err: unknown) {
+    const e = err as { message: string };
+    res.status(500).json({ success: false, error: e.message });
+  }
+}
 
 export async function createUser(req: AuthenticatedRequest, res: Response): Promise<void> {
   try {

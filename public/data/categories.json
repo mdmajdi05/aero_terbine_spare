@@ -1,0 +1,2123 @@
+{
+  "fsgCategories": [
+    {
+      "id": "67877763-7d40-42c1-aabe-fe67cfc96fc6",
+      "name": "Aircraft Structural Components",
+      "fsg": "15",
+      "fsc": "1560",
+      "description": "Airframe structural parts, bulkheads, ribs, spars, and skin panels for fixed-wing aircraft.",
+      "icon": "plane",
+      "partCount": 1840
+    },
+    {
+      "id": "39a17f2e-d8b0-4d0c-a74f-c879ae870a24",
+      "name": "Aircraft Components & Accessories",
+      "fsg": "16",
+      "fsc": "1660",
+      "description": "Flight controls, landing gear components, hydraulic actuators, and airframe accessories.",
+      "icon": "settings",
+      "partCount": 2310
+    },
+    {
+      "id": "ac07b378-a42a-4ecf-81a0-ac5a86f7df1e",
+      "name": "Gas Turbines & Jet Engines",
+      "fsg": "28",
+      "fsc": "2840",
+      "description": "Turbine blades, combustion chambers, compressor stages, and complete engine modules.",
+      "icon": "zap",
+      "partCount": 3150
+    },
+    {
+      "id": "675e6065-ba81-4ae3-a50a-05e2caa1828f",
+      "name": "Engine Accessories",
+      "fsg": "29",
+      "fsc": "2915",
+      "description": "Fuel controls, oil pumps, starters, ignition systems, and engine-mounted accessories.",
+      "icon": "tool",
+      "partCount": 1720
+    },
+    {
+      "id": "886304d7-b687-4b17-8c5c-70709eea6bec",
+      "name": "Bearings",
+      "fsg": "31",
+      "fsc": "3110",
+      "description": "Ball bearings, roller bearings, thrust bearings, and bearing assemblies for aerospace applications.",
+      "icon": "circle",
+      "partCount": 980
+    },
+    {
+      "id": "699338a4-27f8-478a-a734-bd837a75207d",
+      "name": "Hardware & Abrasives",
+      "fsg": "53",
+      "fsc": "5305",
+      "description": "Aerospace-grade fasteners, bolts, nuts, washers, rivets, and precision hardware.",
+      "icon": "wrench",
+      "partCount": 4200
+    },
+    {
+      "id": "06ec69fe-4b99-4f6b-8e01-ba854f4136e2",
+      "name": "Electronic Components",
+      "fsg": "59",
+      "fsc": "5962",
+      "description": "Avionics circuit boards, sensors, transistors, capacitors, and electronic sub-assemblies.",
+      "icon": "cpu",
+      "partCount": 2680
+    },
+    {
+      "id": "b04a7d43-21dc-4d0e-9a69-55f924c3d468",
+      "name": "Wire & Power Distribution",
+      "fsg": "61",
+      "fsc": "6105",
+      "description": "Mil-spec wire, cable assemblies, harnesses, connectors, and power distribution units.",
+      "icon": "activity",
+      "partCount": 1560
+    },
+    {
+      "id": "ca1f34c8-f153-4a06-8b07-36016d1aac0b",
+      "name": "Fire Control Equipment",
+      "fsg": "12",
+      "fsc": "1270",
+      "description": "Fire control computers, radar components, weapon system electronics, and targeting assemblies.",
+      "icon": "crosshair",
+      "partCount": 640
+    },
+    {
+      "id": "d58de40b-c0d6-4c92-9ad5-9b2d50501084",
+      "name": "Lighting Fixtures & Lamps",
+      "fsg": "62",
+      "fsc": "6210",
+      "description": "Aircraft interior and exterior lighting, position lights, anti-collision lights, and landing lights.",
+      "icon": "sun",
+      "partCount": 520
+    }
+  ],
+  "industries": [
+    {
+      "id": "fd4832f0-3ef9-4ae0-a360-3a31867bae3a",
+      "name": "Aerospace & Aviation",
+      "slug": "aerospace",
+      "icon": "plane",
+      "description": "Commercial, cargo, and regional aircraft parts sourcing for OEMs and MRO facilities.",
+      "longDescription": "We supply certified aerospace components for the full spectrum of commercial aviation — from narrow-body single-aisle jets to wide-body long-haul aircraft. Our inventory covers structural, propulsion, avionics, and cabin systems across all major airframe programs.",
+      "partCount": 12500,
+      "keyParts": [
+        "Turbine Blades",
+        "Landing Gear",
+        "Flight Control Actuators",
+        "Avionics Units",
+        "Engine Mounts"
+      ],
+      "clients": [
+        "Boeing",
+        "Airbus",
+        "Bombardier",
+        "Embraer",
+        "Textron Aviation"
+      ]
+    },
+    {
+      "id": "3436b9de-839f-418f-9823-e6284836f8b3",
+      "name": "Aircraft Components & Accessories",
+      "slug": "aircraft-components-accessories",
+      "icon": "plane",
+      "description": "High-grade structural components, actuation systems, and avionics accessories for fixed-wing and rotary-wing aircraft.",
+      "longDescription": "We supply FAA-certified and MIL-SPEC compliant aircraft components ranging from hydraulic actuators and landing gear parts to avionics cooling fans and structural fasteners. Our inventory supports commercial fleets (Boeing 737, 787, Airbus A320) and military variants, ensuring full traceability, conformity to OEM drawings, and compliance with AS9100 and NADCAP standards.",
+      "partCount": 15200,
+      "keyParts": [
+        "Hydraulic Actuators",
+        "Avionics Accessories",
+        "Structural Fasteners",
+        "Flight Control Cables",
+        "Landing Gear Components"
+      ],
+      "clients": [
+        "Boeing",
+        "Airbus",
+        "Delta TechOps",
+        "U.S. Army Aviation",
+        "Gulfstream Aerospace"
+      ]
+    },
+    {
+      "id": "aaeccc50-5513-445f-918f-5e4010cfed48",
+      "name": "Aircraft Launching, Landing & Ground Handling",
+      "slug": "aircraft-launching-landing-ground-handling",
+      "icon": "landing",
+      "description": "Essential ground support equipment (GSE), catapult components, arresting gear, and towbarless tractors.",
+      "longDescription": "Our product line covers the full spectrum of airfield ground support, including shipboard catapult launching systems, carrier-based arresting gear wires, and heavy-capacity tow tractors. We provide OEM and aftermarket parts for the M-32, A/S32A, and A/M32 series ground equipment, supporting both land-based airbases and carrier air wings with rapid-response logistics and 24/7 AOG support.",
+      "partCount": 3800,
+      "keyParts": [
+        "Towbarless Tractors",
+        "Catapult Shuttle Components",
+        "Arresting Gear Cables",
+        "Ground Power Units (GPU)",
+        "Hydraulic Mules"
+      ],
+      "clients": [
+        "U.S. Navy (NAVAIR)",
+        "U.S. Air Force",
+        "Lockheed Martin",
+        "Northrop Grumman",
+        "BAE Systems"
+      ]
+    },
+    {
+      "id": "d9ca632e-4aac-4e59-ad5f-be490d54501b",
+      "name": "Ship & Marine Equipment",
+      "slug": "ship-marine-equipment",
+      "icon": "anchor",
+      "description": "Naval-grade propulsion, deck machinery, and communication systems for surface vessels and submarines.",
+      "longDescription": "We are a trusted supplier of NAVSEA-certified marine equipment.",
+      "partCount": 6400,
+      "keyParts": [
+        "Propulsion Shafting",
+        "Deck Winches & Capstans",
+        "Stern Tube Seals",
+        "Shipboard Cables",
+        "Navigation Radar Systems"
+      ],
+      "clients": [
+        "U.S. Navy (NAVSEA)",
+        "Huntington Ingalls",
+        "General Dynamics NASSCO",
+        "U.S. Coast Guard",
+        "Austal USA"
+      ]
+    },
+    {
+      "id": "4d43cdea-bdb0-4db8-b97c-2846565f3052",
+      "name": "Engines, Turbines & Components",
+      "slug": "engines-turbines-components",
+      "icon": "turbine",
+      "description": "High-performance jet turbine blades, compressor disks, and complete propulsion systems.",
+      "longDescription": "Specializing in OEM and PMA parts for gas turbine engines, including fan blades, compressor stators, combustion chambers, and turbine rotor assemblies. We support CFM56, F110, and T700 engine families with full FAA 8130-3 traceability and chemical composition certifications. Our engineering team provides reverse-engineering solutions for obsolete engine components.",
+      "partCount": 3100,
+      "keyParts": [
+        "Turbine Blades",
+        "Compressor Disks",
+        "Combustion Liners",
+        "Engine Mounts",
+        "Thrust Reversers"
+      ],
+      "clients": [
+        "GE Aviation",
+        "Pratt & Whitney",
+        "Rolls-Royce",
+        "U.S. Air Force",
+        "Delta Airlines"
+      ]
+    },
+    {
+      "id": "2dae44a9-630a-48fa-a02b-3ecd137a1fdc",
+      "name": "Engine Accessories",
+      "slug": "engine-accessories",
+      "icon": "settings",
+      "description": "Fuel pumps, starters, ignition exciters, and control systems that keep aircraft engines running safely.",
+      "longDescription": "Our inventory includes a wide range of engine-mounted and line-replaceable accessories, including fuel metering units, engine starter generators, ignition exciters, and vibration monitoring sensors. We provide rapid sourcing for both civil and military engine accessory needs, with strict adherence to OEM overhaul manuals and EASA Part 145 repair station requirements.",
+      "partCount": 4900,
+      "keyParts": [
+        "Fuel Pumps",
+        "Ignition Exciters",
+        "Starter Generators",
+        "Thermocouples",
+        "Engine Control Units (ECU)"
+      ],
+      "clients": [
+        "Honeywell",
+        "Collins Aerospace",
+        "U.S. Navy",
+        "Lufthansa Technik",
+        "StandardAero"
+      ]
+    },
+    {
+      "id": "0e875a73-a259-47a1-87f1-ecf3f12f8fdb",
+      "name": "Switches & Electrical Connectors",
+      "slug": "switches-electrical-connectors",
+      "icon": "plug",
+      "description": "Mil-qualified toggle switches, circuit breakers, and multi-pin circular connectors for harsh environments.",
+      "longDescription": "We are a leading distributor of high-reliability electrical interconnect solutions, offering a vast selection of MS (Military Standard), NAS (National Aerospace Standard), and AN (Air Force-Navy) connectors and switches. Our products are qualified for extreme temperature, vibration, and moisture conditions, supporting avionics, flight control, and power distribution systems. We maintain a $50M+ inventory of ITT Cannon, Amphenol, and TE Connectivity parts.",
+      "partCount": 17500,
+      "keyParts": [
+        "Circular Connectors (MIL-DTL-38999)",
+        "Toggle Switches",
+        "Circuit Breakers",
+        "Relay Sockets",
+        "EMI/RFI Filters"
+      ],
+      "clients": [
+        "TE Connectivity",
+        "ITT Cannon",
+        "Amphenol",
+        "Boeing",
+        "Lockheed Martin"
+      ]
+    },
+    {
+      "id": "6b32eebb-59c4-41ec-a906-279fe38d5029",
+      "name": "Microcircuits, Electrical Hardware & More",
+      "slug": "microcircuits-electrical-hardware",
+      "icon": "cpu",
+      "description": "Radiation-hardened microcircuits, semiconductors, and precision hardware for aerospace & defense electronics.",
+      "longDescription": "We provide cutting-edge microelectronics and hardware, including ASIC processors, FPGA modules, surface-mount capacitors, and precision hardware like standoffs and terminals. Our sourcing network ensures access to EOL (End-of-Life) and active components, fully compliant with DLA (Defense Logistics Agency) standards and solderability requirements for mission-critical avionics, radar, and satellite systems.",
+      "partCount": 28600,
+      "keyParts": [
+        "Rad-Hard ICs",
+        "FPGA Modules",
+        "Capacitors & Resistors",
+        "Terminal Blocks",
+        "Precision Fasteners"
+      ],
+      "clients": [
+        "NASA",
+        "Raytheon Technologies",
+        "Northrop Grumman",
+        "L3Harris",
+        "DLA (Defense Logistics Agency)"
+      ]
+    }
+  ],
+  "productCategories": [
+    {
+      "id": "26b5d845-e22b-4d31-820a-5299e5bb596a",
+      "name": "Hot Stock",
+      "slug": "hot-stock",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05",
+        "fd4832f0-3ef9-4ae0-a360-3a31867bae3a"
+      ],
+      "description": "High-demand turbine parts ready for immediate dispatch",
+      "partCount": 0,
+      "sortOrder": 18,
+      "cardConfig": {
+        "layout": "grid",
+        "columns": 3
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "card"
+      }
+    },
+    {
+      "id": "6122d8d4-49af-4b16-aa86-237f8c2465bd",
+      "name": "General Electric 6FA Turbine Parts",
+      "slug": "ge-6fa-turbine-parts",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "6FA gas turbine components, nozzles, buckets, shrouds, and seals",
+      "partCount": 0,
+      "sortOrder": 19,
+      "cardConfig": {
+        "template": "card",
+        "showTitle": true,
+        "buttonLink": "/items/ge-6fa-turbine-parts",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "card"
+      }
+    },
+    {
+      "id": "5d68e40d-bdcb-43f7-a5c7-e51333d9957b",
+      "name": "Turbine Parts",
+      "slug": "turbine-parts",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "Industrial and aero-derivative turbine spare parts",
+      "partCount": 0,
+      "sortOrder": 20,
+      "cardConfig": {
+        "template": "card",
+        "showTitle": true,
+        "buttonLink": "/items/turbine-parts",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "card"
+      }
+    },
+    {
+      "id": "73a78fb0-f1fa-4136-9827-eb6de4d832c0",
+      "name": "Gas Turbines Parts",
+      "slug": "gas-turbines-parts",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "Gas turbine components for power generation and mechanical drive",
+      "partCount": 0,
+      "sortOrder": 21,
+      "cardConfig": {
+        "template": "card",
+        "showTitle": true,
+        "buttonLink": "/items/gas-turbines-parts",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "card"
+      }
+    },
+    {
+      "id": "b490d7a0-44dc-4e1c-a5e0-f3951d13177b",
+      "name": "Bently Nevada",
+      "slug": "bently-nevada",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-04"
+      ],
+      "description": "Bently Nevada vibration monitoring and protection systems",
+      "partCount": 0,
+      "sortOrder": 22,
+      "cardConfig": {
+        "template": "card",
+        "showTitle": true,
+        "buttonLink": "/items/bently-nevada",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "card"
+      }
+    },
+    {
+      "id": "720cd3dc-f40e-47dc-a4f8-5dc961aeb4e2",
+      "name": "Top Gas Turbine Spare Parts",
+      "slug": "top-gas-turbine-spare-parts",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "Essential gas turbine spare parts for critical applications",
+      "partCount": 0,
+      "sortOrder": 23,
+      "cardConfig": {
+        "template": "card",
+        "showTitle": true,
+        "buttonLink": "/items/top-gas-turbine-spare-parts",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "card"
+      }
+    },
+    {
+      "id": "03991aef-fcfd-48c9-ab8d-1fe59602562f",
+      "name": "GE Modules",
+      "slug": "ge-modules",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "GE turbine control modules and accessory components",
+      "partCount": 0,
+      "sortOrder": 24,
+      "cardConfig": {
+        "template": "card",
+        "showTitle": true,
+        "buttonLink": "/items/ge-modules",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "card"
+      }
+    },
+    {
+      "id": "54625624-4b81-4ea9-acc6-decde797b669",
+      "name": "Engine Portfolio",
+      "slug": "engine-portfolio",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05",
+        "ind-06"
+      ],
+      "description": "Complete engine portfolio covering multiple platforms",
+      "partCount": 0,
+      "sortOrder": 25,
+      "cardConfig": {
+        "template": "card",
+        "showTitle": true,
+        "buttonLink": "/items/engine-portfolio",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "card"
+      }
+    }
+  ],
+  "partCategories": [
+    {
+      "id": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+      "name": "GE Power Services",
+      "slug": "ge-power-services",
+      "type": "part",
+      "industryIds": [
+        "ind-01",
+        "ind-05",
+        "fd4832f0-3ef9-4ae0-a360-3a31867bae3a",
+        "3436b9de-839f-418f-9823-e6284836f8b3"
+      ],
+      "manufacturer": "General Electric",
+      "description": "GE Power & Water aftermarket parts and services",
+      "partCount": 0,
+      "sortOrder": 26,
+      "cardConfig": {
+        "gridCols": 3,
+        "template": "list",
+        "showImage": true,
+        "showTitle": true,
+        "showButton": true,
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "content": "<p>this is the contents</p>",
+        "heroImage": "https://www.google.com/imgres?q=bot%20logo&imgurl=https%3A%2F%2Fimg.magnific.com%2Fpremium-vector%2Fmodern-tech-bot-robot-icon-logo-illustration_384379-1863.jpg%3Fsemt%3Dais_hybrid%26w%3D740%26q%3D80&imgrefurl=https%3A%2F%2Fwww.magnific.com%2Fvectors%2Fbot-logo&docid=w4czS2aqttEhtM&tbnid=y5c0o5qgqMDMVM&vet=12ahUKEwiGnJy0hq2VAxUWb2wGHTP1L5kQnPAOegUIiAEQAA..i&w=740&h=499&hcb=2&ved=2ahUKEwiGnJy0hq2VAxUWb2wGHTP1L5kQnPAOegUIiAEQAA"
+      },
+      "items": [
+        {
+          "id": "b61a9613-c848-4681-a946-d1745c7c6f77",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 1",
+          "slug": "item-9bffc835-a88e-4ce5-94aa-f0caeb3b7a45",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 1,
+            "Category": "Hardware",
+            "Description": "Pin",
+            "Part Number": "101T6089P0001",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "6d37baec-4ff8-47a1-8444-e6e8a0e0b2cb",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 2",
+          "slug": "item-756de903-90b6-484d-b55f-07cf1a59ee41",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 2,
+            "Category": "Seal",
+            "Description": "Housing Seal",
+            "Part Number": "C14A00171K0",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "bb0b3e69-9dde-4fae-9186-3445856a4c62",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 3",
+          "slug": "item-235300ea-503f-4373-a094-8998d9b1e4a7",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 3,
+            "Category": "Instrumentation",
+            "Description": "Positioner",
+            "Part Number": "DVC2000-405/ATEX",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "c961b0db-1cbc-43fa-8abd-141723b819c0",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 4",
+          "slug": "item-a16d911a-1647-4214-a42e-48a25b77ad46",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 4,
+            "Category": "Kit",
+            "Description": "Packaging Kit",
+            "Part Number": "MSP06ZZ21RG",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "2d7d7b90-4fc3-4cd6-b3ad-65c93d5756e4",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 5",
+          "slug": "item-ba33ddd4-2585-4a11-ab27-2354d5c9f34c",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 5,
+            "Category": "Flange",
+            "Description": "Flange",
+            "Part Number": "U113XFS0P0114",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "ba460270-56bb-4a29-8d93-10fe016015dc",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 6",
+          "slug": "item-b787df1d-ba1c-4f22-87ee-9616eba6a48a",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 6,
+            "Category": "Flange",
+            "Description": "Flange",
+            "Part Number": "U113XFS0P0345",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "cab3bf50-aedd-4ea0-8944-616d96021111",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 7",
+          "slug": "item-97ec47a2-dc6d-42ad-afc0-6b196e62cd43",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 7,
+            "Category": "Kit",
+            "Description": "Service Kit",
+            "Part Number": "VAG2-TK",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "b4c2ae76-52dd-4266-840c-063e7834b0d5",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 8",
+          "slug": "item-4ec828a2-1bbd-439b-86e2-3941f1b881a9",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 8,
+            "Category": "Actuator",
+            "Description": "Bettis Actuator Kit",
+            "Part Number": "VA129797",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "48ba99aa-1cfb-4b55-bf5f-e6e844b7e7d7",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 9",
+          "slug": "item-ecc85dc2-baed-4b28-92b6-beef84356738",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 9,
+            "Category": "Actuator",
+            "Description": "Bettis Actuator Kit",
+            "Part Number": "VA142249",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "40c64d14-04e2-4760-ae28-3e455a9ffa85",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 10",
+          "slug": "item-8d56912a-0b80-455e-9288-bc0bfef010b1",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 10,
+            "Category": "Hardware",
+            "Description": "Washer",
+            "Part Number": "N404P75",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "4b6d346a-becf-4d9a-9a30-9e54d91b3665",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 11",
+          "slug": "item-002c9ad5-ac1f-47c1-8c96-920209806c30",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 11,
+            "Category": "Electrical",
+            "Description": "Switch",
+            "Part Number": "196B6753P0001",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "ffa009dc-270f-48fe-aeb1-45d6ee871237",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 12",
+          "slug": "item-2990cb11-1d0a-4507-8359-e8c9875ea221",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 12,
+            "Category": "Kit",
+            "Description": "Repair Kit",
+            "Part Number": "VA144149",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "d8c34f27-705f-4aa9-8200-cf2cfa5498d4",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 13",
+          "slug": "item-fc59ae55-073f-44e7-a759-549a101cee24",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 13,
+            "Category": "Seal Ring",
+            "Description": "Ring",
+            "Part Number": "VA568-010-70-V",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "d16a0255-f82b-4fd1-ac47-7bd54f506086",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 14",
+          "slug": "item-93fecff0-67a1-4861-a6dc-9b6625e8ef90",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 14,
+            "Category": "Seal Ring",
+            "Description": "Ring",
+            "Part Number": "VA568-011-70-V",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "de84256b-ca77-4401-9e4e-9dd987dcc53b",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 15",
+          "slug": "item-4e15a274-b33e-47cb-aec1-642bcdb82da1",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 15,
+            "Category": "Seal Ring",
+            "Description": "Ring",
+            "Part Number": "VA568-012-70-V",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "f3b584ce-a3dd-489e-be89-dbdf15ff6d21",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 16",
+          "slug": "item-6c3d5298-1a50-4b16-8b44-53aee150b0cc",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 16,
+            "Category": "Seal Ring",
+            "Description": "Ring",
+            "Part Number": "VA568-013-70-V",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "786844d2-ad5d-484b-a0a5-cb2f7b7f9c1f",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 17",
+          "slug": "item-ab8258c8-275f-4ba5-89d7-c7537d44fdcc",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 17,
+            "Category": "Seal Ring",
+            "Description": "Ring",
+            "Part Number": "VA568-908-70-V",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "3640213b-a82e-4300-a6b3-ee55c7f7dc99",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 18",
+          "slug": "item-9cf089f5-ed72-4cea-ac1a-5026428451df",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 18,
+            "Category": "Bushing",
+            "Description": "Bushing",
+            "Part Number": "BC10660F",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "20c4fb1c-ffa4-4a17-9b84-668ec04a6d8c",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 19",
+          "slug": "item-56d150dd-13fa-416b-ba32-5ea3d86a2141",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 19,
+            "Category": "Hardware",
+            "Description": "Lock Nut",
+            "Part Number": "BC22072F",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "acac691b-8d08-4292-9023-1c169c18d455",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 20",
+          "slug": "item-ad43028e-b779-410a-8bb7-f871f830d755",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 20,
+            "Category": "Kit",
+            "Description": "Insert Kit",
+            "Part Number": "L51053-8",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "ccb97c4b-3a15-4283-bd05-f10871f87657",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 21",
+          "slug": "item-b5bf5fe2-9544-4f87-973a-635eda99e480",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 21,
+            "Category": "Fitting",
+            "Description": "Fitting",
+            "Part Number": "BC10800F",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "e572af0c-71bf-4d58-93f6-2762792c2fff",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 22",
+          "slug": "item-9cf4e4fc-321a-4578-a304-bea3a9417eb0",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 22,
+            "Category": "Fitting",
+            "Description": "Fitting",
+            "Part Number": "BC11020F",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "186a6921-97e9-4c82-ab39-58a927439487",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 23",
+          "slug": "item-2d2b1f8a-edcc-46ab-b7eb-35d14f46de2a",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 23,
+            "Category": "Fitting",
+            "Description": "Fitting",
+            "Part Number": "BC11120F",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "af44aa52-afc9-4e8b-bbe5-0f7fb01b1303",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 24",
+          "slug": "item-dea840e6-11a1-440c-b056-ec5f7d551d4d",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 24,
+            "Category": "Fitting",
+            "Description": "Fitting",
+            "Part Number": "BC22070F",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        },
+        {
+          "id": "85fc0815-c590-4861-8d51-479bfe47422f",
+          "navCategoryId": "3cc4235e-4d48-4233-bf95-c52de07dad05",
+          "title": "Item 25",
+          "slug": "item-1c4d25ea-18ea-41b5-a2cd-52e7a39427d8",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 25,
+            "Category": "Fitting",
+            "Description": "Fitting",
+            "Part Number": "U153S610P0812",
+            "_columnOrder": [
+              "Sr. No.",
+              "Part Number",
+              "Description",
+              "OEM",
+              "Model",
+              "Category"
+            ]
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T18:58:23.326Z",
+          "updatedAt": "2026-06-29T18:58:23.326Z"
+        }
+      ]
+    },
+    {
+      "id": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+      "name": "PW/MPA FT8",
+      "slug": "pw-mpa-ft8",
+      "type": "part",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "manufacturer": "Pratt & Whitney",
+      "description": "PW/MPA FT8 aeroderivative gas turbine parts",
+      "partCount": 0,
+      "sortOrder": 27,
+      "cardConfig": {
+        "template": "list",
+        "showTitle": true,
+        "buttonLink": "/items/pw-mpa-ft8",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "list"
+      },
+      "items": [
+        {
+          "id": "6e0fdbea-f51a-453e-a812-a0e6e25ac68f",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "1",
+          "slug": "item-4fcaee26-e422-43d6-8544-bf004204f3ac",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 1,
+            "Category": "Hardware",
+            "Description": "Pin",
+            "Part Number": "101T6089P0001"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "82c0f3bb-7b41-4280-9ed8-a4aaef33225d",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "2",
+          "slug": "item-9a84229b-dc55-4339-9f61-8b0a0113f455",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 2,
+            "Category": "Seal",
+            "Description": "Housing Seal",
+            "Part Number": "C14A00171K0"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "3a56bfe3-cc30-4a60-96cd-201d33ea7fcf",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "3",
+          "slug": "item-bbb6003d-2e07-4002-ac57-71c2562d8605",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 3,
+            "Category": "Instrumentation",
+            "Description": "Positioner",
+            "Part Number": "DVC2000-405/ATEX"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "64a5d25d-6057-4d37-a8e0-ac9c11fbc05a",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "4",
+          "slug": "item-43432aa0-c0ff-4af3-addd-f77e59927b0c",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 4,
+            "Category": "Kit",
+            "Description": "Packaging Kit",
+            "Part Number": "MSP06ZZ21RG"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "a09e310e-65bb-43fe-8fe0-a4e499ae2ef1",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "5",
+          "slug": "item-13a23e9e-26dc-4856-b8cf-76813ba31460",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 5,
+            "Category": "Flange",
+            "Description": "Flange",
+            "Part Number": "U113XFS0P0114"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "413a02d1-43d6-4690-af7b-a352e7e442a4",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "6",
+          "slug": "item-7c1d15b3-9b6a-44de-bf74-96d04026361c",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 6,
+            "Category": "Flange",
+            "Description": "Flange",
+            "Part Number": "U113XFS0P0345"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "f06ecdc5-0d11-4df7-8eda-99bcd451c9b8",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "7",
+          "slug": "item-bc99b844-f66d-4366-8a87-425941d1b195",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 7,
+            "Category": "Kit",
+            "Description": "Service Kit",
+            "Part Number": "VAG2-TK"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "04822b39-5ca2-46d3-a753-0ddcd9ce935d",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "8",
+          "slug": "item-b94cfb1e-d8fc-486d-815a-2a4c33ff34da",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 8,
+            "Category": "Actuator",
+            "Description": "Bettis Actuator Kit",
+            "Part Number": "VA129797"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "da79c778-7a9a-41d2-b46a-56437a92d4e6",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "9",
+          "slug": "item-0c9dd407-70b6-4ad4-9add-ed319190d41d",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 9,
+            "Category": "Actuator",
+            "Description": "Bettis Actuator Kit",
+            "Part Number": "VA142249"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "e3f6b0cd-4eb3-4086-887d-a791207faf46",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "10",
+          "slug": "item-8aeb4f9e-78fa-44a3-ade9-970e29dc0438",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 10,
+            "Category": "Hardware",
+            "Description": "Washer",
+            "Part Number": "N404P75"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "fb6a3516-690d-46e8-b98c-f16b8ed844c9",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "11",
+          "slug": "item-ba1800f5-5c5c-493c-b22a-eb1a41d7af05",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 11,
+            "Category": "Electrical",
+            "Description": "Switch",
+            "Part Number": "196B6753P0001"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "7364a9e4-b394-42ad-9d4a-3e6372462790",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "12",
+          "slug": "item-687a524f-0c5a-4af9-97a1-0905d7a229f7",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 12,
+            "Category": "Kit",
+            "Description": "Repair Kit",
+            "Part Number": "VA144149"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "bff9942a-2ccf-4275-935f-53a119afe225",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "13",
+          "slug": "item-b441d863-bb85-4247-9dad-918fa1628dda",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 13,
+            "Category": "Seal Ring",
+            "Description": "Ring",
+            "Part Number": "VA568-010-70-V"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "19660ccd-c0ad-415f-ac93-907f95152500",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "14",
+          "slug": "item-7bf3d899-2227-498b-a1ef-06d5f9c9459c",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 14,
+            "Category": "Seal Ring",
+            "Description": "Ring",
+            "Part Number": "VA568-011-70-V"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "e139e4bd-042f-4be6-ad46-958dfa9b0b77",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "15",
+          "slug": "item-de5ecfd1-3063-4086-b766-63db0bb9fd4f",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 15,
+            "Category": "Seal Ring",
+            "Description": "Ring",
+            "Part Number": "VA568-012-70-V"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "86422552-aa35-4482-87af-1bd10c924cc2",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "16",
+          "slug": "item-b5f31739-c1cf-4bdb-9f6b-ca7cdc1a3a70",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 16,
+            "Category": "Seal Ring",
+            "Description": "Ring",
+            "Part Number": "VA568-013-70-V"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "972d2922-fdbb-4360-8074-b7a73b25fc1b",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "17",
+          "slug": "item-cdb1ef07-f727-413b-becf-09e190044bba",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 17,
+            "Category": "Seal Ring",
+            "Description": "Ring",
+            "Part Number": "VA568-908-70-V"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "ed8ccee2-8512-4e9b-9bd8-7f47564794e0",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "18",
+          "slug": "item-bb7911cc-08df-4438-b167-54f438b4a0bb",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 18,
+            "Category": "Bushing",
+            "Description": "Bushing",
+            "Part Number": "BC10660F"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "16a40602-0bd5-464a-86b1-ad7ffeb6e99f",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "19",
+          "slug": "item-4cc547ad-ec2f-4e23-9202-7a1bcf8fb360",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 19,
+            "Category": "Hardware",
+            "Description": "Lock Nut",
+            "Part Number": "BC22072F"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "3924b5a9-37b8-4eca-8344-1f1085c488f8",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "20",
+          "slug": "item-efbff5e2-a3dc-4836-a87b-e3e6366b9726",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 20,
+            "Category": "Kit",
+            "Description": "Insert Kit",
+            "Part Number": "L51053-8"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "1d8ef3f7-3335-42db-a409-5c763fd777f1",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "21",
+          "slug": "item-77b7e602-75e3-49bd-8d1e-2fb39fba0e1b",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 21,
+            "Category": "Fitting",
+            "Description": "Fitting",
+            "Part Number": "BC10800F"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "3ae47c20-a489-4ba2-8880-5f31d7702eb7",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "22",
+          "slug": "item-a03f3ebb-51f1-462a-b876-7166ab9cf30e",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 22,
+            "Category": "Fitting",
+            "Description": "Fitting",
+            "Part Number": "BC11020F"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "4727bd8e-b970-4476-a440-7280b64e431a",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "23",
+          "slug": "item-cda5806d-2c21-4ad6-a3d5-d80008518564",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 23,
+            "Category": "Fitting",
+            "Description": "Fitting",
+            "Part Number": "BC11120F"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "2c4a489d-4d8d-4970-a8ff-ee9a74a90320",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "24",
+          "slug": "item-1d697748-6de4-4634-a15e-ab63498affc8",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 24,
+            "Category": "Fitting",
+            "Description": "Fitting",
+            "Part Number": "BC22070F"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        },
+        {
+          "id": "9158196a-8fb2-4a04-8fda-1423ec6f87df",
+          "navCategoryId": "cbc16bb9-50c5-4c73-9291-50515ad8adaa",
+          "title": "25",
+          "slug": "item-1a540e37-d0fe-46fe-b6a5-23265dc266dd",
+          "description": null,
+          "image": null,
+          "link": null,
+          "data": {
+            "OEM": "GE",
+            "Model": "9HA",
+            "Sr. No.": 25,
+            "Category": "Fitting",
+            "Description": "Fitting",
+            "Part Number": "U153S610P0812"
+          },
+          "sortOrder": 0,
+          "isActive": true,
+          "cardConfig": {},
+          "createdAt": "2026-06-29T11:27:56.555Z",
+          "updatedAt": "2026-06-29T11:27:56.555Z"
+        }
+      ]
+    },
+    {
+      "id": "f45da3c9-a314-453f-adc5-aa0dc58e4651",
+      "name": "GE LM6000",
+      "slug": "ge-lm6000",
+      "type": "part",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "manufacturer": "General Electric",
+      "description": "GE LM6000 gas turbine components and spares",
+      "partCount": 0,
+      "sortOrder": 28,
+      "cardConfig": {
+        "template": "list",
+        "showTitle": true,
+        "buttonLink": "/items/ge-lm6000",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "list"
+      }
+    },
+    {
+      "id": "c8292630-6af0-45ae-b218-1c66de903247",
+      "name": "GE Turbine",
+      "slug": "ge-turbine",
+      "type": "part",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "manufacturer": "General Electric",
+      "description": "GE heavy-duty gas turbine parts and services",
+      "partCount": 0,
+      "sortOrder": 29,
+      "cardConfig": {
+        "template": "list",
+        "showTitle": true,
+        "buttonLink": "/items/ge-turbine",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "list"
+      }
+    },
+    {
+      "id": "b1187dbb-d777-4ed5-a630-e3b4c228247a",
+      "name": "GE Frame 5 6 7 9",
+      "slug": "ge-frame-5-6-7-9",
+      "type": "part",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "manufacturer": "General Electric",
+      "description": "GE Frame 5, 6, 7, 9 turbine replacement parts",
+      "partCount": 0,
+      "sortOrder": 30,
+      "cardConfig": {
+        "template": "list",
+        "showTitle": true,
+        "buttonLink": "/items/ge-frame-5-6-7-9",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "list"
+      }
+    },
+    {
+      "id": "78310a7d-bb26-42bc-b5e4-3036a517d011",
+      "name": "Alstom",
+      "slug": "alstom",
+      "type": "part",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "manufacturer": "Alstom",
+      "description": "Alstom gas and steam turbine spare parts",
+      "partCount": 0,
+      "sortOrder": 31,
+      "cardConfig": {
+        "template": "list",
+        "showTitle": true,
+        "buttonLink": "/items/alstom",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "list"
+      }
+    },
+    {
+      "id": "6e40bddf-ba71-4d2c-9be3-e84a7556bc3f",
+      "name": "Ansaldo",
+      "slug": "ansaldo",
+      "type": "part",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "manufacturer": "Ansaldo Energia",
+      "description": "Ansaldo gas turbine components and services",
+      "partCount": 0,
+      "sortOrder": 32,
+      "cardConfig": {
+        "template": "list",
+        "showTitle": true,
+        "buttonLink": "/items/ansaldo",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "list"
+      }
+    },
+    {
+      "id": "7b748b01-e634-47ef-bb9a-2cd19b3ca8fc",
+      "name": "General Electric (GE)",
+      "slug": "general-electric",
+      "type": "part",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "manufacturer": "General Electric",
+      "description": "General Electric turbine and generator parts",
+      "partCount": 0,
+      "sortOrder": 33,
+      "cardConfig": {
+        "template": "list",
+        "showTitle": true,
+        "buttonLink": "/items/general-electric",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "list"
+      }
+    },
+    {
+      "id": "ea362d60-5073-48ec-a739-feac53aee83a",
+      "name": "Rolls Royce",
+      "slug": "rolls-royce",
+      "type": "part",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "manufacturer": "Rolls-Royce",
+      "description": "Rolls-Royce aero and industrial gas turbine parts",
+      "partCount": 0,
+      "sortOrder": 34,
+      "cardConfig": {
+        "template": "list",
+        "showTitle": true,
+        "buttonLink": "/items/rolls-royce",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "list"
+      }
+    },
+    {
+      "id": "58575faf-497a-4b47-86a0-d725214042bc",
+      "name": "Solar Turbines",
+      "slug": "solar-turbines",
+      "type": "part",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "manufacturer": "Solar Turbines",
+      "description": "Solar Turbines gas compressor and turbine parts",
+      "partCount": 0,
+      "sortOrder": 35,
+      "cardConfig": {
+        "template": "list",
+        "showTitle": true,
+        "buttonLink": "/items/solar-turbines",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "list"
+      }
+    },
+    {
+      "id": "668b6c0d-c57a-4c16-a603-d2de79751988",
+      "name": "Siemens",
+      "slug": "siemens",
+      "type": "part",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "manufacturer": "Siemens",
+      "description": "Siemens gas and steam turbine components",
+      "partCount": 0,
+      "sortOrder": 36,
+      "cardConfig": {
+        "template": "list",
+        "showTitle": true,
+        "buttonLink": "/items/siemens",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "list"
+      }
+    },
+    {
+      "id": "48100dc7-700f-4fd3-a3a7-dab1fe47e409",
+      "name": "Zorya-Mashproekt",
+      "slug": "zorya-mashproekt",
+      "type": "part",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "manufacturer": "Zorya-Mashproekt",
+      "description": "Zorya-Mashproekt marine and industrial gas turbine parts",
+      "partCount": 0,
+      "sortOrder": 37,
+      "cardConfig": {
+        "template": "list",
+        "showTitle": true,
+        "buttonLink": "/items/zorya-mashproekt",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "list"
+      }
+    },
+    {
+      "id": "929a2350-ab6c-4831-83e5-7654ec3c8103",
+      "name": "GT13E2_GT8C1",
+      "slug": "gt13e2-gt8c1",
+      "type": "part",
+      "manufacturer": "NA",
+      "partCount": 0,
+      "sortOrder": 38,
+      "cardConfig": {
+        "template": "list",
+        "showTitle": true,
+        "buttonLink": "/items/gt13e2-gt8c1",
+        "buttonLabel": "View Details",
+        "showDescription": true
+      },
+      "pageConfig": {
+        "search": true,
+        "filters": true,
+        "template": "list"
+      }
+    }
+  ]
+}

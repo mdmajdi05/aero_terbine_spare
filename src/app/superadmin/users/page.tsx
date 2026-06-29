@@ -11,10 +11,11 @@ import { cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
 const ROLE_COLORS: Record<UserRole, string> = {
-  SuperAdmin: 'bg-purple-900/40 text-purple-300 border border-purple-700/40',
-  Admin:      'bg-blue-900/40 text-blue-300 border border-blue-700/40',
-  Trader:     'bg-teal-900/40 text-teal-300 border border-teal-700/40',
-  User:       'bg-white/10 text-white/60 border border-white/10',
+  SuperAdmin:     'bg-purple-900/40 text-purple-300 border border-purple-700/40',
+  Admin:          'bg-blue-900/40 text-blue-300 border border-blue-700/40',
+  ContentManager: 'bg-green-900/40 text-green-300 border border-green-700/40',
+  Trader:         'bg-teal-900/40 text-teal-300 border border-teal-700/40',
+  User:           'bg-white/10 text-white/60 border border-white/10',
 };
 
 // ── Change Role Modal ─────────────────────────────────────

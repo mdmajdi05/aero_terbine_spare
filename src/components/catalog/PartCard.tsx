@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { Bookmark, BookmarkCheck, ArrowRight } from 'lucide-react';
 import type { Product } from '@/types';
 import Badge from '@/components/ui/Badge';
-import { formatPrice } from '@/lib/utils';
 import { useSavedParts } from '@/hooks/useSavedParts';
 import toast from 'react-hot-toast';
 
@@ -40,10 +39,10 @@ export default function PartCard({ product, view = 'grid' }: PartCardProps) {
             {/* <div className="text-sm font-bold text-text">{formatPrice(product.unitPrice)}</div>
             <div className="text-xs text-text-muted">per unit</div> */}
           </div>
-          <button onClick={handleSave} className="p-2 rounded-lg hover:bg-silver transition-colors text-text-muted hover:text-navy" aria-label={saved ? 'Unsave' : 'Save'}>
+          <button onClick={handleSave} className="p-2.5 rounded-lg hover:bg-silver transition-colors text-text-muted hover:text-navy min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label={saved ? 'Unsave' : 'Save'}>
             {saved ? <BookmarkCheck className="w-4 h-4 text-orange" /> : <Bookmark className="w-4 h-4" />}
           </button>
-          <Link href={`/catalog/${product.id}`} className="flex items-center gap-1.5 text-sm font-semibold text-orange hover:underline">
+          <Link href={`/catalog/${product.id}`} className="flex items-center gap-1.5 text-sm font-semibold text-orange hover:underline whitespace-nowrap">
             View <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -61,7 +60,7 @@ export default function PartCard({ product, view = 'grid' }: PartCardProps) {
         </div>
         <button
           onClick={handleSave}
-          className="p-1.5 rounded-lg hover:bg-silver transition-colors text-text-muted hover:text-navy -mt-0.5 -mr-0.5"
+          className="p-2 rounded-lg hover:bg-silver transition-colors text-text-muted hover:text-navy -mt-0.5 -mr-0.5 min-h-[44px] min-w-[44px] flex items-center justify-center"
           aria-label={saved ? 'Unsave part' : 'Save part'}
         >
           {saved ? <BookmarkCheck className="w-4 h-4 text-orange" /> : <Bookmark className="w-4 h-4" />}

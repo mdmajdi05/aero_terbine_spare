@@ -1,8 +1,13 @@
 import type { NextConfig } from 'next';
 
-const nextConfig: NextConfig = {
+let nextConfig: NextConfig = {
   images: {
-    remotePatterns: [],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'res.cloudinary.com' },
+      { protocol: 'https', hostname: '**.cloudinary.com' },
+      { protocol: 'https', hostname: 'img.youtube.com' },
+      { protocol: 'https', hostname: 'i.ytimg.com' },
+    ],
   },
   async headers() {
     return [
@@ -19,5 +24,13 @@ const nextConfig: NextConfig = {
     ];
   },
 };
+
+// Bundle analyzer (optional, enabled via ANALYZE=true)
+if (process.env.ANALYZE === 'true') {
+  const withBundleAnalyzer = require('@next/bundle-analyzer')({
+    enabled: true,
+  });
+  nextConfig = withBundleAnalyzer(nextConfig);
+}
 
 export default nextConfig;

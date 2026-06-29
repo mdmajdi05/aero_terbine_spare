@@ -1,9 +1,10 @@
 import type {
   Product, Category, Industry, Testimonial, User,
   RFQ, Order, InventorySubmission, AuditLog, SystemSettings,
-  AdminStats, BackupRecord, SiteConfig,
-  ApiResponse, PaginatedResponse, AuthResponse,
+  AdminStats, BackupRecord, SiteConfig, CategoryItem,
+  PaginatedResponse, AuthResponse,
 } from '@/types';
+import type { ChatConfig } from '@/types/chat';
 
 import productsData from '@/data/products.json';
 import categoriesData from '@/data/categories.json';
@@ -11,8 +12,13 @@ import industriesData from '@/data/industries.json';
 import testimonialsData from '@/data/testimonials.json';
 import usersData from '@/data/users.json';
 import { generateRFQId } from '@/lib/utils';
+import { refreshAccessToken, clearTokens } from './token';
 
-const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+const IS_LOCAL = typeof window !== 'undefined' && (
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
+);
+const USE_MOCK = IS_LOCAL || process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 const API_URL  = process.env.NEXT_PUBLIC_API_URL || '';
 const DELAY    = parseInt(process.env.NEXT_PUBLIC_MOCK_DELAY || '400', 10);
 
@@ -51,16 +57,6 @@ async function realRequest<T>(endpoint: string, options?: RequestInit): Promise<
   const [path, qs] = endpoint.split('?');
 
   // ── Static data — no backend call needed ────────────────────
-  if (path === '/categories' && method === 'GET')
-    return { success: true, data: categoriesData } as T;
-  if (path === '/industries' && method === 'GET')
-    return { success: true, data: industriesData } as T;
-  if (path.startsWith('/industries/') && method === 'GET') {
-    const slug = path.split('/industries/')[1];
-    const found = (industriesData as unknown as Industry[]).find((i) => i.slug === slug);
-    if (!found) throw new Error('Industry not found');
-    return { success: true, data: found } as T;
-  }
   if (path === '/testimonials' && method === 'GET')
     return { success: true, data: testimonialsData } as T;
   if (path === '/auth/logout' && method === 'POST') {
@@ -124,6 +120,16 @@ async function realRequest<T>(endpoint: string, options?: RequestInit): Promise<
     realPath = path; // already correct
   else if (path.startsWith('/admin/users/') && path.endsWith('/change-email'))
     realPath = path; // already correct
+  // ── Excel live-feed endpoints ──────────────────────────────
+  else if (path === '/admin/excel/status')     realPath = '/admin/excel/status';
+  else if (path === '/admin/excel/rows')        realPath = '/admin/excel/rows';
+  else if (path === '/admin/excel/connect')     realPath = '/admin/excel/connect';
+  else if (path === '/admin/excel/toggle')      realPath = '/admin/excel/toggle';
+  else if (path === '/admin/excel/disconnect')  realPath = '/admin/excel/disconnect';
+  else if (path === '/nav-categories')          realPath = '/nav-categories';
+  else if (path === '/industries')              realPath = '/industries';
+  else if (path === '/admin/categories')        realPath = '/admin/categories';
+  else if (path.startsWith('/admin/categories/')) realPath = path;
 
   const finalEndpoint = realPath + (qs ? '?' + qs : '');
   const session = ls<AuthResponse>('ats_session', null as unknown as AuthResponse);
@@ -146,11 +152,54 @@ async function realRequest<T>(endpoint: string, options?: RequestInit): Promise<
   });
 
   if (res.status === 401) {
-    // Token expired — clear session so UI shows login
+    // Try to refresh the token before giving up
+    const newToken = await refreshAccessToken();
+    if (newToken) {
+      const retryRes = await fetch(`${API_URL}${finalEndpoint}`, {
+        ...options,
+        method: realMethod,
+        body: realBody,
+        headers: {
+          'Content-Type': 'application/json',
+          ...{ Authorization: `Bearer ${newToken}` },
+          ...options?.headers,
+        },
+      });
+
+      if (retryRes.ok) {
+        const retryJson = await retryRes.json() as Record<string, unknown>;
+
+        if (retryJson.accessToken) {
+          const normalized: Record<string, unknown> = { ...retryJson, token: retryJson.accessToken };
+          if (normalized.user) {
+            lsSet('ats_session', normalized);
+            if (retryJson.refreshToken) lsSet('ats_refresh_token', retryJson.refreshToken);
+          }
+          return normalized as T;
+        }
+
+        const isPartsRetry =
+          finalEndpoint.startsWith('/parts') ||
+          finalEndpoint.startsWith('/admin/parts');
+        if (isPartsRetry && retryJson.data) {
+          if (Array.isArray(retryJson.data)) {
+            retryJson.data = (retryJson.data as Record<string, unknown>[]).map(normalizePartFromDB);
+          } else if (typeof retryJson.data === 'object') {
+            retryJson.data = normalizePartFromDB(retryJson.data as Record<string, unknown>);
+          }
+        }
+
+        return retryJson as T;
+      }
+
+      // Retry also failed — use its error
+      const retryErr = await retryRes.json().catch(() => ({})) as Record<string, unknown>;
+      throw new Error((retryErr.error as string) || (retryErr.message as string) || `API Error ${retryRes.status}`);
+    }
+
+    // Refresh failed — clear session and redirect
+    clearTokens();
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('ats_session');
-      localStorage.removeItem('ats_refresh_token');
-      // Only redirect if not already on login/register
       if (!window.location.pathname.startsWith('/login') && !window.location.pathname.startsWith('/register')) {
         window.location.href = '/login';
       }
@@ -225,6 +274,29 @@ function appendAuditLog(entry: Partial<AuditLog>) {
 }
 
 // ─── Site config defaults ────────────────────────────────────
+const DEFAULT_CHAT_CONFIG: ChatConfig = {
+  chatbotEnabled: true,
+  botName: 'AeroBot',
+  greetingMessage: 'Hello! Welcome to AeroTurbineSpare. How can I help you today?',
+  whatsappEnabled: true,
+  whatsappMode: 'normal',
+  whatsappNumber: '+17138425500',
+  whatsappBusinessPhoneId: '',
+  whatsappBusinessAccountId: '',
+  whatsappBusinessToken: '',
+  whatsappVerifyToken: '',
+  aiConfig: {
+    enabled: false,
+    provider: 'openai',
+    apiKey: '',
+    model: 'gpt-4o-mini',
+    customBaseUrl: '',
+    customModel: '',
+  },
+  inboxNotifyEmail: '',
+  humanHandoffEnabled: true,
+};
+
 function getDefaultSiteConfig(): SiteConfig {
   return {
     logoHeight:   40,
@@ -244,6 +316,7 @@ function getDefaultSiteConfig(): SiteConfig {
     heroCta1Href:   '/catalog',
     heroCta2Label:  'Request a Quote',
     heroCta2Href:   '/rfq',
+    chat: DEFAULT_CHAT_CONFIG,
     updatedAt: new Date().toISOString(),
     updatedBy: 'system',
   };
@@ -263,7 +336,8 @@ function mockRouter<T>(endpoint: string, options?: RequestInit): T {
     );
     if (!user) throw new Error('Invalid email or password');
     if (user.isActive === false) throw new Error('Account is suspended. Contact support.');
-    const { password: _, ...safeUser } = user;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _unused, ...safeUser } = user;
     const resp: AuthResponse = { success: true, token: 'mock-jwt-' + user.id, user: safeUser as AuthResponse['user'] };
     lsSet('ats_session', resp);
     appendAuditLog({ action: 'LOGIN', resource: 'auth', resourceId: user.id, details: `User ${user.email} logged in` });
@@ -339,7 +413,28 @@ function mockRouter<T>(endpoint: string, options?: RequestInit): T {
 
   // ── CATEGORIES ────────────────────────────────────────────
   if (path === '/categories') {
-    return { success: true, data: categoriesData as unknown as Category[] } as T;
+    const data = categoriesData && typeof categoriesData === 'object' && 'fsgCategories' in categoriesData
+      ? (categoriesData as Record<string, unknown>).fsgCategories
+      : categoriesData;
+    return { success: true, data: data as unknown as Category[] } as T;
+  }
+
+  // ── NAV CATEGORIES (category hierarchy tree) ──────────────
+  if (path === '/nav-categories') {
+    // Merge localStorage items into the static categories tree
+    const storedItems = ls<(CategoryItem)[]>('ats_category_items', []);
+    const result: Record<string, unknown> = JSON.parse(JSON.stringify(categoriesData));
+    if (storedItems.length > 0) {
+      const injectItems = (cats: Record<string, unknown>[]) => cats.map((cat) => ({
+        ...cat,
+        items: storedItems.filter((i) => i.categoryId === cat.id).length
+          ? storedItems.filter((i) => i.categoryId === cat.id)
+          : undefined,
+      }));
+      result.productCategories = injectItems(result.productCategories as Record<string, unknown>[]);
+      result.partCategories = injectItems(result.partCategories as Record<string, unknown>[]);
+    }
+    return { success: true, data: result } as T;
   }
 
   // ── INDUSTRIES ────────────────────────────────────────────
@@ -460,8 +555,10 @@ function mockRouter<T>(endpoint: string, options?: RequestInit): T {
     const limit  = parseInt(params.get('limit') || '20', 10);
     const search = params.get('search')?.toLowerCase();
     // Merge seed users + custom users created via SA
-    const seedUsers    = (usersData as unknown as User[]).map(({ password: _, ...u }) => u);
-    const customUsers  = ls<User[]>('ats_custom_users', []).map(({ password: _, ...u }) => u);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const seedUsers    = (usersData as unknown as User[]).map(({ password: _pw1, ...u }) => u);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const customUsers  = ls<User[]>('ats_custom_users', []).map(({ password: _pw2, ...u }) => u);
     // Merge suspended/role overrides stored in ats_user_overrides
     const overrides    = ls<Record<string, Partial<User>>>('ats_user_overrides', {});
     let users = [...customUsers, ...seedUsers].map((u) =>
@@ -549,7 +646,8 @@ function mockRouter<T>(endpoint: string, options?: RequestInit): T {
 
   // Admin export
   if (path === '/admin/export/users' && method === 'GET') {
-    const users = (usersData as unknown as User[]).map(({ password: _, ...u }) => u);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const users = (usersData as unknown as User[]).map(({ password: _pw, ...u }) => u);
     return { success: true, data: users, format: params.get('format') || 'json' } as T;
   }
 
@@ -645,7 +743,8 @@ function mockRouter<T>(endpoint: string, options?: RequestInit): T {
   if (path === '/superadmin/export/master' && method === 'GET') {
     const allData = {
       exportedAt: new Date().toISOString(),
-      users: (usersData as unknown as User[]).map(({ password: _, ...u }) => u),
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      users: (usersData as unknown as User[]).map(({ password: _pw, ...u }) => u),
       parts: productsData,
       rfqs: ls<RFQ[]>('ats_rfqs', []),
       orders: ls<Order[]>('ats_orders', []),
@@ -693,7 +792,7 @@ function mockRouter<T>(endpoint: string, options?: RequestInit): T {
   // ── ADMIN: reset any user's password ────────────────────────
   if (path.match(/\/admin\/users\/[^/]+\/reset-password/) && method === 'POST') {
     const userId = path.split('/admin/users/')[1].replace('/reset-password', '');
-    const body = JSON.parse(options?.body as string || '{}');
+    JSON.parse(options?.body as string || '{}');
     appendAuditLog({ action: 'RESET_PASSWORD', resource: 'user', resourceId: userId, details: `Password reset by admin` });
     return { success: true, message: `Password reset successfully for user ${userId}` } as T;
   }
@@ -708,7 +807,15 @@ function mockRouter<T>(endpoint: string, options?: RequestInit): T {
 
   // ── SITE CONFIG (public read) ────────────────────────────────
   if (path === '/site-config' && method === 'GET') {
-    const config = ls<SiteConfig>('ats_site_config', getDefaultSiteConfig());
+    const defaults = getDefaultSiteConfig();
+    const stored = ls<Partial<SiteConfig>>('ats_site_config', {});
+    const config: SiteConfig = {
+      ...defaults,
+      ...stored,
+      chat: { ...defaults.chat, ...(stored?.chat || {}) },
+      updatedAt: stored.updatedAt || defaults.updatedAt,
+      updatedBy: stored.updatedBy || defaults.updatedBy,
+    };
     return { success: true, data: config } as T;
   }
 
@@ -788,6 +895,110 @@ function mockRouter<T>(endpoint: string, options?: RequestInit): T {
     return { success: true, data: myParts, pagination: { total: myParts.length, page: 1, limit: 50, totalPages: 1 } } as T;
   }
 
+  // ── CATEGORY ITEMS ─────────────────────────────────────────
+  if (path === '/category-items' && method === 'GET') {
+    const catId = params.get('categoryId');
+    const allItems = ls<(CategoryItem)[]>('ats_category_items', []);
+    const data  = catId ? allItems.filter((i) => i.categoryId === catId) : allItems;
+    console.log('[MOCK /category-items] catId:', catId, 'totalStored:', allItems.length, 'returned:', data.length);
+    return { success: true, data } as T;
+  }
+
+  if (path === '/admin/category-items' && method === 'POST') {
+    const body = JSON.parse(options?.body as string || '{}');
+    const items = ls<(CategoryItem)[]>('ats_category_items', []);
+    const maxSort = items.length > 0 ? Math.max(...items.map((i) => i.sortOrder || 0)) : 0;
+    const newItem: CategoryItem = {
+      id: 'ci-' + Date.now(),
+      categoryId: body.categoryId || '',
+      title: body.title || '',
+      slug: body.slug || '',
+      description: body.description || '',
+      image: body.image || '',
+      link: body.link || '',
+      data: body.data ? (body.data as Record<string, unknown>) : undefined,
+      cardConfig: body.cardConfig ? (body.cardConfig as Record<string, unknown>) : undefined,
+      sortOrder: body.sortOrder ?? maxSort + 1,
+      isActive: body.isActive !== false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    lsSet('ats_category_items', [...items, newItem]);
+    appendAuditLog({ action: 'CREATE_CATEGORY_ITEM', resource: 'category-item', resourceId: newItem.id });
+    return { success: true, data: newItem, message: 'Item created' } as T;
+  }
+
+  if (path.startsWith('/admin/category-items/') && method === 'PUT') {
+    const itemId = path.split('/admin/category-items/')[1];
+    const body = JSON.parse(options?.body as string || '{}');
+    const items = ls<(CategoryItem)[]>('ats_category_items', []).map((i) =>
+      i.id === itemId ? { ...i, ...body, updatedAt: new Date().toISOString() } : i
+    );
+    lsSet('ats_category_items', items);
+    appendAuditLog({ action: 'UPDATE_CATEGORY_ITEM', resource: 'category-item', resourceId: itemId });
+    return { success: true, message: 'Item updated' } as T;
+  }
+
+  if (path.startsWith('/admin/category-items/') && method === 'DELETE') {
+    const itemId = path.split('/admin/category-items/')[1];
+    const items = ls<(CategoryItem)[]>('ats_category_items', []).filter((i) => i.id !== itemId);
+    lsSet('ats_category_items', items);
+    appendAuditLog({ action: 'DELETE_CATEGORY_ITEM', resource: 'category-item', resourceId: itemId });
+    return { success: true, message: 'Item deleted' } as T;
+  }
+
+  if (path === '/admin/category-items/bulk-import' && method === 'POST') {
+    const body = JSON.parse(options?.body as string || '{}');
+    const { categoryId } = body;
+    console.log('[MOCK bulk-import] categoryId:', categoryId, 'append:', body.append, 'rows:', (body.items || body.data || []).length);
+    const incoming = (body.items || body.data || []) as Record<string, unknown>[];
+    const existing = ls<(CategoryItem)[]>('ats_category_items', []);
+    const maxSort = existing.length > 0 ? Math.max(...existing.map((i) => i.sortOrder || 0)) : 0;
+    const newItems: CategoryItem[] = incoming.map((item, idx) => {
+      // Title = first non-empty value from any column
+      const vals = Object.values(item).filter((v) => v != null && v !== '');
+      const rawTitle = vals.length ? String(vals[0]) : 'Unnamed Item';
+      let rawSlug = (item.slug || item.Slug || '').toString().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      if (!rawSlug) rawSlug = (rawTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item') + '-' + idx;
+      // ALL columns into `data`
+      const data: Record<string, unknown> = {};
+      for (const [key, val] of Object.entries(item)) {
+        if (!['slug', 'Slug', 'navCategoryId'].includes(key)) data[key] = val;
+      }
+      return {
+        id: 'ci-' + Date.now() + '-' + idx,
+        categoryId: categoryId || item.categoryId || '',
+        title: rawTitle,
+        slug: rawSlug,
+        description: (item.description || item.Description || '') as string,
+        image: (item.image || item.Image || '') as string,
+        link: (item.link || item.Link || '') as string,
+        data: Object.keys(data).length ? data : undefined,
+        cardConfig: undefined,
+        sortOrder: (item.sortOrder ?? maxSort + idx + 1) as number,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+    });
+    lsSet('ats_category_items', [...existing, ...newItems]);
+    appendAuditLog({ action: 'BULK_IMPORT_CATEGORY_ITEMS', resource: 'category-item', details: `${newItems.length} items imported` });
+    return { success: true, data: newItems.map(n => ({ slug: n.slug, action: 'created' })), message: `${newItems.length} items imported` } as T;
+  }
+
+  if (path === '/admin/category-items/reorder' && method === 'PUT') {
+    const { categoryId, items: reorderItems } = JSON.parse(options?.body as string || '{}') as { categoryId?: string; items: { id: string; sortOrder: number }[] };
+    if (!reorderItems) return { success: false, message: 'Missing items array' } as T;
+    const all = ls<(CategoryItem)[]>('ats_category_items', []);
+    const updated = all.map((i) => {
+      const found = reorderItems.find((r) => r.id === i.id);
+      return found ? { ...i, sortOrder: found.sortOrder, updatedAt: new Date().toISOString() } : i;
+    });
+    lsSet('ats_category_items', updated);
+    appendAuditLog({ action: 'REORDER_CATEGORY_ITEMS', resource: 'category-item', resourceId: categoryId });
+    return { success: true, message: 'Reorder saved' } as T;
+  }
+
   return { success: true, data: [] } as T;
 }
 
@@ -807,6 +1018,9 @@ function getDefaultSettings(): SystemSettings {
     enableAuditLogging: true,
     backupSchedule: 'daily',
     dataRetentionDays: 365,
+    cloudinaryCloudName: '',
+    cloudinaryApiKey: '',
+    cloudinaryApiSecret: '',
     updatedAt: '2026-06-01T00:00:00Z',
     updatedBy: 'superadmin@aeroturbinespare.com',
   };

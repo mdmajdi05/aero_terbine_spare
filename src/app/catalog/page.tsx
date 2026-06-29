@@ -3,33 +3,23 @@
 import { use, useState, useEffect, useCallback, useRef } from 'react';
 import {
   Search, SlidersHorizontal, X, Grid2X2, Grid3X3, LayoutList,
-  ChevronLeft, ChevronRight, LayoutGrid,
+  ChevronLeft, ChevronRight, LayoutGrid, List, LayoutGrid as LayoutGridIcon,
 } from 'lucide-react';
-import type { Product } from '@/types';
+import type { Product, NavCategory, NavCategoryTree } from '@/types';
 import { getProducts } from '@/services/productService';
 import type { ProductFilters } from '@/services/productService';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PartCard from '@/components/catalog/PartCard';
+import ListView from '@/components/catalog/ListView';
+import CardView from '@/components/catalog/CardView';
 import Input from '@/components/ui/Input';
 import Select from '@/components/ui/Select';
 import Button from '@/components/ui/Button';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 import { cn } from '@/lib/utils';
-
-// ─── Static option lists ───────────────────────────────────────────────────
-const FSG_OPTIONS = [
-  { value: '', label: 'All Categories' },
-  { value: '15', label: 'FSG 15 – Aircraft Structural' },
-  { value: '16', label: 'FSG 16 – Aircraft Components' },
-  { value: '28', label: 'FSG 28 – Gas Turbines' },
-  { value: '29', label: 'FSG 29 – Engine Accessories' },
-  { value: '31', label: 'FSG 31 – Bearings' },
-  { value: '53', label: 'FSG 53 – Hardware' },
-  { value: '59', label: 'FSG 59 – Electronics' },
-  { value: '61', label: 'FSG 61 – Wire' },
-];
+import { request } from '@/lib/api-client';
 
 const CONDITION_OPTIONS = [
   { value: '', label: 'All Conditions' },
@@ -47,6 +37,8 @@ const STOCK_OPTIONS = [
   { value: 'Limited', label: 'Limited' },
 ];
 
+interface SelectOption { value: string; label: string; }
+
 const SORT_OPTIONS = [
   { value: 'relevance', label: 'Relevance' },
   { value: 'price_asc', label: 'Price: Low to High' },
@@ -61,18 +53,20 @@ const LIMITS_PER_VIEW: Record<string, number> = {
   list: 20,
 };
 
-type ViewMode = 'grid2' | 'grid3' | 'grid4' | 'list';
+type ViewMode = 'grid2' | 'grid3' | 'grid4' | 'list' | 'listview' | 'cardview';
 
 interface ActiveFilters {
   search: string;
-  fsg: string;
   condition: string;
   stockStatus: string;
   cage: string;
+  category: string;
+  type: string;
+  industry: string;
 }
 
 const EMPTY_FILTERS: ActiveFilters = {
-  search: '', fsg: '', condition: '', stockStatus: '', cage: '',
+  search: '', condition: '', stockStatus: '', cage: '', category: '', type: '', industry: '',
 };
 
 // ─── Component ─────────────────────────────────────────────────────────────
@@ -86,23 +80,44 @@ export default function CatalogPage({
   // Initialise from URL on first render
   const [filters, setFilters] = useState<ActiveFilters>(() => ({
     search:      String(resolvedParams.search      || ''),
-    fsg:         String(resolvedParams.fsg         || ''),
     condition:   String(resolvedParams.condition   || ''),
     stockStatus: String(resolvedParams.stockStatus || ''),
     cage:        String(resolvedParams.cage        || ''),
+    category:    String(resolvedParams.category    || ''),
+    type:        String(resolvedParams.type        || ''),
+    industry:    String(resolvedParams.industry    || ''),
   }));
 
   // Debounced search input value (separate so we can debounce it)
   const [searchInput, setSearchInput] = useState(filters.search);
 
+  const [categoryOptions, setCategoryOptions] = useState<SelectOption[]>([{ value: '', label: 'All Categories' }]);
   const [products, setProducts]   = useState<Product[]>([]);
   const [total, setTotal]         = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage]           = useState(Number(resolvedParams.page) || 1);
   const [sort, setSort]           = useState(String(resolvedParams.sort || 'relevance'));
-  const [view, setView]           = useState<ViewMode>('grid3');
+  const [view, setView]           = useState<ViewMode>(() => {
+    const v = resolvedParams.view;
+    if (v === 'list') return 'listview';
+    if (v === 'card') return 'cardview';
+    return 'grid3';
+  });
   const [loading, setLoading]     = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // ── Fetch part categories ───────────────────────────────────
+  useEffect(() => {
+    request<{ success: boolean; data: NavCategoryTree }>('/nav-categories').then((res) => {
+      const cats = res.data?.partCategories;
+      if (Array.isArray(cats) && cats.length) {
+        setCategoryOptions([
+          { value: '', label: 'All Categories' },
+          ...cats.map((c: NavCategory) => ({ value: c.slug, label: c.name })),
+        ]);
+      }
+    }).catch(() => {});
+  }, []);
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -115,10 +130,12 @@ export default function CatalogPage({
         page: pg,
         limit,
         ...(f.search      && { search: f.search }),
-        ...(f.fsg         && { fsg: f.fsg }),
         ...(f.condition   && { condition: f.condition }),
         ...(f.stockStatus && { stockStatus: f.stockStatus }),
         ...(f.cage        && { cage: f.cage }),
+        ...(f.category    && { category: f.category }),
+        ...(f.type        && { type: f.type }),
+        ...(f.industry    && { industry: f.industry }),
       };
       const res = await getProducts(apiFilters);
       setProducts(res.data);
@@ -144,12 +161,16 @@ export default function CatalogPage({
   useEffect(() => {
     const p = new URLSearchParams();
     if (filters.search)       p.set('search', filters.search);
-    if (filters.fsg)          p.set('fsg', filters.fsg);
     if (filters.condition)    p.set('condition', filters.condition);
     if (filters.stockStatus)  p.set('stockStatus', filters.stockStatus);
     if (filters.cage)         p.set('cage', filters.cage);
+    if (filters.category)     p.set('category', filters.category);
+    if (filters.type)         p.set('type', filters.type);
+    if (filters.industry)     p.set('industry', filters.industry);
     if (page > 1)             p.set('page', String(page));
     if (sort !== 'relevance') p.set('sort', sort);
+    if (view === 'listview') p.set('view', 'list');
+    else if (view === 'cardview') p.set('view', 'card');
     const url = `/catalog${p.toString() ? '?' + p.toString() : ''}`;
     window.history.replaceState(null, '', url);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -183,10 +204,12 @@ export default function CatalogPage({
     .filter(([k, v]) => v && k !== 'search')
     .map(([k, v]) => {
       const labelMap: Record<string, string> = {
-        fsg: `FSG: ${FSG_OPTIONS.find((o) => o.value === v)?.label ?? v}`,
         condition: `Condition: ${v}`,
         stockStatus: `Stock: ${v}`,
         cage: `CAGE: ${v}`,
+        category: `Category: ${categoryOptions.find((o) => o.value === v)?.label ?? v}`,
+        type: `Type: ${v}`,
+        industry: `Industry: ${v}`,
       };
       return { key: k as keyof ActiveFilters, label: labelMap[k] ?? v };
     });
@@ -198,6 +221,8 @@ export default function CatalogPage({
     grid3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
     grid4: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4',
     list:  'grid-cols-1',
+    listview: 'grid-cols-1',
+    cardview: 'grid-cols-1',
   };
 
   // ── Pagination helper ─────────────────────────────────────────────────────
@@ -237,12 +262,12 @@ export default function CatalogPage({
         />
       </div>
 
-      {/* FSG Category */}
+      {/* Category */}
       <Select
-        label="FSG Category"
-        options={FSG_OPTIONS}
-        value={filters.fsg}
-        onChange={(e) => updateFilter('fsg', e.target.value)}
+        label="Category"
+        options={categoryOptions}
+        value={filters.category}
+        onChange={(e) => updateFilter('category', e.target.value)}
         placeholder="All Categories"
       />
 
@@ -349,7 +374,7 @@ export default function CatalogPage({
                 {/* Mobile filter button */}
                 <button
                   onClick={() => setSidebarOpen(true)}
-                  className="lg:hidden flex items-center gap-2 text-sm font-medium text-text border border-silver-dark rounded-lg px-3 py-2 bg-white hover:border-orange/40 transition-colors"
+                  className="lg:hidden flex items-center gap-2 text-sm font-medium text-text border border-silver-dark rounded-lg px-4 py-3 bg-white hover:border-orange/40 transition-colors min-h-[44px]"
                 >
                   <SlidersHorizontal className="w-4 h-4" />
                   Filters {hasFilters && <span className="bg-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{activeChips.length + (filters.search ? 1 : 0)}</span>}
@@ -380,16 +405,16 @@ export default function CatalogPage({
                 {/* View toggle */}
                 <div className="flex items-center bg-white border border-silver rounded-lg overflow-hidden flex-shrink-0">
                   {([
-                    ['grid2', <Grid2X2 key="g2" className="w-4 h-4" />],
-                    ['grid3', <LayoutGrid key="g3" className="w-4 h-4" />],
-                    ['grid4', <Grid3X3 key="g4" className="w-4 h-4" />],
-                    ['list',  <LayoutList key="li" className="w-4 h-4" />],
+                    ['grid2', <Grid2X2 key="g2" className="w-3.5 sm:w-4 h-3.5 sm:h-4" />],
+                    ['grid3', <LayoutGrid key="g3" className="w-3.5 sm:w-4 h-3.5 sm:h-4" />],
+                    ['grid4', <Grid3X3 key="g4" className="w-3.5 sm:w-4 h-3.5 sm:h-4" />],
+                    ['list',  <LayoutList key="li" className="w-3.5 sm:w-4 h-3.5 sm:h-4" />],
                   ] as [ViewMode, React.ReactNode][]).map(([mode, icon]) => (
                     <button
                       key={mode}
                       onClick={() => setView(mode)}
                       className={cn(
-                        'p-2.5 transition-colors',
+                        'p-2 sm:p-2.5 transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center',
                         view === mode ? 'bg-navy text-white' : 'text-text-muted hover:bg-silver'
                       )}
                       aria-label={mode}
@@ -448,6 +473,39 @@ export default function CatalogPage({
                     Clear Filters
                   </Button>
                 </div>
+              ) : view === 'listview' ? (
+                <ListView
+                  items={products.map((p) => ({
+                    id: p.id,
+                    title: `${p.partNumber} — ${p.shortDescription}`,
+                    slug: p.id,
+                    description: p.description,
+                    data: {
+                      nsn: p.nsn,
+                      cage: p.cage,
+                      manufacturer: p.manufacturer,
+                      condition: p.condition,
+                      stockStatus: p.stockStatus,
+                      quantity: p.quantityAvailable,
+                    },
+                  }))}
+                />
+              ) : view === 'cardview' ? (
+                <CardView
+                  items={products.map((p) => ({
+                    id: p.id,
+                    title: `${p.partNumber} — ${p.shortDescription}`,
+                    slug: p.id,
+                    description: p.description,
+                    data: {
+                      nsn: p.nsn,
+                      cage: p.cage,
+                      manufacturer: p.manufacturer,
+                      condition: p.condition,
+                      stockStatus: p.stockStatus,
+                    },
+                  }))}
+                />
               ) : (
                 <div className={cn('grid gap-5', gridClass[view])}>
                   {products.map((p) => (
@@ -462,9 +520,9 @@ export default function CatalogPage({
                   <button
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg border border-silver bg-white hover:border-orange/40 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    className="flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg border border-silver bg-white hover:border-orange/40 disabled:opacity-40 disabled:cursor-not-allowed transition-colors min-h-[36px]"
                   >
-                    <ChevronLeft className="w-4 h-4" /> Prev
+                    <ChevronLeft className="w-4 h-4" /> <span className="hidden sm:inline">Prev</span>
                   </button>
 
                   {pageNumbers.map((n, i) =>
@@ -475,7 +533,7 @@ export default function CatalogPage({
                         key={n}
                         onClick={() => setPage(n as number)}
                         className={cn(
-                          'w-9 h-9 rounded-lg text-sm font-semibold transition-colors',
+                          'w-8 sm:w-9 h-8 sm:h-9 rounded-lg text-sm font-semibold transition-colors',
                           page === n
                             ? 'bg-navy text-white'
                             : 'bg-white border border-silver hover:border-orange/40 text-text'
@@ -489,9 +547,9 @@ export default function CatalogPage({
                   <button
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
-                    className="flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg border border-silver bg-white hover:border-orange/40 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    className="flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg border border-silver bg-white hover:border-orange/40 disabled:opacity-40 disabled:cursor-not-allowed transition-colors min-h-[36px]"
                   >
-                    Next <ChevronRight className="w-4 h-4" />
+                    <span className="hidden sm:inline">Next</span> <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
               )}

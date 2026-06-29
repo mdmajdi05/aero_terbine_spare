@@ -30,6 +30,28 @@ The API will be available at `http://localhost:4000/api/v1`.
 
 ## API routes
 
+### Navigation & Categories (NEW — CMS)
+
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| GET | `/nav-categories` | — | Full tree: FSG + industries + product (with items) + part (with items) |
+| GET | `/categories` | — | List FSG categories |
+| GET | `/industries` | — | List industry verticals |
+| GET | `/industries/:slug` | — | Single industry by slug |
+| GET | `/category-items` | — | List items (query `?categoryId=`) |
+| GET | `/category-items/:slug` | — | Single item by slug |
+| POST | `/admin/categories` | Admin | Create nav category |
+| PUT | `/admin/categories/:id` | Admin | Update nav category |
+| DELETE | `/admin/categories/:id` | SuperAdmin | Delete category (cascade items) |
+| POST | `/admin/categories/sync` | SuperAdmin | Force-regenerate public JSON |
+| POST | `/admin/category-items` | Admin | Create category item |
+| PUT | `/admin/category-items/:id` | Admin | Update category item |
+| DELETE | `/admin/category-items/:id` | Admin | Delete category item |
+| POST | `/admin/category-items/bulk-import` | Admin | Bulk import items (JSON array) |
+| PUT | `/admin/category-items/reorder` | Admin | Reorder items in category |
+
+### Auth
+
 | Method | Path | Auth | Description |
 |---|---|---|---|
 | POST | `/api/v1/auth/register` | — | Create account |
@@ -38,22 +60,42 @@ The API will be available at `http://localhost:4000/api/v1`.
 | GET | `/api/v1/auth/me` | User | Get own profile |
 | PUT | `/api/v1/auth/me` | User | Update own profile |
 | POST | `/api/v1/auth/me/change-password` | User | Change password |
+
+### Parts
+
+| Method | Path | Auth | Description |
+|---|---|---|---|
 | GET | `/api/v1/parts` | — | List parts (search, category, stockStatus, page, limit) |
 | GET | `/api/v1/parts/:id` | — | Get single part by id or NSN |
 | GET | `/api/v1/parts/summary` | — | Stock summary counts |
 | POST | `/api/v1/parts` | Admin | Create part |
 | PUT | `/api/v1/parts/:id` | Admin | Update part |
 | DELETE | `/api/v1/parts/:id` | Admin | Delete part |
+
+### RFQ
+
+| Method | Path | Auth | Description |
+|---|---|---|---|
 | POST | `/api/v1/rfqs` | — | Submit RFQ (rate-limited) |
 | GET | `/api/v1/rfqs/my` | User | Own RFQs |
 | GET | `/api/v1/rfqs` | Admin | All RFQs |
 | GET | `/api/v1/rfqs/:id` | User | Single RFQ |
 | PUT | `/api/v1/rfqs/:id/status` | Admin | Update RFQ status |
+
+### Dashboard
+
+| Method | Path | Auth | Description |
+|---|---|---|---|
 | GET | `/api/v1/dashboard/stats` | User | Dashboard stats |
 | GET | `/api/v1/dashboard/saved-parts` | User | Saved parts list |
 | POST | `/api/v1/dashboard/saved-parts` | User | Save a part |
 | DELETE | `/api/v1/dashboard/saved-parts/:partId` | User | Unsave a part |
 | GET | `/api/v1/dashboard/orders` | User | Order history |
+
+### Admin
+
+| Method | Path | Auth | Description |
+|---|---|---|---|
 | GET | `/api/v1/admin/stats` | Admin | Admin dashboard stats |
 | GET | `/api/v1/admin/users` | Admin | All users |
 | PUT | `/api/v1/admin/users/:id` | Admin | Update user role / active |
@@ -61,6 +103,11 @@ The API will be available at `http://localhost:4000/api/v1`.
 | GET | `/api/v1/admin/parts` | Admin | All parts (admin view) |
 | POST | `/api/v1/admin/import/parts` | Admin | Bulk import parts (JSON array) |
 | GET | `/api/v1/admin/export/:target?format=json|csv` | Admin | Export users/rfqs/parts |
+
+### SuperAdmin
+
+| Method | Path | Auth | Description |
+|---|---|---|---|
 | GET | `/api/v1/superadmin/stats` | SuperAdmin | Super-admin stats |
 | GET | `/api/v1/superadmin/users` | SuperAdmin | All users |
 | PUT | `/api/v1/superadmin/users/:id/role` | SuperAdmin | Change user role |
@@ -72,6 +119,11 @@ The API will be available at `http://localhost:4000/api/v1`.
 | GET | `/api/v1/superadmin/backup/list` | SuperAdmin | List backups |
 | GET | `/api/v1/superadmin/backup/:id/download` | SuperAdmin | Download backup ZIP |
 | GET | `/api/v1/superadmin/export/master` | SuperAdmin | Master ZIP export (all data) |
+
+### Inventory
+
+| Method | Path | Auth | Description |
+|---|---|---|---|
 | POST | `/api/v1/inventory` | — | Submit inventory listing |
 | GET | `/api/v1/inventory` | Admin | List inventory submissions |
 | PUT | `/api/v1/inventory/:id` | Admin | Update submission status |

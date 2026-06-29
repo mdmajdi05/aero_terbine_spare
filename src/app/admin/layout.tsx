@@ -6,9 +6,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard, Users, FileText, Package,
   Download, Settings, ChevronRight, LogOut,
-  Shield, Bell, Palette,
+  Shield, Bell, Palette, Layers, MessageCircle, BookOpen,
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import AeroLogo from '@/components/branding/AeroLogo';
 import { cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
@@ -18,7 +19,14 @@ const ADMIN_NAV = [
   { href: '/admin/rfqs',       icon: FileText,        label: 'RFQ Management'  },
   { href: '/admin/parts',      icon: Package,         label: 'Parts Catalog'   },
   { href: '/admin/branding',   icon: Palette,         label: 'Branding & Hero' },
-  { href: '/admin/export',     icon: Download,        label: 'Import / Export' },
+  { href: '/admin/export',          icon: Download,        label: 'Import / Export'       },
+  { href: '/admin/chat',            icon: MessageCircle,   label: 'Chat Inbox'            },
+  { href: '/admin/knowledge-base',  icon: BookOpen,        label: 'Knowledge Base'        },
+];
+
+const CMS_NAV = [
+  { href: '/admin/categories',      icon: Layers,          label: 'Categories'            },
+  { href: '/admin/category-items',  icon: Layers,          label: 'Category Items'        },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -60,9 +68,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Logo */}
         <div className="px-5 py-4 border-b border-white/10">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#4F46E5] flex items-center justify-center">
-              <Shield className="w-4 h-4 text-white" />
-            </div>
+            <AeroLogo variant="white" size={32} showText={false} />
             <div>
               <div className="text-sm font-bold leading-tight">AeroTurbineSpare</div>
               <div className="text-[10px] text-white/50 uppercase tracking-widest">Admin Panel</div>
@@ -87,6 +93,32 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
           {ADMIN_NAV.map(({ href, icon: Icon, label, exact }) => {
             const active = exact ? pathname === href : pathname.startsWith(href);
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={cn(
+                  'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors',
+                  active
+                    ? 'bg-[#4F46E5] text-white'
+                    : 'text-white/70 hover:bg-white/10 hover:text-white'
+                )}
+              >
+                <Icon className="w-4 h-4 flex-shrink-0" />
+                {label}
+                {active && <ChevronRight className="w-3 h-3 ml-auto" />}
+              </Link>
+            );
+          })}
+
+          {/* CMS Section */}
+          <div className="pt-3 pb-1">
+            <div className="text-[10px] font-bold uppercase tracking-widest text-white/30 px-3">
+              CMS
+            </div>
+          </div>
+          {CMS_NAV.map(({ href, icon: Icon, label }) => {
+            const active = pathname.startsWith(href);
             return (
               <Link
                 key={href}

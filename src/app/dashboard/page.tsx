@@ -6,10 +6,9 @@ import { FileText, Package, Bookmark, TrendingUp, ArrowRight, Plus } from 'lucid
 import { getMyRFQs } from '@/services/rfqService';
 import { getMyOrders, getSavedParts } from '@/services/dashboardService';
 import { useAuth } from '@/hooks/useAuth';
-import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import { Skeleton, SkeletonTable } from '@/components/ui/Skeleton';
-import { cn, formatDate, formatPrice } from '@/lib/utils';
+import { cn, formatDate } from '@/lib/utils';
 import type { RFQ, Order, Product } from '@/types';
 
 /* ---- Stat card ---- */

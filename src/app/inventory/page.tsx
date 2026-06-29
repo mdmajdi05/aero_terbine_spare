@@ -6,6 +6,7 @@ import {
   Building2, Mail, Hash, StickyNote, Package,
   Clock, DollarSign, Handshake,
 } from 'lucide-react';
+import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Button from '@/components/ui/Button';
@@ -222,11 +223,11 @@ export default function InventoryPage() {
               >
                 Submit Another List
               </Button>
-              <a href="/">
+              <Link href="/">
                 <Button variant="outline" size="lg">
                   Return to Home
                 </Button>
-              </a>
+              </Link>
             </div>
           </div>
         </main>

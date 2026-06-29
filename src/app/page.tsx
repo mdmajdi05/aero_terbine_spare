@@ -21,6 +21,9 @@ import Button from '@/components/ui/Button';
 import { request } from '@/lib/api-client';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 import { useSiteConfig } from '@/hooks/useSiteConfig';
+import fallbackProducts from '@/data/products.json';
+import fallbackCategories from '@/data/categories.json';
+import fallbackTestimonials from '@/data/testimonials.json';
 
 const SEARCH_TYPES = ['Part Number', 'NSN', 'CAGE Code', 'Description', 'Manufacturer'];
 const CONDITIONS   = ['Any Condition', 'New', 'Overhauled', 'Refurbished', 'Used'];
@@ -44,9 +47,12 @@ export default function HomePage() {
 
   useEffect(() => {
     Promise.all([
-      request<{ success: boolean; data: Product[]; pagination: unknown }>('/products?limit=8'),
-      request<{ success: boolean; data: Category[] }>('/categories'),
-      request<{ success: boolean; data: Testimonial[] }>('/testimonials'),
+      request<{ success: boolean; data: Product[]; pagination: unknown }>('/products?limit=8')
+        .catch(() => ({ success: false, data: fallbackProducts.slice(0, 8) as unknown as Product[], pagination: null })),
+      request<{ success: boolean; data: Category[] }>('/categories')
+        .catch(() => ({ success: false, data: (fallbackCategories as any).fsgCategories?.slice(0, 6) as Category[] })),
+      request<{ success: boolean; data: Testimonial[] }>('/testimonials')
+        .catch(() => ({ success: false, data: fallbackTestimonials as unknown as Testimonial[], pagination: null })),
     ]).then(([prods, cats, tests]) => {
       setProducts(prods.data);
       setCategories(cats.data);
@@ -76,14 +82,14 @@ export default function HomePage() {
       : undefined;
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen overflow-x-hidden">
       <Header />
 
       {/* ═══════════════════════════════════════════════════
           HERO — Blue/Indigo theme, dynamic from SiteConfig
       ═══════════════════════════════════════════════════ */}
       <section
-        className="relative min-h-[90vh] flex items-center overflow-hidden"
+        className="relative min-h-screen sm:min-h-[90vh] flex items-center overflow-hidden"
         style={heroBg ? { background: heroBg } : undefined}
       >
         {/* Gradient when type = gradient or no override */}
@@ -92,8 +98,8 @@ export default function HomePage() {
         )}
 
         {/* Grid overlay */}
-        <div className="absolute inset-0 opacity-[0.04]">
-          <svg width="100%" height="100%">
+        <div className="absolute inset-0 opacity-[0.04] pointer-events-none">
+          <svg className="w-full h-full" preserveAspectRatio="none">
             <defs>
               <pattern id="hero-grid" width="48" height="48" patternUnits="userSpaceOnUse">
                 <path d="M 48 0 L 0 0 0 48" fill="none" stroke="white" strokeWidth="0.8" />
@@ -103,10 +109,10 @@ export default function HomePage() {
           </svg>
         </div>
 
-        {/* Ambient glow blobs */}
-        <div className="absolute top-1/3 right-[15%] w-[28rem] h-[28rem] bg-[#4F46E5]/25 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 left-[10%]   w-[20rem] h-[20rem] bg-[#1D4ED8]/20 rounded-full blur-2xl pointer-events-none" />
-        <div className="absolute top-0 left-1/2 w-[18rem] h-[18rem] bg-[#818CF8]/10 rounded-full blur-3xl pointer-events-none" />
+        {/* Ambient glow blobs - responsive sizing */}
+        <div className="absolute top-1/3 right-[15%] w-[20rem] sm:w-[28rem] h-[20rem] sm:h-[28rem] bg-[#4F46E5]/25 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 left-[10%] w-[14rem] sm:w-[20rem] h-[14rem] sm:h-[20rem] bg-[#1D4ED8]/20 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute top-0 left-1/2 w-[12rem] sm:w-[18rem] h-[12rem] sm:h-[18rem] bg-[#818CF8]/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
           <div className="max-w-3xl">
@@ -118,7 +124,7 @@ export default function HomePage() {
             </div>
 
             {/* Heading */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-black text-white leading-[1.1] mb-6 tracking-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-black text-white leading-[1.1] mb-6 tracking-tight">
               {site.heroHeading
                 ? site.heroHeading.split(',').map((part, i, arr) => (
                     <span key={i}>
@@ -137,7 +143,7 @@ export default function HomePage() {
             </h1>
 
             {/* Sub-heading */}
-            <p className="text-white/70 text-lg lg:text-xl leading-relaxed mb-10 max-w-2xl">
+            <p className="text-white/70 text-base sm:text-lg lg:text-xl leading-relaxed mb-8 sm:mb-10 max-w-2xl">
               {site.heroSubheading ||
                 'Global inventory of aviation, turbine, and defense components — NSN, CAGE, and part-number searchable in seconds.'}
             </p>
@@ -172,7 +178,7 @@ export default function HomePage() {
                 <button
                   type="button"
                   onClick={() => setShowFilters((v) => !v)}
-                  className={`flex items-center gap-1.5 px-4 text-sm font-medium border-l border-[#E8EDF2] transition-colors flex-shrink-0 ${
+                  className={`flex items-center gap-1.5 px-3 sm:px-4 text-sm font-medium border-l border-[#E8EDF2] transition-colors flex-shrink-0 ${
                     showFilters || hasFilters
                       ? 'bg-[#EEF2FF] text-[#4F46E5]'
                       : 'text-[#4A4A6A] hover:bg-[#F5F7FA]'
@@ -190,7 +196,8 @@ export default function HomePage() {
                 {/* Search button */}
                 <button
                   type="submit"
-                  className="flex items-center gap-2 px-6 bg-[#4F46E5] text-white text-sm font-semibold hover:bg-[#4338CA] transition-colors flex-shrink-0"
+                  className="flex items-center gap-2 px-4 sm:px-6 bg-[#4F46E5] text-white text-sm font-semibold hover:bg-[#4338CA] transition-colors flex-shrink-0"
+                  aria-label="Search"
                 >
                   <Search className="w-4 h-4" />
                   <span className="hidden sm:inline">Search</span>
@@ -198,8 +205,8 @@ export default function HomePage() {
               </div>
 
               {/* Expandable filter row */}
-              <div className={`overflow-hidden transition-all duration-300 ${showFilters ? 'max-h-24 border-t border-[#E8EDF2]' : 'max-h-0'}`}>
-                <div className="flex flex-wrap gap-3 px-5 py-3 bg-[#F8F9FF]">
+              <div className={`overflow-hidden transition-all duration-300 ${showFilters ? 'max-h-40 border-t border-[#E8EDF2]' : 'max-h-0'}`}>
+                <div className="flex flex-wrap gap-2 sm:gap-3 px-4 sm:px-5 py-3 bg-[#F8F9FF]">
                   {/* Condition */}
                   <div className="relative">
                     <select
@@ -280,6 +287,27 @@ export default function HomePage() {
                 </Button>
               </Link>
             </div>
+          </div>
+
+          {/* Trust chips — inline on mobile/tablet, right panel on xl+ */}
+          <div className="xl:hidden grid grid-cols-2 sm:grid-cols-3 gap-3 mt-10 max-w-3xl">
+            {[
+              { icon: ShieldCheck, label: 'ISO 9001 & AS9120B', sub: 'Quality Certified' },
+              { icon: Clock,       label: '24-Hr Quote Response', sub: 'SLA Guaranteed' },
+              { icon: Award,       label: 'Zero Counterfeit Policy', sub: 'Full Traceability' },
+              { icon: Truck,       label: '150+ Countries Served', sub: 'Global Logistics' },
+              { icon: Zap,         label: 'AOG Priority Response', sub: '4-Hour Escalation' },
+            ].slice(0, 3).map(({ icon: Icon, label, sub }) => (
+              <div key={label} className="flex items-center gap-2.5 bg-white/8 border border-white/12 rounded-xl px-3.5 py-2.5 backdrop-blur-sm">
+                <div className="w-8 h-8 rounded-lg bg-[#4F46E5]/30 flex items-center justify-center flex-shrink-0">
+                  <Icon className="w-4 h-4 text-[#818CF8]" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-white text-[11px] font-semibold leading-tight truncate">{label}</div>
+                  <div className="text-white/50 text-[10px] mt-0.5 truncate">{sub}</div>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Trust chips — desktop right panel */}
@@ -377,16 +405,16 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
               {[
                 { val: '100%', label: 'Inspection on Every Order' },
                 { val: '< 24h', label: 'Average Quote Response' },
                 { val: 'AS9120', label: 'Quality Certification' },
                 { val: 'Zero', label: 'Counterfeit Incidents' },
               ].map(({ val, label }) => (
-                <div key={label} className="bg-white/8 border border-white/12 rounded-2xl p-6 text-center">
-                  <div className="text-3xl font-black text-[#818CF8] mb-1">{val}</div>
-                  <div className="text-[#C0C9D5]/80 text-sm">{label}</div>
+                <div key={label} className="bg-white/8 border border-white/12 rounded-2xl p-4 sm:p-6 text-center">
+                  <div className="text-xl sm:text-3xl font-black text-[#818CF8] mb-1">{val}</div>
+                  <div className="text-[#C0C9D5]/80 text-xs sm:text-sm">{label}</div>
                 </div>
               ))}
             </div>

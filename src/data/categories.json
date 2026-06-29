@@ -1,92 +1,525 @@
-[
-  {
-    "id": "cat-01",
-    "name": "Aircraft Structural Components",
-    "fsg": "15",
-    "fsc": "1560",
-    "description": "Airframe structural parts, bulkheads, ribs, spars, and skin panels for fixed-wing aircraft.",
-    "icon": "plane",
-    "partCount": 1840
-  },
-  {
-    "id": "cat-02",
-    "name": "Aircraft Components & Accessories",
-    "fsg": "16",
-    "fsc": "1660",
-    "description": "Flight controls, landing gear components, hydraulic actuators, and airframe accessories.",
-    "icon": "settings",
-    "partCount": 2310
-  },
-  {
-    "id": "cat-03",
-    "name": "Gas Turbines & Jet Engines",
-    "fsg": "28",
-    "fsc": "2840",
-    "description": "Turbine blades, combustion chambers, compressor stages, and complete engine modules.",
-    "icon": "zap",
-    "partCount": 3150
-  },
-  {
-    "id": "cat-04",
-    "name": "Engine Accessories",
-    "fsg": "29",
-    "fsc": "2915",
-    "description": "Fuel controls, oil pumps, starters, ignition systems, and engine-mounted accessories.",
-    "icon": "tool",
-    "partCount": 1720
-  },
-  {
-    "id": "cat-05",
-    "name": "Bearings",
-    "fsg": "31",
-    "fsc": "3110",
-    "description": "Ball bearings, roller bearings, thrust bearings, and bearing assemblies for aerospace applications.",
-    "icon": "circle",
-    "partCount": 980
-  },
-  {
-    "id": "cat-06",
-    "name": "Hardware & Abrasives",
-    "fsg": "53",
-    "fsc": "5305",
-    "description": "Aerospace-grade fasteners, bolts, nuts, washers, rivets, and precision hardware.",
-    "icon": "wrench",
-    "partCount": 4200
-  },
-  {
-    "id": "cat-07",
-    "name": "Electronic Components",
-    "fsg": "59",
-    "fsc": "5962",
-    "description": "Avionics circuit boards, sensors, transistors, capacitors, and electronic sub-assemblies.",
-    "icon": "cpu",
-    "partCount": 2680
-  },
-  {
-    "id": "cat-08",
-    "name": "Wire & Power Distribution",
-    "fsg": "61",
-    "fsc": "6105",
-    "description": "Mil-spec wire, cable assemblies, harnesses, connectors, and power distribution units.",
-    "icon": "activity",
-    "partCount": 1560
-  },
-  {
-    "id": "cat-09",
-    "name": "Fire Control Equipment",
-    "fsg": "12",
-    "fsc": "1270",
-    "description": "Fire control computers, radar components, weapon system electronics, and targeting assemblies.",
-    "icon": "crosshair",
-    "partCount": 640
-  },
-  {
-    "id": "cat-10",
-    "name": "Lighting Fixtures & Lamps",
-    "fsg": "62",
-    "fsc": "6210",
-    "description": "Aircraft interior and exterior lighting, position lights, anti-collision lights, and landing lights.",
-    "icon": "sun",
-    "partCount": 520
-  }
-]
+{
+  "fsgCategories": [
+    {
+      "id": "cat-01",
+      "name": "Aircraft Structural Components",
+      "fsg": "15",
+      "fsc": "1560",
+      "description": "Airframe structural parts, bulkheads, ribs, spars, and skin panels for fixed-wing aircraft.",
+      "icon": "plane",
+      "partCount": 1840
+    },
+    {
+      "id": "cat-02",
+      "name": "Aircraft Components & Accessories",
+      "fsg": "16",
+      "fsc": "1660",
+      "description": "Flight controls, landing gear components, hydraulic actuators, and airframe accessories.",
+      "icon": "settings",
+      "partCount": 2310
+    },
+    {
+      "id": "cat-03",
+      "name": "Gas Turbines & Jet Engines",
+      "fsg": "28",
+      "fsc": "2840",
+      "description": "Turbine blades, combustion chambers, compressor stages, and complete engine modules.",
+      "icon": "zap",
+      "partCount": 3150
+    },
+    {
+      "id": "cat-04",
+      "name": "Engine Accessories",
+      "fsg": "29",
+      "fsc": "2915",
+      "description": "Fuel controls, oil pumps, starters, ignition systems, and engine-mounted accessories.",
+      "icon": "tool",
+      "partCount": 1720
+    },
+    {
+      "id": "cat-05",
+      "name": "Bearings",
+      "fsg": "31",
+      "fsc": "3110",
+      "description": "Ball bearings, roller bearings, thrust bearings, and bearing assemblies for aerospace applications.",
+      "icon": "circle",
+      "partCount": 980
+    },
+    {
+      "id": "cat-06",
+      "name": "Hardware & Abrasives",
+      "fsg": "53",
+      "fsc": "5305",
+      "description": "Aerospace-grade fasteners, bolts, nuts, washers, rivets, and precision hardware.",
+      "icon": "wrench",
+      "partCount": 4200
+    },
+    {
+      "id": "cat-07",
+      "name": "Electronic Components",
+      "fsg": "59",
+      "fsc": "5962",
+      "description": "Avionics circuit boards, sensors, transistors, capacitors, and electronic sub-assemblies.",
+      "icon": "cpu",
+      "partCount": 2680
+    },
+    {
+      "id": "cat-08",
+      "name": "Wire & Power Distribution",
+      "fsg": "61",
+      "fsc": "6105",
+      "description": "Mil-spec wire, cable assemblies, harnesses, connectors, and power distribution units.",
+      "icon": "activity",
+      "partCount": 1560
+    },
+    {
+      "id": "cat-09",
+      "name": "Fire Control Equipment",
+      "fsg": "12",
+      "fsc": "1270",
+      "description": "Fire control computers, radar components, weapon system electronics, and targeting assemblies.",
+      "icon": "crosshair",
+      "partCount": 640
+    },
+    {
+      "id": "cat-10",
+      "name": "Lighting Fixtures & Lamps",
+      "fsg": "62",
+      "fsc": "6210",
+      "description": "Aircraft interior and exterior lighting, position lights, anti-collision lights, and landing lights.",
+      "icon": "sun",
+      "partCount": 520
+    }
+  ],
+  "industries": [
+    {
+      "id": "ind-01",
+      "name": "Aerospace & Aviation",
+      "slug": "aerospace",
+      "icon": "plane",
+      "description": "Commercial, cargo, and regional aircraft parts sourcing for OEMs and MRO facilities.",
+      "longDescription": "We supply certified aerospace components for the full spectrum of commercial aviation.",
+      "partCount": 12500,
+      "keyParts": [
+        "Turbine Blades",
+        "Landing Gear",
+        "Flight Control Actuators",
+        "Avionics Units",
+        "Engine Mounts"
+      ],
+      "clients": [
+        "Boeing",
+        "Airbus",
+        "Bombardier",
+        "Embraer",
+        "Textron Aviation"
+      ]
+    },
+    {
+      "id": "ind-02",
+      "name": "Aircraft Components & Accessories",
+      "slug": "aircraft-components-accessories",
+      "icon": "plane",
+      "description": "High-grade structural components, actuation systems, and avionics accessories for fixed-wing and rotary-wing aircraft.",
+      "longDescription": "We supply FAA-certified and MIL-SPEC compliant aircraft components.",
+      "partCount": 15200,
+      "keyParts": [
+        "Hydraulic Actuators",
+        "Avionics Accessories",
+        "Structural Fasteners",
+        "Flight Control Cables",
+        "Landing Gear Components"
+      ],
+      "clients": [
+        "Boeing",
+        "Airbus",
+        "Delta TechOps",
+        "U.S. Army Aviation",
+        "Gulfstream Aerospace"
+      ]
+    },
+    {
+      "id": "ind-03",
+      "name": "Aircraft Launching, Landing & Ground Handling",
+      "slug": "aircraft-launching-landing-ground-handling",
+      "icon": "landing",
+      "description": "Essential ground support equipment (GSE), catapult components, arresting gear, and towbarless tractors.",
+      "longDescription": "Our product line covers the full spectrum of airfield ground support.",
+      "partCount": 3800,
+      "keyParts": [
+        "Towbarless Tractors",
+        "Catapult Shuttle Components",
+        "Arresting Gear Cables",
+        "Ground Power Units (GPU)",
+        "Hydraulic Mules"
+      ],
+      "clients": [
+        "U.S. Navy (NAVAIR)",
+        "U.S. Air Force",
+        "Lockheed Martin",
+        "Northrop Grumman",
+        "BAE Systems"
+      ]
+    },
+    {
+      "id": "ind-04",
+      "name": "Ship & Marine Equipment",
+      "slug": "ship-marine-equipment",
+      "icon": "anchor",
+      "description": "Naval-grade propulsion, deck machinery, and communication systems for surface vessels and submarines.",
+      "longDescription": "We are a trusted supplier of NAVSEA-certified marine equipment.",
+      "partCount": 6400,
+      "keyParts": [
+        "Propulsion Shafting",
+        "Deck Winches & Capstans",
+        "Stern Tube Seals",
+        "Shipboard Cables",
+        "Navigation Radar Systems"
+      ],
+      "clients": [
+        "U.S. Navy (NAVSEA)",
+        "Huntington Ingalls",
+        "General Dynamics NASSCO",
+        "U.S. Coast Guard",
+        "Austal USA"
+      ]
+    },
+    {
+      "id": "ind-05",
+      "name": "Engines, Turbines & Components",
+      "slug": "engines-turbines-components",
+      "icon": "turbine",
+      "description": "High-performance jet turbine blades, compressor disks, and complete propulsion systems.",
+      "longDescription": "Specializing in OEM and PMA parts for gas turbine engines.",
+      "partCount": 3100,
+      "keyParts": [
+        "Turbine Blades",
+        "Compressor Disks",
+        "Combustion Liners",
+        "Engine Mounts",
+        "Thrust Reversers"
+      ],
+      "clients": [
+        "GE Aviation",
+        "Pratt & Whitney",
+        "Rolls-Royce",
+        "U.S. Air Force",
+        "Delta Airlines"
+      ]
+    },
+    {
+      "id": "ind-06",
+      "name": "Engine Accessories",
+      "slug": "engine-accessories",
+      "icon": "settings",
+      "description": "Fuel pumps, starters, ignition exciters, and control systems that keep aircraft engines running safely.",
+      "longDescription": "Our inventory includes a wide range of engine-mounted accessories.",
+      "partCount": 4900,
+      "keyParts": [
+        "Fuel Pumps",
+        "Ignition Exciters",
+        "Starter Generators",
+        "Thermocouples",
+        "Engine Control Units (ECU)"
+      ],
+      "clients": [
+        "Honeywell",
+        "Collins Aerospace",
+        "U.S. Navy",
+        "Lufthansa Technik",
+        "StandardAero"
+      ]
+    },
+    {
+      "id": "ind-07",
+      "name": "Switches & Electrical Connectors",
+      "slug": "switches-electrical-connectors",
+      "icon": "plug",
+      "description": "Mil-qualified toggle switches, circuit breakers, and multi-pin circular connectors for harsh environments.",
+      "longDescription": "We are a leading distributor of high-reliability electrical interconnect solutions.",
+      "partCount": 17500,
+      "keyParts": [
+        "Circular Connectors (MIL-DTL-38999)",
+        "Toggle Switches",
+        "Circuit Breakers",
+        "Relay Sockets",
+        "EMI/RFI Filters"
+      ],
+      "clients": [
+        "TE Connectivity",
+        "ITT Cannon",
+        "Amphenol",
+        "Boeing",
+        "Lockheed Martin"
+      ]
+    },
+    {
+      "id": "ind-08",
+      "name": "Microcircuits, Electrical Hardware & More",
+      "slug": "microcircuits-electrical-hardware",
+      "icon": "cpu",
+      "description": "Radiation-hardened microcircuits, semiconductors, and precision hardware for aerospace & defense electronics.",
+      "longDescription": "We provide cutting-edge microelectronics and hardware.",
+      "partCount": 28600,
+      "keyParts": [
+        "Rad-Hard ICs",
+        "FPGA Modules",
+        "Capacitors & Resistors",
+        "Terminal Blocks",
+        "Precision Fasteners"
+      ],
+      "clients": [
+        "NASA",
+        "Raytheon Technologies",
+        "Northrop Grumman",
+        "L3Harris",
+        "DLA (Defense Logistics Agency)"
+      ]
+    }
+  ],
+  "productCategories": [
+    {
+      "id": "prod-01",
+      "name": "Hot Stock",
+      "slug": "hot-stock",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "High-demand turbine parts ready for immediate dispatch"
+    },
+    {
+      "id": "prod-02",
+      "name": "General Electric 6FA Turbine Parts",
+      "slug": "ge-6fa-turbine-parts",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "6FA gas turbine components, nozzles, buckets, shrouds, and seals"
+    },
+    {
+      "id": "prod-03",
+      "name": "Turbine Parts",
+      "slug": "turbine-parts",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "Industrial and aero-derivative turbine spare parts"
+    },
+    {
+      "id": "prod-04",
+      "name": "Gas Turbines Parts",
+      "slug": "gas-turbines-parts",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "Gas turbine components for power generation and mechanical drive"
+    },
+    {
+      "id": "prod-05",
+      "name": "Bently Nevada",
+      "slug": "bently-nevada",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-04"
+      ],
+      "description": "Bently Nevada vibration monitoring and protection systems"
+    },
+    {
+      "id": "prod-06",
+      "name": "Top Gas Turbine Spare Parts",
+      "slug": "top-gas-turbine-spare-parts",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "Essential gas turbine spare parts for critical applications"
+    },
+    {
+      "id": "prod-07",
+      "name": "GE Modules",
+      "slug": "ge-modules",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "GE turbine control modules and accessory components"
+    },
+    {
+      "id": "prod-08",
+      "name": "Engine Portfolio",
+      "slug": "engine-portfolio",
+      "type": "product",
+      "industryIds": [
+        "ind-01",
+        "ind-05",
+        "ind-06"
+      ],
+      "description": "Complete engine portfolio covering multiple platforms"
+    }
+  ],
+  "partCategories": [
+    {
+      "id": "part-01",
+      "name": "GE Power Services",
+      "slug": "ge-power-services",
+      "type": "part",
+      "manufacturer": "General Electric",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "GE Power & Water aftermarket parts and services"
+    },
+    {
+      "id": "part-02",
+      "name": "PW/MPA FT8",
+      "slug": "pw-mpa-ft8",
+      "type": "part",
+      "manufacturer": "Pratt & Whitney",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "PW/MPA FT8 aeroderivative gas turbine parts"
+    },
+    {
+      "id": "part-03",
+      "name": "GE LM6000",
+      "slug": "ge-lm6000",
+      "type": "part",
+      "manufacturer": "General Electric",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "GE LM6000 gas turbine components and spares"
+    },
+    {
+      "id": "part-04",
+      "name": "GE Turbine",
+      "slug": "ge-turbine",
+      "type": "part",
+      "manufacturer": "General Electric",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "GE heavy-duty gas turbine parts and services"
+    },
+    {
+      "id": "part-05",
+      "name": "GE Frame 5 6 7 9",
+      "slug": "ge-frame-5-6-7-9",
+      "type": "part",
+      "manufacturer": "General Electric",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "GE Frame 5, 6, 7, 9 turbine replacement parts"
+    },
+    {
+      "id": "part-06",
+      "name": "Alstom",
+      "slug": "alstom",
+      "type": "part",
+      "manufacturer": "Alstom",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "Alstom gas and steam turbine spare parts"
+    },
+    {
+      "id": "part-07",
+      "name": "Ansaldo",
+      "slug": "ansaldo",
+      "type": "part",
+      "manufacturer": "Ansaldo Energia",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "Ansaldo gas turbine components and services"
+    },
+    {
+      "id": "part-08",
+      "name": "General Electric (GE)",
+      "slug": "general-electric",
+      "type": "part",
+      "manufacturer": "General Electric",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "General Electric turbine and generator parts"
+    },
+    {
+      "id": "part-09",
+      "name": "Rolls Royce",
+      "slug": "rolls-royce",
+      "type": "part",
+      "manufacturer": "Rolls-Royce",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "Rolls-Royce aero and industrial gas turbine parts"
+    },
+    {
+      "id": "part-10",
+      "name": "Solar Turbines",
+      "slug": "solar-turbines",
+      "type": "part",
+      "manufacturer": "Solar Turbines",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "Solar Turbines gas compressor and turbine parts"
+    },
+    {
+      "id": "part-11",
+      "name": "Siemens",
+      "slug": "siemens",
+      "type": "part",
+      "manufacturer": "Siemens",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "Siemens gas and steam turbine components"
+    },
+    {
+      "id": "part-12",
+      "name": "Zorya-Mashproekt",
+      "slug": "zorya-mashproekt",
+      "type": "part",
+      "manufacturer": "Zorya-Mashproekt",
+      "industryIds": [
+        "ind-01",
+        "ind-05"
+      ],
+      "description": "Zorya-Mashproekt marine and industrial gas turbine parts"
+    },
+    {
+      "id": "511c7719-fe1b-4f7f-8d70-05b435c192ff",
+      "name": "GT13E2_GT8C1",
+      "slug": "gt13e2-gt8c1",
+      "type": "part",
+      "manufacturer": "NA",
+      "sortOrder": 0
+    }
+  ]
+}

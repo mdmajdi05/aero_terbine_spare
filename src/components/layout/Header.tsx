@@ -7,120 +7,23 @@ import {
   Search, Menu, X, ChevronDown, LogOut, User, LayoutDashboard,
   Phone, Shield, Settings, BookOpen, Package, Plane, Zap,
   Truck, Wrench, Star, Award, FileText, Factory, Radio,
-  HeartPulse,
-   Car, HelpCircle, ArrowRight, Layers, Clock,
+  HelpCircle, ArrowRight, Layers, Clock,
   ShieldCheck, Globe, BadgeCheck, ChevronRight,
-  PlaneLanding,
-  Anchor,
   LucidePlaneTakeoff,
   ShoppingBasketIcon,                      
   Plug,         
   Cpu,
-  Rocket,          
+  Rocket, Anchor, Grid3X3, List, Hash,              
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSiteConfig } from '@/hooks/useSiteConfig';
 import Button from '@/components/ui/Button';
+import AeroLogo from '@/components/branding/AeroLogo';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 import { cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
-
-// ── Mega menu data ────────────────────────────────────────────
-
-const CATALOG_MENU = {
-  label: 'Parts Catalog & Products',
-  href: '/catalog',
-  sections: [
-    {
-      title: 'Search by Identifier',
-      items: [
-        { label: 'Browse All Parts', href: '/catalog', icon: Package, desc: 'Full inventory of 55,000+ parts' },
-        { label: 'By NSN Number', href: '/catalog?filter=nsn', icon: BookOpen, desc: '13-digit NATO stock numbers' },
-        { label: 'By CAGE Code', href: '/catalog?filter=cage', icon: BadgeCheck, desc: 'Manufacturer cage identifiers' },
-        { label: 'By FSG Category', href: '/catalog?filter=fsg', icon: Layers, desc: 'Federal supply group classification' },
-        { label: 'Advanced Search', href: '/catalog?advanced=1', icon: Search, desc: 'Multi-field filter & boolean search' },
-      ],
-    },
-    {
-      title: 'Top Categories',
-      items: [
-        { label: 'Turbines & Engines', href: '/catalog?fsg=28', icon: Zap, desc: 'FSG 28 — Gas turbines & jet engines' },
-        { label: 'Airframe Components', href: '/catalog?fsg=15', icon: Plane, desc: 'FSG 15 — Structural airframe parts' },
-        { label: 'Engine Accessories', href: '/catalog?fsg=29', icon: Wrench, desc: 'FSG 29 — Accessory drive systems' },
-        { label: 'Bearings', href: '/catalog?fsg=31', icon: Settings, desc: 'FSG 31 — Precision bearings' },
-        { label: 'Electronics', href: '/catalog?fsg=59', icon: Radio, desc: 'FSG 59 — Avionics & electronics' },
-      ],
-    },
-  ],
-  featured: {
-    label: 'Urgent Need?',
-    desc: 'Skip the queue. Flag your RFQ as urgent for priority 4-hour response.',
-    href: '/rfq?urgency=urgent',
-    cta: 'Submit Urgent RFQ',
-    badge: '4-hr Response',
-  },
-};
-
-const INDUSTRIES_MENU = {
-  label: 'Industries',
-  href: '/industries',
-  sections: [
-    {
-      title: 'Sectors We Serve',
-      items: [
-        { label: 'Aerospace & Aviation', href: '/industries/aerospace', icon: Plane, desc: 'Commercial & military aviation parts' },
-        {
-    label: 'Aircraft Components & Accessories',
-    href: '/industries/aircraft-components-accessories',
-    icon: ShoppingBasketIcon,
-    desc: 'High-grade structural components, actuation systems, and avionics accessories for fixed-wing and rotary-wing aircraft.'
-  },
-  {
-    label: 'Aircraft Launching, Landing & Ground Handling',
-    href: '/industries/aircraft-launching-landing-ground-handling',
-    icon: LucidePlaneTakeoff,
-    desc: 'Essential ground support equipment (GSE), catapult components, arresting gear, and towbarless tractors for airfield operations.'
-  },
-  {
-    label: 'Ship & Marine Equipment',
-    href: '/industries/ship-marine-equipment',
-    icon: Anchor,
-    desc: 'Naval-grade propulsion, deck machinery, and communication systems for surface vessels and submarines.'
-  },
-  {
-    label: 'Engines, Turbines & Components',
-    href: '/industries/engines-turbines-components',
-    icon: Rocket,
-    desc: 'High-performance jet turbine blades, compressor disks, and complete propulsion systems.'
-  },
-  {
-    label: 'Engine Accessories',
-    href: '/industries/engine-accessories',
-    icon: Settings,
-    desc: 'Fuel pumps, starters, ignition exciters, and control systems that keep aircraft engines running safely.'
-  },
-  {
-    label: 'Switches & Electrical Connectors',
-    href: '/industries/switches-electrical-connectors',
-    icon: Plug,
-    desc: 'Mil-qualified toggle switches, circuit breakers, and multi-pin circular connectors for harsh environments.'
-  },
-  {
-    label: 'Microcircuits, Electrical Hardware & More',
-    href: '/industries/microcircuits-electrical-hardware',
-    icon: Cpu,
-    desc: 'Radiation-hardened microcircuits, semiconductors, and precision hardware for aerospace & defense electronics.'
-  }
-      ],
-    },
-  ],
-  featured: {
-    label: 'Manufacturing Partners',
-    desc: 'Over 1,200 certified OEM manufacturers in our global supplier network.',
-    href: '/about',
-    cta: 'Our Supplier Network',
-    badge: '1,200+ OEMs',
-  },
-};
+import type { NavCategory, Industry, NavCategoryTree } from '@/types';
+import { request } from '@/lib/api-client';
 
 const COMPANY_MENU = {
   label: 'Company',
@@ -137,6 +40,7 @@ const COMPANY_MENU = {
     {
       title: 'Resources',
       items: [
+        { label: 'Industry Blog', href: '/blog', icon: BookOpen, desc: 'Aerospace insights & MRO guides' },
         { label: 'Terms & Conditions', href: '/terms', icon: FileText, desc: 'Legal terms of service' },
         { label: 'Privacy Policy', href: '/privacy', icon: Shield, desc: 'How we protect your data' },
         { label: 'FAQ / Help', href: '/contact', icon: HelpCircle, desc: 'Common questions answered' },
@@ -157,10 +61,6 @@ const SIMPLE_NAV = [
   { label: 'Sell Inventory', href: '/inventory', highlight: false },
 ];
 
-const MEGA_MENUS = [CATALOG_MENU, INDUSTRIES_MENU, COMPANY_MENU] as const;
-
-type MegaMenuData = typeof CATALOG_MENU | typeof INDUSTRIES_MENU | typeof COMPANY_MENU;
-
 // ─────────────────────────────────────────────────────────────
 
 export default function Header() {
@@ -170,12 +70,18 @@ export default function Header() {
   const [openMobile, setOpenMobile] = useState<string | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const [logoImgError, setLogoImgError] = useState(false);
+  const [navTree, setNavTree] = useState<NavCategoryTree | null>(null);
+  const [navLoading, setNavLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
   const headerRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { user, logout, isAdmin, isSuperAdmin } = useAuth();
   const { config: siteConfig } = useSiteConfig();
+
+  // Reset error flag whenever the logo URL changes
+  useEffect(() => { setLogoImgError(false); }, [siteConfig.logoImageUrl]);
 
   // Close menus on route change
   useEffect(() => {
@@ -189,6 +95,17 @@ export default function Header() {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Fetch nav category tree
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await request<{ success: boolean; data: NavCategoryTree }>('/nav-categories');
+        if (res?.data) setNavTree(res.data);
+      } catch { /* use fallback */ }
+      finally { setNavLoading(false); }
+    })();
   }, []);
 
   // Outside click
@@ -228,38 +145,148 @@ export default function Header() {
   const toggleMobileSection = (label: string) =>
     setOpenMobile((prev) => (prev === label ? null : label));
 
+  // ── Compute mega menus from navTree or fallback ──────────────
+  const hasDynamic = !!(navTree?.productCategories?.length || navTree?.partCategories?.length);
+
+  const CATALOG_MENU = {
+    label: 'Parts & Products',
+    href: '/catalog',
+    sections: [
+      {
+        title: 'Products',
+        items: hasDynamic
+          ? (navTree?.productCategories ?? []).map((cat) => ({
+              label: cat.name,
+              href: `/products/${cat.slug}`,
+              icon: Package,
+              desc: cat.description || 'Product category',
+            }))
+          : [
+              { label: 'Hot Stock', href: '/catalog?category=hot-stock&type=product', icon: Zap, desc: 'High-demand turbine parts ready for immediate dispatch' },
+              { label: 'General Electric 6FA Turbine Parts', href: '/catalog?category=ge-6fa-turbine-parts&type=product', icon: Settings, desc: '6FA gas turbine components, nozzles, buckets & shrouds' },
+              { label: 'Turbine Parts', href: '/catalog?category=turbine-parts&type=product', icon: Package, desc: 'Industrial and aero-derivative turbine spare parts' },
+              { label: 'Gas Turbines Parts', href: '/catalog?category=gas-turbines-parts&type=product', icon: Wrench, desc: 'Gas turbine components for power generation' },
+              { label: 'Bently Nevada', href: '/catalog?category=bently-nevada&type=product', icon: Radio, desc: 'Vibration monitoring and protection systems' },
+              { label: 'GE Modules', href: '/catalog?category=ge-modules&type=product', icon: Cpu, desc: 'GE turbine control modules and accessory components' },
+              { label: 'Engine Portfolio', href: '/catalog?category=engine-portfolio&type=product', icon: Plane, desc: 'Complete engine portfolio covering multiple platforms' },
+            ],
+      },
+      {
+        title: 'Parts by Manufacturer',
+        items: hasDynamic
+          ? (navTree?.partCategories ?? []).map((cat) => ({
+              label: cat.name,
+              href: `/parts/${cat.slug}`,
+              icon: Settings,
+              desc: cat.description || (cat.manufacturer ? `${cat.manufacturer}` : 'Part category'),
+            }))
+          : [
+              { label: 'GE Power Services', href: '/catalog?category=ge-power-services&type=part', icon: Settings, desc: 'General Electric' },
+              { label: 'PW/MPA FT8', href: '/catalog?category=pw-mpa-ft8&type=part', icon: Settings, desc: 'Pratt & Whitney' },
+              { label: 'GE LM6000', href: '/catalog?category=ge-lm6000&type=part', icon: Settings, desc: 'General Electric' },
+              { label: 'GE Turbine', href: '/catalog?category=ge-turbine&type=part', icon: Settings, desc: 'General Electric' },
+              { label: 'GE Frame 5 6 7 9', href: '/catalog?category=ge-frame-5-6-7-9&type=part', icon: Settings, desc: 'General Electric' },
+              { label: 'Alstom', href: '/catalog?category=alstom&type=part', icon: Settings, desc: 'Alstom' },
+              { label: 'Ansaldo', href: '/catalog?category=ansaldo&type=part', icon: Settings, desc: 'Ansaldo Energia' },
+              { label: 'Rolls Royce', href: '/catalog?category=rolls-royce&type=part', icon: Settings, desc: 'Rolls-Royce' },
+              { label: 'Solar Turbines', href: '/catalog?category=solar-turbines&type=part', icon: Settings, desc: 'Solar Turbines' },
+              { label: 'Siemens', href: '/catalog?category=siemens&type=part', icon: Settings, desc: 'Siemens' },
+            ],
+      },
+      {
+        title: 'Quick Search',
+        items: [
+          { label: 'Browse All Parts', href: '/catalog', icon: Grid3X3, desc: 'Full inventory of 55,000+ parts' },
+          { label: 'By NSN Number', href: '/catalog?filter=nsn', icon: Hash, desc: '13-digit NATO stock numbers' },
+          { label: 'By CAGE Code', href: '/catalog?filter=cage', icon: BadgeCheck, desc: 'Manufacturer cage identifiers' },
+          { label: 'Advanced Search', href: '/catalog?advanced=1', icon: Search, desc: 'Multi-field filter & boolean search' },
+        ],
+      },
+    ],
+    featured: {
+      label: 'Urgent Need?',
+      desc: 'Skip the queue. Flag your RFQ as urgent for priority 4-hour response.',
+      href: '/rfq?urgency=urgent',
+      cta: 'Submit Urgent RFQ',
+      badge: '4-hr Response',
+    },
+  };
+
+  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+    plane: Plane, shield: Shield, car: Package, heart: Package,
+    cpu: Cpu, radio: Radio, settings: Settings, landing: LucidePlaneTakeoff,
+    anchor: Anchor, turbine: Wrench, plug: Plug, zap: Zap,
+    wrench: Wrench, circle: Package, crosshair: Radio, sun: Package,
+    tool: Wrench, activity: Package,
+  };
+
+  const INDUSTRIES_MENU = {
+    label: 'Industries',
+    href: '/industries',
+    sections: [
+      {
+        title: 'Sectors We Serve',
+        items: hasDynamic && navTree?.industries?.length
+          ? navTree.industries.slice(0, 8).map((ind) => {
+              const IconComp = iconMap[ind.icon ?? ''] || Package;
+              return {
+                label: ind.name,
+                href: `/industries/${ind.slug}`,
+                icon: IconComp,
+                desc: ind.description || 'Industry vertical',
+              };
+            })
+          : [
+              { label: 'Aerospace & Aviation', href: '/industries/aerospace', icon: Plane, desc: 'Commercial & military aviation parts' },
+              { label: 'Aircraft Components & Accessories', href: '/industries/aircraft-components-accessories', icon: ShoppingBasketIcon, desc: 'High-grade structural components, actuation systems, and avionics accessories for fixed-wing and rotary-wing aircraft.' },
+            ],
+      },
+    ],
+    featured: {
+      label: 'Manufacturing Partners',
+      desc: 'Over 1,200 certified OEM manufacturers in our global supplier network.',
+      href: '/about',
+      cta: 'Our Supplier Network',
+      badge: '1,200+ OEMs',
+    },
+  };
+
+  const MEGA_MENUS = [CATALOG_MENU, INDUSTRIES_MENU, COMPANY_MENU] as const;
+  type MegaMenuData = typeof CATALOG_MENU | typeof INDUSTRIES_MENU | typeof COMPANY_MENU;
+
   return (
     <>
       {/* ── Top bar ──────────────────────────────────────── */}
-      <div className="bg-[#060F1A] text-[#C0C9D5] text-xs hidden lg:block">
+      <div className="bg-[#060F1A] text-[#C0C9D5] text-[11px] hidden lg:block">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-8">
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 xl:gap-6">
             <a
               href="tel:+17138425500"
-              className="flex items-center gap-1.5 hover:text-[#4F46E5] transition-colors"
+              className="flex items-center gap-1.5 hover:text-[#4F46E5] transition-colors whitespace-nowrap"
             >
               <Phone className="w-3 h-3" />
               +1-713-842-5500
             </a>
-            <span>
+            <span className="hidden xl:inline">
               CAGE Code: <strong className="text-[#4F46E5] font-mono tracking-widest">8ATR9</strong>
             </span>
-            <span className="flex items-center gap-1.5">
+            <span className="hidden xl:flex items-center gap-1.5">
               <Clock className="w-3 h-3" />
               24-Hr Quote Response Guarantee
             </span>
           </div>
-          <div className="flex items-center gap-5">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00A651] animate-pulse" />
-              ISO 9001 &amp; AS9120 Certified
+          <div className="flex items-center gap-4 xl:gap-5">
+            <span className="flex items-center gap-1.5 whitespace-nowrap">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00A651] animate-pulse flex-shrink-0" />
+              <span className="hidden xl:inline">ISO 9001 &amp; AS9120</span>
+              <span className="xl:hidden">Certified</span>
             </span>
-            <span className="flex items-center gap-1.5">
-              <Truck className="w-3 h-3" />
+            <span className="hidden xl:flex items-center gap-1.5 whitespace-nowrap">
+              <Truck className="w-3 h-3 flex-shrink-0" />
               Ships to 150+ Countries
             </span>
-            <span className="flex items-center gap-1.5">
-              <Star className="w-3 h-3 fill-[#4F46E5] text-[#4F46E5]" />
+            <span className="hidden xl:flex items-center gap-1.5 whitespace-nowrap">
+              <Star className="w-3 h-3 fill-[#4F46E5] text-[#4F46E5] flex-shrink-0" />
               AS9120B Accredited
             </span>
           </div>
@@ -277,9 +304,9 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16 lg:h-[70px] gap-4">
 
-            {/* Logo — dimensions controlled by Admin Branding panel */}
+            {/* Logo — dimensions + image controlled by Admin Branding panel */}
             <Link
-              href="/"
+              href={siteConfig.logoLink || '/'}
               className="flex items-center gap-2.5 flex-shrink-0"
               style={{
                 paddingLeft:  siteConfig.logoPaddingX,
@@ -292,27 +319,22 @@ export default function Header() {
                 marginBottom: siteConfig.logoMarginY,
               }}
             >
-              <div
-                className="rounded-xl bg-[#0A1628] flex items-center justify-center shadow-sm flex-shrink-0"
-                style={{
-                  width:  siteConfig.logoWidth || siteConfig.logoHeight,
-                  height: siteConfig.logoHeight,
-                }}
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2L4 8.5v4.5l8 9 8-9V8.5L12 2z" fill="#4F46E5" />
-                  <path d="M12 6.5l-4.5 3.5v2.5l4.5 5.5 4.5-5.5V10L12 6.5z" fill="white" fillOpacity=".85" />
-                  <circle cx="12" cy="11" r="1.5" fill="#818CF8" />
-                </svg>
-              </div>
-              <div className="hidden sm:block">
-                <div className="text-[#0A1628] font-bold text-[18px] leading-tight tracking-tight">
-                  {siteConfig.logoText || 'AeroTurbineSpare'}
-                </div>
-                <div className="text-[#4A4A6A] text-[10px] leading-tight tracking-widest uppercase font-medium">
-                  {siteConfig.logoSubText || 'Precision Aerospace Sourcing'}
-                </div>
-              </div>
+              {siteConfig.logoImageUrl && !logoImgError ? (
+                /* Custom logo image */
+                <img
+                  src={siteConfig.logoImageUrl}
+                  alt={siteConfig.logoText || 'Logo'}
+                  style={{
+                    height: siteConfig.logoHeight,
+                    width:  siteConfig.logoWidth || 'auto',
+                    objectFit: 'contain',
+                  }}
+                  className="flex-shrink-0"
+                  onError={() => setLogoImgError(true)}
+                />
+              ) : (
+                <AeroLogo size={Math.min(siteConfig.logoHeight || 42, 48)} variant="full" />
+              )}
             </Link>
 
             {/* Search — desktop */}
@@ -323,7 +345,7 @@ export default function Header() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search by Part Number, NSN, CAGE Code, or Description..."
-                  className="w-full pl-5 pr-14 py-3 rounded-xl border border-[#C0C9D5] bg-[#F5F7FA] text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/30 focus:border-[#4F46E5] transition-all placeholder:text-[#4A4A6A]/60"
+                  className="w-full pl-5 pr-14 py-3 rounded-xl border border-silver-dark bg-bg text-sm text-text focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/30 focus:border-[#4F46E5] transition-all placeholder:text-text-muted/60"
                 />
                 <button
                   type="submit"
@@ -337,6 +359,7 @@ export default function Header() {
 
             {/* Desktop auth + CTA */}
             <div className="hidden lg:flex items-center gap-3">
+              <ThemeToggle />
               {user ? (
                 <div className="relative">
                   <button
@@ -418,9 +441,9 @@ export default function Header() {
 
             {/* Mobile toggle */}
             <button
-              className="lg:hidden p-2.5 rounded-xl hover:bg-[#E8EDF2] transition-colors"
-              onClick={() => setMobileOpen((p) => !p)}
-              aria-label="Toggle menu"
+          className="lg:hidden p-3 rounded-xl text-text-muted hover:bg-silver transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+          onClick={() => setMobileOpen((p) => !p)}
+          aria-label="Toggle menu"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -428,7 +451,7 @@ export default function Header() {
 
           {/* ── Desktop mega-nav bar ──────────────────────── */}
           <nav className="hidden lg:flex items-center justify-center gap-0.5 h-11 border-t border-[#E8EDF2]/70">
-<Link href="/">Home</Link>
+<Link href="/" className="px-4 h-11 flex items-center text-sm font-medium transition-colors rounded-t-lg text-text-muted hover:text-navy hover:bg-silver/60">Home</Link>
             {/* Mega menu items */}
             {MEGA_MENUS.map((menu) => (
               <div
@@ -448,7 +471,7 @@ export default function Header() {
                     'flex items-center gap-1 px-4 h-11 text-sm font-medium transition-colors rounded-t-lg',
                     openMenu === menu.label
                       ? 'text-[#4F46E5] bg-[#FFF5EE]'
-                      : 'text-[#4A4A6A] hover:text-[#0A1628] hover:bg-[#E8EDF2]/60'
+                      : 'text-text-muted hover:text-navy hover:bg-silver/60'
                   )}
                 >
                   {menu.label}
@@ -466,7 +489,7 @@ export default function Header() {
                       ? 'opacity-100 scale-100 pointer-events-auto translate-y-0'
                       : 'opacity-0 scale-95 pointer-events-none -translate-y-2'
                   )}
-                  style={{ minWidth: 680 }}
+                  style={{ minWidth: 'min(920px, calc(100vw - 2rem))' }}
                 >
                   <div className="flex">
                     {/* Sections */}
@@ -487,10 +510,10 @@ export default function Header() {
                                     <item.icon className="w-4 h-4 text-[#4A4A6A] group-hover:text-[#4F46E5] transition-colors" />
                                   </div>
                                   <div className="min-w-0">
-                                    <div className="text-sm font-medium text-[#1A1A2E] group-hover:text-[#4F46E5] transition-colors leading-tight">
+                                    <div className="text-sm font-medium text-[#1A1A2E] group-hover:text-[#4F46E5] transition-colors leading-tight truncate max-w-52">
                                       {item.label}
                                     </div>
-                                    <div className="text-xs text-[#4A4A6A] mt-0.5 leading-snug">{item.desc}</div>
+                                    <div className="text-xs text-[#4A4A6A] mt-0.5 leading-snug truncate max-w-52">{item.desc}</div>
                                   </div>
                                 </Link>
                               </li>
@@ -550,18 +573,23 @@ export default function Header() {
                   'px-4 h-11 flex items-center text-sm font-medium transition-colors rounded-t-lg',
                   item.highlight
                     ? 'text-white bg-[#4F46E5] hover:bg-[#4338CA] rounded-lg'
-                    : 'text-[#4A4A6A] hover:text-[#0A1628] hover:bg-[#E8EDF2]/60'
+                    : 'text-text-muted hover:text-navy hover:bg-silver/60'
                 )}
               >
                 {item.label}
               </Link>
             ))}
             <Link href="/about" className={cn(
-                  'px-4 h-11 flex items-center text-sm font-medium transition-colors rounded-t-lg'
+                  'px-4 h-11 flex items-center text-sm font-medium transition-colors rounded-t-lg text-text-muted hover:text-navy hover:bg-silver/60'
                 )}>About</Link>
+            <Link href="/blog" className={cn(
+                  'px-4 h-11 flex items-center text-sm font-medium transition-colors rounded-t-lg text-text-muted hover:text-navy hover:bg-silver/60'
+                )}>Blog</Link>
+
+                
 
             <Link href="/contact" className={cn(
-                  'px-4 h-11 flex items-center text-sm font-medium transition-colors rounded-t-lg'
+                  'px-4 h-11 flex items-center text-sm font-medium transition-colors rounded-t-lg text-text-muted hover:text-navy hover:bg-silver/60'
                 )}>Contact</Link>
 
             {/* Admin shortcuts (visible to admin+) */}
@@ -603,7 +631,7 @@ export default function Header() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search parts..."
-                className="w-full pl-4 pr-12 py-3 rounded-xl border border-[#C0C9D5] text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/30"
+                className="w-full pl-4 pr-12 py-3 rounded-xl border border-silver-dark text-sm text-text focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/30"
               />
               <button type="submit" className="absolute right-0 top-0 h-full px-4 bg-[#4F46E5] text-white rounded-r-xl">
                 <Search className="w-4 h-4" />
@@ -615,7 +643,7 @@ export default function Header() {
               <div key={menu.label} className="border border-[#E8EDF2] rounded-xl overflow-hidden">
                 <button
                   onClick={() => toggleMobileSection(menu.label)}
-                  className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-[#1A1A2E] hover:bg-[#F5F7FA] transition-colors"
+                  className="w-full flex items-center justify-between px-4 py-3.5 text-sm font-semibold text-[#1A1A2E] hover:bg-[#F5F7FA] transition-colors min-h-[44px]"
                 >
                   {menu.label}
                   <ChevronRight className={cn('w-4 h-4 text-[#4A4A6A] transition-transform duration-200', openMobile === menu.label && 'rotate-90')} />
@@ -636,7 +664,7 @@ export default function Header() {
                             key={item.href}
                             href={item.href}
                             onClick={() => setMobileOpen(false)}
-                            className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white transition-colors group"
+                            className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-white transition-colors group min-h-[44px]"
                           >
                             <div className="w-7 h-7 rounded-lg bg-[#E8EDF2] flex items-center justify-center flex-shrink-0 group-hover:bg-[#4F46E5]/10">
                               <item.icon className="w-3.5 h-3.5 text-[#4A4A6A] group-hover:text-[#4F46E5]" />
@@ -657,7 +685,7 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className="block px-4 py-3 text-sm font-semibold text-[#1A1A2E] hover:bg-[#F5F7FA] rounded-xl border border-[#E8EDF2] transition-colors"
+                className="block px-4 py-3.5 text-sm font-semibold text-[#1A1A2E] hover:bg-[#F5F7FA] rounded-xl border border-[#E8EDF2] transition-colors min-h-[44px] flex items-center"
               >
                 {item.label}
               </Link>

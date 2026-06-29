@@ -12,6 +12,9 @@ const SUPER_ROUTES = ['/superadmin'];
 // Routes for Trader or Admin/SuperAdmin
 const TRADER_ROUTES = ['/inventory'];
 
+// Dashboard paths that ContentManager must not access (admin-only sub-pages)
+const CONTENT_MANAGER_BLOCKED = ['/dashboard/settings', '/dashboard/users'];
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -46,6 +49,11 @@ export function middleware(request: NextRequest) {
 
   // Trader routes (Trader + Admin + SuperAdmin)
   if (requiresTrader && role !== 'Trader' && role !== 'Admin' && role !== 'SuperAdmin') {
+    return NextResponse.redirect(new URL('/unauthorized', request.url));
+  }
+
+  // ContentManager is blocked from settings and user-management pages
+  if (role === 'ContentManager' && CONTENT_MANAGER_BLOCKED.some((p) => pathname.startsWith(p))) {
     return NextResponse.redirect(new URL('/unauthorized', request.url));
   }
 

@@ -1,8 +1,12 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Plane, Shield, Car, Heart, Cpu, Radio } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import industriesData from '@/data/industries.json';
+import { request } from '@/lib/api-client';
+import type { Industry } from '@/types';
 
 // ─── Icon map ────────────────────────────────────────────────────────────────
 
@@ -29,6 +33,16 @@ const COLOR_RING = [
 // ─── Page ────────────────────────────────────────────────────────────────────
 
 export default function IndustriesPage() {
+  const [industries, setIndustries] = useState<Industry[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    request<{ success: boolean; data: Industry[] }>('/industries')
+      .then((res) => { if (res.success && Array.isArray(res.data)) setIndustries(res.data); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -69,72 +83,82 @@ export default function IndustriesPage() {
         {/* ── Industry Cards ────────────────────────────────────────────── */}
         <section className="bg-bg py-16 px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {(industriesData as Array<{
-                id: string;
-                name: string;
-                slug: string;
-                icon: string;
-                description: string;
-                partCount: number;
-                keyParts: string[];
-              }>).map((industry, idx) => {
-                const Icon = ICON_MAP[industry.icon] ?? Plane;
-                const color = COLOR_RING[idx % COLOR_RING.length];
-                return (
-                  <Link
-                    key={industry.id}
-                    href={`/industries/${industry.slug}`}
-                    className={`group bg-white border border-silver rounded-2xl p-6 flex flex-col hover:shadow-lg ${color.ring} transition-all duration-200 hover:-translate-y-0.5`}
-                  >
-                    {/* Icon */}
-                    <div
-                      className={`w-14 h-14 rounded-2xl ${color.bg} flex items-center justify-center mb-4`}
+            {loading ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="bg-white border border-silver rounded-2xl p-6 animate-pulse">
+                    <div className="w-14 h-14 rounded-2xl bg-silver mb-4" />
+                    <div className="h-5 bg-silver rounded w-3/4 mb-2" />
+                    <div className="h-4 bg-silver rounded w-full mb-4" />
+                    <div className="flex gap-1.5 mb-4">
+                      <div className="h-6 bg-silver rounded-full w-16" />
+                      <div className="h-6 bg-silver rounded-full w-20" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {industries.map((industry, idx) => {
+                  const Icon = ICON_MAP[industry.icon ?? ''] ?? Plane;
+                  const color = COLOR_RING[idx % COLOR_RING.length];
+                  return (
+                    <Link
+                      key={industry.id}
+                      href={`/industries/${industry.slug}`}
+                      className={`group bg-white border border-silver rounded-2xl p-6 flex flex-col hover:shadow-lg ${color.ring} transition-all duration-200 hover:-translate-y-0.5`}
                     >
-                      <Icon className={`w-7 h-7 ${color.icon}`} />
-                    </div>
+                      {/* Icon */}
+                      <div
+                        className={`w-14 h-14 rounded-2xl ${color.bg} flex items-center justify-center mb-4`}
+                      >
+                        <Icon className={`w-7 h-7 ${color.icon}`} />
+                      </div>
 
-                    {/* Title & part count */}
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <h3 className="text-lg font-bold text-text leading-snug">
-                        {industry.name}
-                      </h3>
-                      <span className="flex-shrink-0 text-xs font-bold text-text-muted bg-silver rounded-full px-2 py-0.5 mt-1">
-                        {industry.partCount.toLocaleString()} parts
-                      </span>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-sm text-text-muted leading-relaxed mb-4 flex-1">
-                      {industry.description}
-                    </p>
-
-                    {/* Key parts preview */}
-                    <div className="flex flex-wrap gap-1.5 mb-4">
-                      {industry.keyParts.slice(0, 3).map((part) => (
-                        <span
-                          key={part}
-                          className="text-xs bg-bg border border-silver rounded-full px-2.5 py-1 text-text-muted"
-                        >
-                          {part}
+                      {/* Title & part count */}
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <h3 className="text-lg font-bold text-text leading-snug">
+                          {industry.name}
+                        </h3>
+                        <span className="flex-shrink-0 text-xs font-bold text-text-muted bg-silver rounded-full px-2 py-0.5 mt-1">
+                          {(industry.partCount ?? 0).toLocaleString()} parts
                         </span>
-                      ))}
-                      {industry.keyParts.length > 3 && (
-                        <span className="text-xs bg-bg border border-silver rounded-full px-2.5 py-1 text-text-muted">
-                          +{industry.keyParts.length - 3} more
-                        </span>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-sm text-text-muted leading-relaxed mb-4 flex-1">
+                        {industry.description}
+                      </p>
+
+                      {/* Key parts preview */}
+                      {industry.keyParts && industry.keyParts.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {industry.keyParts.slice(0, 3).map((part) => (
+                            <span
+                              key={part}
+                              className="text-xs bg-bg border border-silver rounded-full px-2.5 py-1 text-text-muted"
+                            >
+                              {part}
+                            </span>
+                          ))}
+                          {industry.keyParts.length > 3 && (
+                            <span className="text-xs bg-bg border border-silver rounded-full px-2.5 py-1 text-text-muted">
+                              +{industry.keyParts.length - 3} more
+                            </span>
+                          )}
+                        </div>
                       )}
-                    </div>
 
-                    {/* CTA */}
-                    <div className="flex items-center gap-1.5 text-orange text-sm font-semibold group-hover:gap-2.5 transition-all duration-150">
-                      Explore
-                      <ArrowRight className="w-4 h-4" />
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
+                      {/* CTA */}
+                      <div className="flex items-center gap-1.5 text-orange text-sm font-semibold group-hover:gap-2.5 transition-all duration-150">
+                        Explore
+                        <ArrowRight className="w-4 h-4" />
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </section>
 

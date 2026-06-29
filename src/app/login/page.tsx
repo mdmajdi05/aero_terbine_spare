@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import { useAuth } from '@/hooks/useAuth';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import AeroLogo from '@/components/branding/AeroLogo';
 
 /* ------------------------------------------------------------------ */
 /* Schema                                                               */
@@ -103,17 +104,8 @@ function LeftPanel() {
 
       {/* Logo & brand */}
       <div className="relative z-10">
-        <div className="flex items-center gap-3 mb-10">
-          <div className="w-10 h-10 rounded-lg bg-orange flex items-center justify-center">
-            <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-white" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 3L3 7.5v9L12 21l9-4.5v-9L12 3z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18M3 7.5l9 4.5 9-4.5" />
-            </svg>
-          </div>
-          <div>
-            <p className="text-white font-bold text-lg leading-tight">AeroTurbineSpare</p>
-            <p className="text-white/50 text-xs tracking-widest uppercase">Aerospace Parts</p>
-          </div>
+        <div className="mb-10">
+          <AeroLogo variant="white" size={42} animated={false} />
         </div>
 
         <h2 className="text-white text-3xl font-bold leading-snug mb-3">
@@ -178,6 +170,22 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
+  // Clear any stale mock tokens on first mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const raw = localStorage.getItem('ats_session');
+      if (raw) {
+        try {
+          const s = JSON.parse(raw) as { token?: string };
+          if (s?.token?.startsWith('mock-jwt-')) {
+            localStorage.removeItem('ats_session');
+            localStorage.removeItem('ats_refresh_token');
+          }
+        } catch { localStorage.removeItem('ats_session'); }
+      }
+    }
+  }, []);
+
   // Redirect if already authenticated
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
@@ -206,21 +214,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col lg:flex-row">
       <LeftPanel />
 
       {/* Right panel */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-bg">
+      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-8 sm:py-12 bg-bg">
         <div className="w-full max-w-md">
           {/* Mobile logo */}
-          <div className="flex lg:hidden items-center gap-2.5 mb-8">
-            <div className="w-8 h-8 rounded-lg bg-orange flex items-center justify-center">
-              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 text-white" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3L3 7.5v9L12 21l9-4.5v-9L12 3z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18M3 7.5l9 4.5 9-4.5" />
-              </svg>
-            </div>
-            <span className="text-navy font-bold text-base">AeroTurbineSpare</span>
+          <div className="flex lg:hidden mb-6 justify-center">
+            <AeroLogo size={36} variant="minimal" animated={false} />
           </div>
 
           {/* Card */}
@@ -289,11 +291,11 @@ export default function LoginPage() {
             </form>
 
             {/* Demo hint */}
-            <div className="mt-5 rounded-lg bg-navy/4 border border-silver px-4 py-3">
-              <p className="text-xs text-text-muted text-center">
-                <span className="font-semibold text-navy">Demo credentials:</span>{' '}
-                demo@aeroturbinespare.com&nbsp;/&nbsp;Demo@2025
-              </p>
+            <div className="mt-5 rounded-lg bg-navy/4 border border-silver px-4 py-3 space-y-1">
+              <p className="text-xs text-text-muted text-center font-semibold text-navy mb-1">Demo accounts:</p>
+              <p className="text-xs text-text-muted text-center">SuperAdmin: superadmin@aeroturbinespare.com&nbsp;/&nbsp;SuperAdmin@2025!</p>
+              <p className="text-xs text-text-muted text-center">Admin: admin@aeroturbinespare.com&nbsp;/&nbsp;Admin@2025!</p>
+              <p className="text-xs text-text-muted text-center">Trader: trader@aeroturbinespare.com&nbsp;/&nbsp;Trader@2025!</p>
             </div>
 
             {/* Register link */}

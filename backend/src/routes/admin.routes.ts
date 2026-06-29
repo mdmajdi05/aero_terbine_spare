@@ -23,6 +23,9 @@ router.post('/users/:id/suspend', auth, admin,
   ctrl.suspendUser as unknown as RequestHandler,
 );
 router.get('/parts',              auth, admin, ctrl.listParts      as RequestHandler);
+router.post('/parts',             auth, admin, ctrl.createAdminPart as unknown as RequestHandler);
+router.put('/parts/:id',          auth, admin, ctrl.updateAdminPart as unknown as RequestHandler);
+router.delete('/parts/:id',       auth, admin, ctrl.deleteAdminPart as unknown as RequestHandler);
 router.post('/import/parts',      auth, admin, ctrl.importParts    as RequestHandler);
 router.get('/export/:target',     auth, admin, ctrl.exportData     as unknown as RequestHandler);
 

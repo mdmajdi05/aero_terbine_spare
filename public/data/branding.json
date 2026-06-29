@@ -1,0 +1,28 @@
+{
+  "logoImageUrl": null,
+  "logoLink": "/",
+  "logoText": "AeroTurbineSpare",
+  "logoSubText": "Aerospace Parts Exchange",
+  "chat": {
+    "chatbotEnabled": true,
+    "botName": "AeroBot",
+    "greetingMessage": "Hello! Welcome to AeroTurbineSpare. How can I help you today?",
+    "whatsappEnabled": true,
+    "whatsappMode": "normal",
+    "whatsappNumber": "+17138425500",
+    "whatsappBusinessPhoneId": "",
+    "whatsappBusinessAccountId": "",
+    "whatsappBusinessToken": "",
+    "whatsappVerifyToken": "",
+    "aiConfig": {
+      "enabled": false,
+      "provider": "openai",
+      "apiKey": "",
+      "model": "gpt-4o-mini",
+      "customBaseUrl": "",
+      "customModel": ""
+    },
+    "inboxNotifyEmail": "",
+    "humanHandoffEnabled": true
+  }
+}

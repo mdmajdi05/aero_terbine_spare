@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Zap, Settings, Circle, Wrench, Cpu, Activity, ArrowUpRight, ArrowUpRightFromCircle } from 'lucide-react';
+import { Zap, Settings, Circle, Wrench, Cpu, Activity, ArrowUpRight } from 'lucide-react';
 import type { Category } from '@/types';
 
 const ICON_MAP: Record<string, React.ElementType> = {
@@ -14,15 +14,15 @@ export default function FeaturedCategories({ categories }: { categories: Categor
   const featured = categories.slice(0, 6);
 
   return (
-    <section className="relative py-28 bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] text-slate-800 overflow-hidden">
+    <section className="relative py-20 sm:py-28 bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] text-slate-800 overflow-hidden">
       
       {/* 1. Futuristic Subtle Tech Grid Lines */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e1_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e1_1px,transparent_1px)] bg-[size:5rem_5rem] opacity-25 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)]" />
       
-      {/* 2. Soft Pastel Background Orbs (Halke abstract colors piche blend ho rahe hain) */}
-      <div className="absolute top-10 left-10 w-[350px] h-[350px] bg-indigo-200/40 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-1/3 right-10 w-[400px] h-[400px] bg-orange-100/50 rounded-full blur-[130px] pointer-events-none" />
-      <div className="absolute -bottom-10 left-1/4 w-[350px] h-[350px] bg-emerald-100/40 rounded-full blur-[120px] pointer-events-none" />
+      {/* 2. Soft Pastel Background Orbs */}
+      <div className="absolute top-10 left-10 w-[250px] sm:w-[350px] h-[250px] sm:h-[350px] bg-indigo-200/40 rounded-full blur-[100px] sm:blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/3 right-10 w-[280px] sm:w-[400px] h-[280px] sm:h-[400px] bg-orange-100/50 rounded-full blur-[100px] sm:blur-[130px] pointer-events-none" />
+      <div className="absolute -bottom-10 left-1/4 w-[250px] sm:w-[350px] h-[250px] sm:h-[350px] bg-emerald-100/40 rounded-full blur-[100px] sm:blur-[120px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-6 z-10">
         

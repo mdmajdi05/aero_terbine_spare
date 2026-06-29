@@ -11,10 +11,8 @@ import Footer from '@/components/layout/Footer';
 import Button from '@/components/ui/Button';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import { request } from '@/lib/api-client';
-import type { Industry } from '@/types';
+import type { Industry, NavCategoryTree } from '@/types';
 import { cn } from '@/lib/utils';
-
-// ─── Icon map ────────────────────────────────────────────────────────────────
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   plane: Plane,
@@ -25,8 +23,6 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   radio: Radio,
 };
 
-// ─── Page ────────────────────────────────────────────────────────────────────
-
 export default function IndustryPage({
   params,
 }: {
@@ -35,6 +31,7 @@ export default function IndustryPage({
   const { slug } = use(params);
 
   const [industry, setIndustry] = useState<Industry | null>(null);
+  const [navTree, setNavTree] = useState<NavCategoryTree | null>(null);
   const [loading, setLoading]   = useState(true);
   const [error, setError]       = useState<string | null>(null);
 
@@ -43,9 +40,14 @@ export default function IndustryPage({
     setLoading(true);
     setError(null);
 
-    request<{ success: boolean; data: Industry }>('/industries/' + slug)
-      .then((res) => {
-        if (!cancelled) setIndustry(res.data);
+    Promise.all([
+      request<{ success: boolean; data: Industry }>('/industries/' + slug),
+      request<{ success: boolean; data: NavCategoryTree }>('/nav-categories'),
+    ])
+      .then(([indRes, navRes]) => {
+        if (cancelled) return;
+        setIndustry(indRes.data);
+        setNavTree(navRes.data);
       })
       .catch((err: unknown) => {
         if (!cancelled)
@@ -58,7 +60,6 @@ export default function IndustryPage({
     return () => { cancelled = true; };
   }, [slug]);
 
-  // ── Loading skeleton ─────────────────────────────────────────────────────
   if (loading) {
     return (
       <div className="flex flex-col min-h-screen">
@@ -80,7 +81,6 @@ export default function IndustryPage({
     );
   }
 
-  // ── Error state ──────────────────────────────────────────────────────────
   if (error || !industry) {
     return (
       <div className="flex flex-col min-h-screen">
@@ -107,14 +107,21 @@ export default function IndustryPage({
     );
   }
 
-  const Icon = ICON_MAP[industry.icon] ?? Plane;
+  const Icon = ICON_MAP[industry.icon ?? 'plane'] ?? Plane;
+  const industryId = industry.id;
+
+  const productCats = (navTree?.productCategories ?? []).filter(
+    (c) => c.industryIds?.includes(industryId),
+  );
+  const partCats = (navTree?.partCategories ?? []).filter(
+    (c) => c.industryIds?.includes(industryId),
+  );
 
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
 
       <main className="flex-1">
-        {/* ── Hero ──────────────────────────────────────────────────────── */}
         <section className="bg-navy text-white py-16 px-4">
           <div className="max-w-5xl mx-auto">
             <Breadcrumb
@@ -144,13 +151,12 @@ export default function IndustryPage({
           </div>
         </section>
 
-        {/* ── Stats bar ─────────────────────────────────────────────────── */}
         <div className="bg-orange">
           <div className="max-w-5xl mx-auto px-4 py-4 flex flex-wrap gap-6 items-center justify-between">
             <div className="flex flex-wrap gap-6">
               <div className="text-white">
                 <div className="text-2xl font-black">
-                  {industry.partCount.toLocaleString()}+
+                  {(industry.partCount ?? 0).toLocaleString()}+
                 </div>
                 <div className="text-white/80 text-xs uppercase tracking-wide">
                   Parts in Catalog
@@ -180,7 +186,82 @@ export default function IndustryPage({
           </div>
         </div>
 
-        {/* ── Long description ──────────────────────────────────────────── */}
+        {/* Products section */}
+        {productCats.length > 0 && (
+          <section className="bg-bg py-14 px-4 border-b border-silver">
+            <div className="max-w-5xl mx-auto">
+              <div className="flex items-center gap-3 mb-8">
+                <Package className="w-6 h-6 text-orange" />
+                <h2 className="text-2xl font-black text-text">Products</h2>
+                <span className="text-sm text-text-muted">({productCats.length} categories)</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {productCats.map((cat) => (
+                  <Link
+                    key={cat.id}
+                    href={`/products/${cat.slug}`}
+                    className="bg-white border border-silver rounded-xl p-5 hover:border-orange/30 hover:shadow-md transition-all group"
+                  >
+                    <h3 className="font-semibold text-text group-hover:text-orange transition-colors mb-1">
+                      {cat.name}
+                    </h3>
+                    {cat.description && (
+                      <p className="text-xs text-text-muted line-clamp-2 mb-3">{cat.description}</p>
+                    )}
+                    <div className="flex items-center justify-between">
+                      {cat.partCount !== undefined && (
+                        <span className="text-xs font-medium text-text-muted">
+                          {cat.partCount.toLocaleString()} items
+                        </span>
+                      )}
+                      <span className="text-xs font-semibold text-orange flex items-center gap-1">
+                        View Products <ArrowRight className="w-3 h-3" />
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Parts section */}
+        {partCats.length > 0 && (
+          <section className="bg-bg py-14 px-4 border-b border-silver">
+            <div className="max-w-5xl mx-auto">
+              <div className="flex items-center gap-3 mb-8">
+                <Package className="w-6 h-6 text-orange" />
+                <h2 className="text-2xl font-black text-text">Parts</h2>
+                <span className="text-sm text-text-muted">({partCats.length} categories)</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {partCats.map((cat) => (
+                  <Link
+                    key={cat.id}
+                    href={`/parts/${cat.slug}`}
+                    className="bg-white border border-silver rounded-xl p-5 hover:border-orange/30 hover:shadow-md transition-all group"
+                  >
+                    <h3 className="font-semibold text-text group-hover:text-orange transition-colors mb-1">
+                      {cat.name}
+                    </h3>
+                    {cat.description && (
+                      <p className="text-xs text-text-muted line-clamp-2 mb-3">{cat.description}</p>
+                    )}
+                    <div className="flex items-center justify-between">
+                      {cat.manufacturer && (
+                        <span className="text-xs font-medium text-text-muted">{cat.manufacturer}</span>
+                      )}
+                      <span className="text-xs font-semibold text-orange flex items-center gap-1">
+                        View Parts <ArrowRight className="w-3 h-3" />
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className="bg-bg py-14 px-4">
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -198,14 +279,13 @@ export default function IndustryPage({
                   </p>
                 </div>
 
-                {/* Key parts */}
                 <div>
                   <h3 className="text-lg font-bold text-text mb-4 flex items-center gap-2">
                     <Package className="w-5 h-5 text-orange" />
                     Key Parts We Supply
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {industry.keyParts.map((part) => (
+                    {(industry.keyParts ?? []).map((part) => (
                       <div
                         key={part}
                         className={cn(
@@ -230,15 +310,13 @@ export default function IndustryPage({
                 </div>
               </div>
 
-              {/* Sidebar */}
               <div className="space-y-5">
-                {/* Clients */}
                 <div className="bg-white border border-silver rounded-2xl p-5">
                   <h3 className="font-bold text-text mb-4 text-sm uppercase tracking-wide">
                     Trusted By
                   </h3>
                   <ul className="space-y-2">
-                    {industry.clients.map((client) => (
+                    {(industry.clients ?? []).map((client) => (
                       <li
                         key={client}
                         className="flex items-center gap-2 text-sm text-text-muted py-1.5 border-b border-silver last:border-0"
@@ -260,7 +338,6 @@ export default function IndustryPage({
                   </p>
                 </div>
 
-                {/* CTA Card */}
                 <div className="bg-navy text-white rounded-2xl p-5">
                   <h3 className="font-bold mb-2">Need Parts Fast?</h3>
                   <p className="text-silver/80 text-sm mb-4">
@@ -275,7 +352,6 @@ export default function IndustryPage({
                   </Link>
                 </div>
 
-                {/* Certifications */}
                 <div className="bg-bg border border-silver rounded-2xl p-5">
                   <h3 className="font-bold text-text mb-3 text-sm uppercase tracking-wide">
                     Our Certifications
@@ -305,7 +381,6 @@ export default function IndustryPage({
           </div>
         </section>
 
-        {/* ── CTA Banner ────────────────────────────────────────────────── */}
         <section className="bg-bg border-t border-silver py-14 px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl font-black text-text mb-3">

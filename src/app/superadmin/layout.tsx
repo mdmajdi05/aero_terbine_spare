@@ -11,6 +11,7 @@ import {
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
+import AeroLogo from '@/components/branding/AeroLogo';
 
 const SA_NAV = [
   { href: '/superadmin',             icon: LayoutDashboard, label: 'SA Dashboard',   exact: true },
@@ -53,9 +54,7 @@ export default function SuperAdminLayout({ children }: { children: React.ReactNo
       <aside className="w-64 bg-[#13132B] text-white flex flex-col fixed top-0 left-0 h-full z-30 border-r border-purple-900/30">
         <div className="px-5 py-4 border-b border-purple-900/30">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center">
-              <Shield className="w-4 h-4 text-white" />
-            </div>
+            <AeroLogo variant="white" size={32} showText={false} />
             <div>
               <div className="text-sm font-bold leading-tight">AeroTurbineSpare</div>
               <div className="text-[10px] text-purple-400 uppercase tracking-widest">Super Admin</div>

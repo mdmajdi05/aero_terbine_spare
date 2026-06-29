@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Phone, Mail, MapPin, ExternalLink } from 'lucide-react';
+import AeroLogo from '@/components/branding/AeroLogo';
 
 const QUICK_LINKS = [
   { label: 'Parts Catalog',      href: '/catalog' },
@@ -11,10 +12,18 @@ const QUICK_LINKS = [
 
 const INDUSTRIES = [
   { label: 'Aerospace & Aviation', href: '/industries/aerospace' },
-  { label: 'Military & Defense',   href: '/industries/military-defense' },
-  { label: 'Automotive',           href: '/industries/automotive' },
-  { label: 'Medical Equipment',    href: '/industries/medical' },
-  { label: 'Electronics',          href: '/industries/electronics' },
+  { label: 'Aircraft Components & Accessories',
+    href: '/industries/aircraft-components-accessories' },
+  { label: 'Aircraft Launching, Landing & Ground Handling',
+    href: '/industries/aircraft-launching-landing-ground-handling' },
+  { label: 'Engines, Turbines & Components',
+    href: '/industries/engines-turbines-components' },
+  { label: 'Engine Accessories',
+    href: '/industries/engine-accessories' },
+  { label: 'Switches & Electrical Connectors',
+    href: '/industries/switches-electrical-connectors' },
+  { label: 'Microcircuits, Electrical Hardware & More',
+    href: '/industries/microcircuits-electrical-hardware' },
 ];
 
 const COMPANY = [
@@ -31,15 +40,15 @@ export default function Footer() {
       {/* CTA Strip */}
       <div className="bg-orange">
         <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
+          <div className="text-center sm:text-left">
             <div className="text-white font-bold text-lg">Need a Part Urgently?</div>
             <div className="text-white/85 text-sm">Our team is available 24/7. Get a quote within hours.</div>
           </div>
-          <div className="flex gap-3">
-            <a href="tel:+17138425500" className="inline-flex items-center gap-2 bg-white text-orange font-semibold px-5 py-2.5 rounded-lg hover:bg-white/90 transition-colors text-sm">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
+            <a href="tel:+17138425500" className="inline-flex items-center justify-center gap-2 bg-white text-orange font-semibold px-5 py-2.5 rounded-lg hover:bg-white/90 transition-colors text-sm flex-1 sm:flex-none">
               <Phone className="w-4 h-4" /> Call Now
             </a>
-            <Link href="/rfq?urgency=urgent" className="inline-flex items-center gap-2 bg-navy text-white font-semibold px-5 py-2.5 rounded-lg hover:bg-navy-dark transition-colors text-sm">
+            <Link href="/rfq?urgency=urgent" className="inline-flex items-center justify-center gap-2 bg-navy text-white font-semibold px-5 py-2.5 rounded-lg hover:bg-navy-dark transition-colors text-sm flex-1 sm:flex-none">
               Submit Urgent RFQ
             </Link>
           </div>
@@ -48,21 +57,10 @@ export default function Footer() {
 
       {/* Main footer */}
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10">
           {/* Brand */}
-          <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-lg bg-orange flex items-center justify-center">
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                  <path d="M11 2L4 8v4l7 8 7-8V8L11 2z" fill="#fff" />
-                  <path d="M11 6l-4 3v2l4 5 4-5V9L11 6z" fill="#E8751A" />
-                </svg>
-              </div>
-              <div>
-                <div className="text-white font-bold text-lg leading-tight">AeroTurbineSpare</div>
-                <div className="text-silver/60 text-[10px] tracking-wide uppercase">Precision Aerospace Sourcing</div>
-              </div>
-            </div>
+          <div className="sm:col-span-2 lg:col-span-2 space-y-4">
+            <AeroLogo variant="white" />
             <p className="text-sm leading-relaxed text-silver/70">
               US-based aerospace parts procurement platform. ISO 9001 &amp; AS9120 certified.
               Serving OEMs, MROs, military contractors, and procurement professionals worldwide.

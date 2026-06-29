@@ -1,6 +1,7 @@
 import type { Response } from 'express';
 import type { AuthenticatedRequest } from '../types';
 import { prisma } from '../config/database';
+import { getCloudinary } from '../config/cloudinary';
 import { UserRepository } from '../repositories/user.repository';
 import { AuditLogRepository } from '../repositories/auditLog.repository';
 import { parsePagination, buildMeta } from '../utils/pagination';
@@ -165,5 +166,17 @@ export async function purgeAuditLogs(req: AuthenticatedRequest, res: Response): 
   } catch (err: unknown) {
     const e = err as { message: string };
     res.status(500).json({ success: false, error: e.message });
+  }
+}
+
+export async function testCloudinary(_req: AuthenticatedRequest, res: Response): Promise<void> {
+  try {
+    const cld = await getCloudinary();
+    // usage() is a lightweight call that verifies credentials without side effects
+    await cld.api.usage();
+    res.json({ success: true, message: 'Cloudinary connection successful' });
+  } catch (err: unknown) {
+    const e = err as { message: string };
+    res.status(400).json({ success: false, error: e.message });
   }
 }

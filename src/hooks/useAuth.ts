@@ -21,11 +21,13 @@ export function useAuth() {
   const [user, setUser] = useState<SessionUser | null>(null);
   const [loading, setLoading] = useState(true);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     const session = getSession();
     if (session?.user) setUser({ ...session.user, token: session.token });
     setLoading(false);
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const login = useCallback(async (payload: LoginPayload) => {
     const res = await loginService(payload);

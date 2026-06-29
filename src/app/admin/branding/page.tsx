@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSiteConfig } from '@/hooks/useSiteConfig';
-import { Palette, Type, Image as ImageIcon, Save, RefreshCw, Eye, EyeOff } from 'lucide-react';
+import { Palette, Type, Image as ImageIcon, Save, RefreshCw, Eye, EyeOff, Upload, Link, X, Loader2, MessageCircle } from 'lucide-react';
+import type { AIProviderId } from '@/types/chat';
+import { AI_PROVIDERS } from '@/types/chat';
 import toast from 'react-hot-toast';
 
 // Reusable slider row
@@ -50,11 +52,42 @@ function Section({ title, icon: Icon, children }: {
 
 export default function BrandingPage() {
   const { config, loading, saving, save } = useSiteConfig();
-  const [draft, setDraft] = useState(config);
-  const [preview, setPreview] = useState(false);
+  const [draft, setDraft]           = useState(config);
+  const [preview, setPreview]       = useState(false);
+  const [uploading, setUploading]   = useState(false);
+  const [logoMode, setLogoMode]     = useState<'url' | 'upload'>('url');
+  const logoInputRef                = useRef<HTMLInputElement>(null);
 
   // Sync draft when config loads
   useEffect(() => { setDraft(config); }, [config]);
+
+  async function handleLogoUpload(file: File) {
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append('logo', file);
+      const res = await fetch('/api/branding/upload', { method: 'POST', body: fd });
+      const json = await res.json() as { success?: boolean; path?: string; error?: string };
+      if (!json.success || !json.path) throw new Error(json.error || 'Upload failed');
+      // Add cache-bust so browser doesn't show previous logo from cache
+      update('logoImageUrl', `${json.path}?v=${Date.now()}`);
+      toast.success('Logo uploaded — click Save Changes to apply');
+    } catch (err) {
+      toast.error((err as Error).message || 'Upload failed');
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  async function handleLogoRemove() {
+    // Delete the physical file from disk
+    try {
+      await fetch('/api/branding/upload', { method: 'DELETE' });
+    } catch { /* non-critical */ }
+    // Clear from draft — use empty string so JSON.stringify keeps the key as null
+    update('logoImageUrl', '');
+    toast('Logo removed — click Save Changes to apply', { icon: '🗑' });
+  }
 
   function update<K extends keyof typeof draft>(key: K, value: (typeof draft)[K]) {
     setDraft((d) => ({ ...d, [key]: value }));
@@ -162,7 +195,110 @@ export default function BrandingPage() {
         </div>
       )}
 
-      {/* ── Logo Controls ── */}
+      {/* ── Logo Image & Link ── */}
+      <Section title="Logo Image & Link" icon={ImageIcon}>
+        <div className="space-y-4">
+          {/* Mode toggle */}
+          <div className="flex gap-2">
+            {(['url', 'upload'] as const).map((m) => (
+              <button
+                key={m}
+                onClick={() => setLogoMode(m)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border transition-colors ${
+                  logoMode === m
+                    ? 'bg-[#4F46E5] text-white border-[#4F46E5]'
+                    : 'border-[#E8EDF2] text-[#4A4A6A] hover:border-[#4F46E5]'
+                }`}
+              >
+                {m === 'url' ? <Link className="w-4 h-4" /> : <Upload className="w-4 h-4" />}
+                {m === 'url' ? 'From URL' : 'Upload from Computer'}
+              </button>
+            ))}
+          </div>
+
+          {logoMode === 'url' ? (
+            <div>
+              <label className="block text-sm text-[#4A4A6A] mb-1">Logo Image URL</label>
+              <input
+                type="text"
+                value={draft.logoImageUrl || ''}
+                onChange={(e) => update('logoImageUrl', e.target.value)}
+                placeholder="https://example.com/logo.png  (leave blank to use default icon)"
+                className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+              />
+            </div>
+          ) : (
+            <div>
+              <label className="block text-sm text-[#4A4A6A] mb-2">Upload Logo File</label>
+              <div
+                className="border-2 border-dashed border-[#C0C9D5] rounded-xl p-6 text-center cursor-pointer hover:border-[#4F46E5] transition-colors"
+                onClick={() => logoInputRef.current?.click()}
+              >
+                {uploading ? (
+                  <div className="flex items-center justify-center gap-2 text-[#4A4A6A]">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span className="text-sm">Uploading…</span>
+                  </div>
+                ) : (
+                  <>
+                    <Upload className="w-8 h-8 text-[#C0C9D5] mx-auto mb-2" />
+                    <p className="text-sm text-[#1A1A2E] font-medium">Click to upload logo</p>
+                    <p className="text-xs text-[#4A4A6A] mt-1">PNG, JPG, SVG, WebP — saved to /assets/branding/</p>
+                  </>
+                )}
+                <input
+                  ref={logoInputRef}
+                  type="file"
+                  accept=".png,.jpg,.jpeg,.gif,.webp,.svg"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) void handleLogoUpload(file);
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Current logo preview */}
+          {draft.logoImageUrl && (
+            <div className="flex items-center gap-4 p-3 bg-[#F5F7FA] rounded-xl border border-[#E8EDF2]">
+              <img
+                src={draft.logoImageUrl}
+                alt="Logo preview"
+                className="h-12 object-contain"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              />
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-medium text-[#1A1A2E] truncate">{draft.logoImageUrl}</p>
+                <p className="text-xs text-[#4A4A6A] mt-0.5">Current logo image</p>
+              </div>
+              <button
+                onClick={() => void handleLogoRemove()}
+                className="p-1.5 rounded-lg hover:bg-[#E8EDF2] text-[#4A4A6A] transition-colors"
+                title="Remove logo"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
+          {/* Logo click link */}
+          <div>
+            <label className="block text-sm text-[#4A4A6A] mb-1">Logo Click Link</label>
+            <input
+              type="text"
+              value={draft.logoLink || '/'}
+              onChange={(e) => update('logoLink', e.target.value)}
+              placeholder="/"
+              className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+            />
+            <p className="text-xs text-[#4A4A6A] mt-1">Where clicking the logo goes. Use <code>/</code> for homepage.</p>
+          </div>
+        </div>
+      </Section>
+
+      {/* ── Logo Sizing & Spacing ── */}
       <Section title="Logo Sizing & Spacing" icon={ImageIcon}>
         <div className="grid grid-cols-1 gap-1">
           <div className="mb-1 text-xs font-semibold uppercase tracking-widest text-[#4A4A6A]">Dimensions</div>
@@ -319,6 +455,239 @@ export default function BrandingPage() {
               Using built-in Indigo gradient — no configuration needed
             </div>
           )}
+        </div>
+      </Section>
+
+      {/* ── Chat & WhatsApp Configuration ── */}
+      <Section title="Chat & WhatsApp Configuration" icon={MessageCircle}>
+        <div className="space-y-6">
+          {/* Chatbot */}
+          <div>
+            <h3 className="text-sm font-semibold text-[#0A1628] mb-3">Chatbot</h3>
+            <div className="space-y-3">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={draft.chat.chatbotEnabled}
+                  onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, chatbotEnabled: e.target.checked } }))}
+                  className="rounded border-gray-300 text-[#4F46E5] focus:ring-[#4F46E5]"
+                />
+                <span className="text-sm text-[#1A1A2E]">Enable Chatbot on website</span>
+              </label>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm text-[#4A4A6A] mb-1">Bot Name</label>
+                  <input
+                    type="text"
+                    value={draft.chat.botName}
+                    onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, botName: e.target.value } }))}
+                    className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-[#4A4A6A] mb-1">Notify Email</label>
+                  <input
+                    type="email"
+                    value={draft.chat.inboxNotifyEmail}
+                    onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, inboxNotifyEmail: e.target.value } }))}
+                    placeholder="admin@example.com"
+                    className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm text-[#4A4A6A] mb-1">Greeting Message</label>
+                <textarea
+                  rows={2}
+                  value={draft.chat.greetingMessage}
+                  onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, greetingMessage: e.target.value } }))}
+                  className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5] resize-none"
+                />
+              </div>
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={draft.chat.humanHandoffEnabled}
+                  onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, humanHandoffEnabled: e.target.checked } }))}
+                  className="rounded border-gray-300 text-[#4F46E5] focus:ring-[#4F46E5]"
+                />
+                <span className="text-sm text-[#1A1A2E]">Enable human handoff (flag for admin when no answer found)</span>
+              </label>
+            </div>
+          </div>
+
+          <div className="border-t border-[#E8EDF2]" />
+
+          {/* WhatsApp */}
+          <div>
+            <h3 className="text-sm font-semibold text-[#0A1628] mb-3">WhatsApp</h3>
+            <div className="space-y-3">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={draft.chat.whatsappEnabled}
+                  onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, whatsappEnabled: e.target.checked } }))}
+                  className="rounded border-gray-300 text-[#4F46E5] focus:ring-[#4F46E5]"
+                />
+                <span className="text-sm text-[#1A1A2E]">Show WhatsApp button on website</span>
+              </label>
+              <div>
+                <label className="block text-sm text-[#4A4A6A] mb-1">WhatsApp Number</label>
+                <input
+                  type="text"
+                  value={draft.chat.whatsappNumber}
+                  onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, whatsappNumber: e.target.value } }))}
+                  placeholder="+17138425500"
+                  className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-[#4A4A6A] mb-2">WhatsApp Mode</label>
+                <div className="flex gap-3">
+                  {(['normal', 'business'] as const).map((m) => (
+                    <button
+                      key={m}
+                      onClick={() => setDraft((d) => ({ ...d, chat: { ...d.chat, whatsappMode: m } }))}
+                      className={`px-4 py-2 rounded-xl text-sm font-medium border transition-colors ${
+                        draft.chat.whatsappMode === m
+                          ? 'bg-[#4F46E5] text-white border-[#4F46E5]'
+                          : 'border-[#E8EDF2] text-[#4A4A6A] hover:border-[#4F46E5]'
+                      }`}
+                    >
+                      {m === 'normal' ? 'Normal (wa.me)' : 'Business API'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {draft.chat.whatsappMode === 'business' && (
+                <div className="p-4 bg-[#F5F7FA] rounded-xl space-y-3 border border-[#E8EDF2]">
+                  <p className="text-xs font-semibold text-[#4A4A6A] uppercase tracking-wider">Business API Configuration</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs text-[#4A4A6A] mb-1">Phone Number ID</label>
+                      <input
+                        type="text"
+                        value={draft.chat.whatsappBusinessPhoneId}
+                        onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, whatsappBusinessPhoneId: e.target.value } }))}
+                        className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-[#4A4A6A] mb-1">Account ID</label>
+                      <input
+                        type="text"
+                        value={draft.chat.whatsappBusinessAccountId}
+                        onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, whatsappBusinessAccountId: e.target.value } }))}
+                        className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <label className="block text-xs text-[#4A4A6A] mb-1">API Token</label>
+                      <input
+                        type="password"
+                        value={draft.chat.whatsappBusinessToken}
+                        onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, whatsappBusinessToken: e.target.value } }))}
+                        className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <label className="block text-xs text-[#4A4A6A] mb-1">Verify Token</label>
+                      <input
+                        type="text"
+                        value={draft.chat.whatsappVerifyToken}
+                        onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, whatsappVerifyToken: e.target.value } }))}
+                        placeholder="aeroturbine_verify_2025"
+                        className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                      />
+                    </div>
+                  </div>
+                  <p className="text-xs text-[#4A4A6A]">
+                    Webhook URL: <code className="bg-[#E8EDF2] px-1 rounded">{typeof window !== 'undefined' ? window.location.origin : ''}/api/whatsapp/webhook</code>
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="border-t border-[#E8EDF2]" />
+
+          {/* AI Settings */}
+          <div>
+            <h3 className="text-sm font-semibold text-[#0A1628] mb-3">AI Settings</h3>
+            <div className="space-y-3">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={draft.chat.aiConfig.enabled}
+                  onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, aiConfig: { ...d.chat.aiConfig, enabled: e.target.checked } } }))}
+                  className="rounded border-gray-300 text-[#4F46E5] focus:ring-[#4F46E5]"
+                />
+                <span className="text-sm text-[#1A1A2E]">Enable AI fallback (when chatbot doesn't understand)</span>
+              </label>
+
+              {draft.chat.aiConfig.enabled && (
+                <div className="p-4 bg-[#F5F7FA] rounded-xl space-y-3 border border-[#E8EDF2]">
+                  <div>
+                    <label className="block text-sm text-[#4A4A6A] mb-1">Provider</label>
+                    <select
+                      value={draft.chat.aiConfig.provider}
+                      onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, aiConfig: { ...d.chat.aiConfig, provider: e.target.value as AIProviderId } } }))}
+                      className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5] bg-white"
+                    >
+                      {AI_PROVIDERS.map((p) => (
+                        <option key={p.id} value={p.id}>{p.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm text-[#4A4A6A] mb-1">Model</label>
+                    {draft.chat.aiConfig.provider === 'custom' ? (
+                      <input
+                        type="text"
+                        value={draft.chat.aiConfig.customModel || ''}
+                        onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, aiConfig: { ...d.chat.aiConfig, customModel: e.target.value } } }))}
+                        placeholder="Enter model name"
+                        className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                      />
+                    ) : (
+                      <select
+                        value={draft.chat.aiConfig.model}
+                        onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, aiConfig: { ...d.chat.aiConfig, model: e.target.value } } }))}
+                        className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5] bg-white"
+                      >
+                        {AI_PROVIDERS.find((p) => p.id === draft.chat.aiConfig.provider)?.models.map((m) => (
+                          <option key={m} value={m}>{m}</option>
+                        ))}
+                      </select>
+                    )}
+                  </div>
+                  <div>
+                    <label className="block text-sm text-[#4A4A6A] mb-1">API Key</label>
+                    <input
+                      type="password"
+                      value={draft.chat.aiConfig.apiKey}
+                      onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, aiConfig: { ...d.chat.aiConfig, apiKey: e.target.value } } }))}
+                      placeholder="sk-..."
+                      className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                    />
+                  </div>
+                  {draft.chat.aiConfig.provider === 'custom' && (
+                    <div>
+                      <label className="block text-sm text-[#4A4A6A] mb-1">Custom Base URL</label>
+                      <input
+                        type="text"
+                        value={draft.chat.aiConfig.customBaseUrl || ''}
+                        onChange={(e) => setDraft((d) => ({ ...d, chat: { ...d.chat, aiConfig: { ...d.chat.aiConfig, customBaseUrl: e.target.value } } }))}
+                        placeholder="https://api.example.com/v1"
+                        className="w-full border border-[#E8EDF2] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </Section>
 

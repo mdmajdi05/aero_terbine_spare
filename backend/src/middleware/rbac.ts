@@ -3,10 +3,11 @@ import type { AuthenticatedRequest } from '../types';
 import type { UserRole } from '@prisma/client';
 
 const ROLE_HIERARCHY: Record<UserRole, number> = {
-  User:       1,
-  Trader:     2,
-  Admin:      3,
-  SuperAdmin: 4,
+  User:           1,
+  Trader:         2,
+  ContentManager: 3, // Full blog access, no settings/user-mgmt access
+  Admin:          4,
+  SuperAdmin:     5,
 };
 
 export function requireRole(...roles: UserRole[]) {
