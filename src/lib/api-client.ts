@@ -249,7 +249,15 @@ function ls<T>(key: string, fallback: T): T {
 }
 
 function lsSet(key: string, value: unknown) {
-  if (typeof window !== 'undefined') localStorage.setItem(key, JSON.stringify(value));
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (err) {
+    if (err instanceof DOMException && err.name === 'QuotaExceededError') {
+      throw new Error(`localStorage quota exceeded for "${key}". Import chhoti file se karo ya local storage clear karo. Dev mode me mock zaroor aayega — production build ke liye backend run karo ya .env.local me NEXT_PUBLIC_USE_MOCK=true karo.`);
+    }
+    throw err;
+  }
 }
 
 // ─── Audit log helper ────────────────────────────────────────
@@ -949,10 +957,10 @@ function mockRouter<T>(endpoint: string, options?: RequestInit): T {
 
   if (path === '/admin/category-items/bulk-import' && method === 'POST') {
     const body = JSON.parse(options?.body as string || '{}');
-    const { categoryId } = body;
-    console.log('[MOCK bulk-import] categoryId:', categoryId, 'append:', body.append, 'rows:', (body.items || body.data || []).length);
+    const { categoryId, append } = body;
+    console.log('[MOCK bulk-import] categoryId:', categoryId, 'append:', append, 'rows:', (body.items || body.data || []).length);
     const incoming = (body.items || body.data || []) as Record<string, unknown>[];
-    const existing = ls<(CategoryItem)[]>('ats_category_items', []);
+    const existing = append ? ls<(CategoryItem)[]>('ats_category_items', []) : [];
     const maxSort = existing.length > 0 ? Math.max(...existing.map((i) => i.sortOrder || 0)) : 0;
     const newItems: CategoryItem[] = incoming.map((item, idx) => {
       // Title = first non-empty value from any column
@@ -981,6 +989,8 @@ function mockRouter<T>(endpoint: string, options?: RequestInit): T {
         updatedAt: new Date().toISOString(),
       };
     });
+    // Clear old data first when replacing, to free space before storing
+    if (!append) localStorage.removeItem('ats_category_items');
     lsSet('ats_category_items', [...existing, ...newItems]);
     appendAuditLog({ action: 'BULK_IMPORT_CATEGORY_ITEMS', resource: 'category-item', details: `${newItems.length} items imported` });
     return { success: true, data: newItems.map(n => ({ slug: n.slug, action: 'created' })), message: `${newItems.length} items imported` } as T;
